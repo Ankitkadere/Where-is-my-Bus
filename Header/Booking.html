@@ -1,0 +1,153 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Where is my Bus</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <style>
+     body , aside{
+      z-index: 999px;
+    }
+    .bg-custom-blue {
+      background-color: rgba(26, 98, 163);
+    }
+
+    .border-b-white-50 {
+      border-color: rgba(94, 255, 0, 0.733);
+    }
+
+    /* Scrollbar for side menu */
+    #slideMenu::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    #slideMenu::-webkit-scrollbar-thumb {
+      background-color: rgba(255, 255, 255, 0.3);
+      border-radius: 3px;
+    }
+
+    li a:hover {
+      background-color: rgba(26, 98, 163);
+    }
+  </style>
+</head>
+
+<body class="m-0 p-0 bg-gray-50 mb-2">
+  <header class="bg-custom-blue flex items-center px-5 h-14 shadow-md">
+    <button aria-label="Open menu" id="menuBtn"
+      class="text-white text-2xl font-bold mr-5 focus:outline-none focus:ring-2 focus:ring-white rounded">
+      <i class="fas fa-bars"></i>
+    </button>
+    <h1 class="text-white text-xl font-bold flex-grow select-none">Where is my Bus</h1>
+    <button aria-label="More options"
+      class="text-white text-2xl font-bold focus:outline-none focus:ring-2 focus:ring-white rounded">
+      <i class="fas fa-ellipsis-v"></i>
+    </button>
+  </header>
+  <nav class="bg-custom-blue flex border-b-white text-white text-lg font-bold">
+    <a href="/Index.html" class="flex-1 text-center py-3 select-none">Buses</a>
+    <a href="#" target="_self" class="flex-1 text-center py-3 border-b-4 border-white select">Booking</a>
+  </nav>
+
+  <!-- Professional Side Menu -->
+  <aside id="slideMenu"
+    class="fixed top-0 left-0 h-full w-72 bg-white shadow-lg transform -translate-x-full transition-transform duration-300 ease-in-out z-50 flex flex-col">
+    <div class="bg-custom-blue flex items-center justify-between px-6 py-12 border-b border-gray-200">
+      <i class="fas fa-bus text-4xl text-white"></i>
+      <h2 class="text-xl font-bold text-white select-none text-left">Where is my Bus</h2>
+      <button id="closeMenuBtn" aria-label="Close menu"
+        class="text-custom-blue text-2xl focus:outline-none hover:text-blue-700 transition-colors">
+      </button>
+    </div>
+    <nav class="flex-1 overflow-y-auto">
+      <ul class="px-6 py-4 space-y-4 text-gray-700 font-medium">
+        <li>
+          <a href="#"
+            class="flex items-center gap-3 p-3 rounded-md hover:bg-custom-blue hover:text-white transition-colors ">
+            <i class="fas fa-home text-lg w-5"></i> Home
+          </a>
+        </li>
+        <li>
+          <a href="#"
+            class="flex items-center gap-3 p-3 rounded-md hover:bg-custom-blue hover:text-white transition-colors ">
+            <i class="fas fa-bus text-lg w-5"></i> Buses
+          </a>
+        </li>
+        <li>
+          <a href="#"
+            class="flex items-center gap-3 p-3 rounded-md hover:bg-custom-blue hover:text-white transition-colors">
+            <i class="fas fa-ticket-alt text-lg w-5"></i> Booking
+          </a>
+        </li>
+        <li>
+          <a href="#"
+            class="flex items-center gap-3 p-3 rounded-md hover:bg-custom-blue hover:text-white transition-colors">
+            <i class="fas fa-route text-lg w-5"></i> Routes
+          </a>
+        </li>
+        <li>
+          <a href="#"
+            class="flex items-center gap-3 p-3 rounded-md hover:bg-custom-blue hover:text-white transition-colors">
+            <i class="fas fa-clock text-lg w-5"></i> Schedule
+          </a>
+        </li>
+        <li>
+          <a href="#"
+            class="flex items-center gap-3 p-3 rounded-md hover:bg-custom-blue hover:text-white transition-colors">
+            <i class="fas fa-info-circle text-lg w-5"></i> About
+          </a>
+        </li>
+        <li>
+          <a href="#"
+            class="flex items-center gap-3 p-3 rounded-md hover:bg-custom-blue hover:text-white transition-colors">
+            <i class="fas fa-phone-alt text-lg w-5"></i> Contact
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <a href="/Profile/File.html" target="_self " class="text-white bg-green-700 hover:bg-greeb-900">
+      <div class="px-6 py-4 border-t border-gray-200">
+        <button id="logoutBtn"
+          class="w-full text-white font-bold hover:text-green-900 flex items-center justify-center rounded-md  transition-colors">
+          <i class="fas fa-sign-out-alt"></i> Login
+        </button>
+      </div>
+    </a>
+  </aside>
+  <!-- Overlay -->
+  <div id="overlay" class="fixed inset-0 bg-black bg-opacity-40 hidden z-40"></div>
+
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const slideMenu = document.getElementById('slideMenu');
+    const closeMenuBtn = document.getElementById('closeMenuBtn');
+    const overlay = document.getElementById('overlay');
+
+    function openMenu() {
+      slideMenu.classList.remove('-translate-x-full');
+      overlay.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+      slideMenu.classList.add('-translate-x-full');
+      overlay.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    menuBtn.addEventListener('click', openMenu);
+    closeMenuBtn.addEventListener('click', closeMenu);
+    overlay.addEventListener('click', closeMenu);
+
+    // Optional: close menu on ESC key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !slideMenu.classList.contains('-translate-x-full')) {
+        closeMenu();
+      }
+    });
+  </script>
+</body>
+
+</html>

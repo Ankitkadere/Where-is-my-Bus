@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus List - Where is my Bus</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body oncontextmenu="return false">
+    <div id="datalist"></div>
+    <script>
+        load("/Buslist/List.html");
+        function load(url) {
+            const req = new XMLHttpRequest();
+            req.open("GET", url, true);
+            req.onload = function () {
+                if (req.status === 200) {
+                    document.getElementById("datalist").innerHTML = req.responseText;
+                    const script = document.createElement("script");
+                    script.src = "/Buslist/List.js";
+                    script.type = "text/javascript";
+                    script.onload = function () {
+                        if (typeof fetchData === "function") {
+                            fetchData(); 
+                        } else {
+                            console.error("fetchData function not found in List.js");
+                        }
+                    };
+                    document.body.appendChild(script);
+                } else {
+                    console.error("Failed to load HTML:", req.status);
+                }
+            };
+            req.onerror = function () {
+                console.error("Request failed");
+            };
+            req.send();
+        }
+    </script>
+</body>
+</html>

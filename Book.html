@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Where is my Bus</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body oncontextmenu="return false">
+  <div id="container" class="top-0 left-0 fixed w-full"></div>
+
+  <script>
+    function load(url) {
+      fetch(url)
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById("container").innerHTML = data;
+          const script = document.createElement("script");
+          script.src = "/Header/Bus.js";
+          script.type = "text/javascript"; // optional
+          document.body.appendChild(script);
+        })
+        .catch(error => console.error("Error loading content:", error));
+    }
+
+    load("/Header/Booking.html");
+  </script>
+
+  <div id="ticketContainer"></div>
+
+  <script>
+    load("Booking/ticket.html");
+
+    function load(url) {
+      const req = new XMLHttpRequest();
+      req.open("GET", url, true); // async = true is better
+      req.onload = function () {
+        if (req.status === 200) {
+          document.getElementById("ticketContainer").innerHTML = req.responseText;
+
+          // Dynamically load the JS file AFTER HTML is injected
+          const script = document.createElement("script");
+          script.src = "index.js"; // Path must be correct
+          script.type = "text/javascript";
+          document.body.appendChild(script);
+        } else {
+          console.error("Failed to load HTML:", req.status);
+        }
+      };
+      req.onerror = function () {
+        console.error("Request failed");
+      };
+      req.send();
+    }
+  </script>
+
+</body>
+
+</html>

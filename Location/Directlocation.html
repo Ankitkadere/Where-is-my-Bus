@@ -1,0 +1,249 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bus Schedule</title>
+    <link rel="icon" type="image/x-icon" href="/IMG-20241006-WA0008.jpg" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-white-900 font-sans">
+    <div id="location" class="space-y-2 mb-20 mt-[16vh]"> <span
+            class="text-4xl fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
+            Loading...
+        </span></div>
+    <style>
+        .container {
+            margin-top: -10px;
+            z-index: -99;
+            width: 8px;
+            height: 1440px;
+            position: relative;
+            background: transparent;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .range-input {
+            transform: rotate(90deg);
+            width: 1350px;
+            height: 10px;
+            margin: 0px;
+        }
+
+        .location {
+            font-size: 0em;
+            width: 0px;
+            height: 0px;
+            color: transparent;
+        }
+
+        #fix {
+            top: 0;
+            left: 0;
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            background: transparent;
+        }
+    </style>
+
+    <script>
+        ////////////////////////////////////////////////////////
+
+
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyhf7gsy7_zxqucs-PYBbCvnQDy-66RF10OrSLNhxTBMtrLQoAhdQstYZtNiGaI-iDr/exec';
+
+        const params = new URLSearchParams(window.location.search);
+        const bus = params.get("bus");
+        const from = params.get("from");
+        const to = params.get("to");
+        const number = params.get("number");
+        const start = params.get("start");
+        const end = params.get("end");
+        const english = params.get("english");
+        const hindi = params.get("hindi");
+
+        function fetchData() {
+            fetch(scriptURL)
+                .then(res => res.json())
+                .then(data => {
+                    const container = document.getElementById('location');
+                    container.innerHTML = '';
+
+                    if (!Array.isArray(data) || data.length === 0) {
+                        container.innerHTML = '<p class="text-center text-gray-500">No entries found.</p>';
+                        return;
+                    }
+                    const filtered = data.filter(entry =>
+                        entry.Number + " : " + entry.English + " / " + entry.Hindi == bus && entry.Arrival && entry.Departure
+                    );
+
+                    if (filtered.length === 0) {
+                        container.innerHTML = '<p class="text-center text-gray-500">No matching results found.</p>';
+                        return;
+                    }
+                    if (filtered.length == "null") {
+                        container.innerHTML = '';
+                        return;
+                    }
+
+                    filtered.forEach(entry => {
+                        // Conditionally hide "Book Now" button if Book = "No"
+                        const div = document.createElement('div');
+                        div.className = 'p-2';
+                        div.innerHTML = `
+               <div class="fixed top-0 left-0 w-full z-50">
+        <header style="background-color: rgba(26, 98, 163);" class="text-white px-4 py-3 flex flex-col sm:flex-row items-center justify-between">
+            <div class="flex items-center w-full sm:w-auto justify-between space-x-3">
+               
+                <span class="text-lg font-bold flex items-left space-x-2">
+                     <a href="/Buslist/List.html"> <i id="locate-back-btn" class="fas fa-arrow-left text-xl"></i> </a>
+                    <span  class="text-xl px-2 py-0 font-bold rounded font-mono">${bus}</span>
+                </span>
+                <i class="fas fa-ellipsis-v text-xl cursor-pointer"></i>
+            </div>
+            <div class="flex items-center space-x-5 mt-3 sm:mt-0 w-full sm:w-auto justify-between">
+                <button
+                    class="bg-white text-blue-600 px-4 py-1 rounded-lg font-semibold hover:bg-blue-100 transition">Today</button>
+                <i class="fas fa-bell text-xl cursor-pointer hover:text-blue-300 transition"></i>
+                 <i class="fas fa-bus text-xl cursor-pointer hover:text-blue-300 transition"></i>
+                <i class="fas fa-share-alt text-xl cursor-pointer hover:text-blue-300 transition"></i>
+            </div>
+        </header>
+        
+        <div class="bg-gray-800 text-white flex justify-between px-6 py-2 text-sm font-semibold tracking-wide">
+            <span>Arrival</span>
+            <span>Departure</span>
+        </div>
+    </div> 
+   
+    <div class="flex items-center ">
+        <div class="w-1/4 text-left text-green-700 font-semibold text-sm">
+            <span>${entry.Arrival}</span>
+        </div>
+        <div class="flex items-center w-1/2">
+            <div class="w-1 bg-transparent h-[80px] mr-3"></div>
+            <div class="flex flex-col ml-2">
+                <span class="font-semibold text-base">${entry.Place}</span>
+                  <span class=" text-sm">${entry.Bus}</span>
+            </div>
+        </div>
+        <div class="w-1/4 text-right text-red-600 font-semibold text-sm">
+            <span>${entry.Departure}</span>
+        </div>
+    </div> 
+
+        <footer
+        class="fixed bottom-0 left-0 w-full bg-blue-200 text-blue-700 text-center py-3 text-sm font-semibold tracking-wide">
+        <span class="text-gray-600 font-normal">Updated Based On Time </span><span id="time"
+            class="font-semibold text-lg"></span>
+    </footer>
+          `;
+                        container.appendChild(div);
+                    });
+                })
+                .catch(err => {
+                    console.error('Fetch error:', err);
+                    document.getElementById('dataList').innerHTML = '<p class="text-red-500 text-center">Failed to load data.</p>';
+                });
+        }
+
+        window.onload = fetchData;
+        /////////////////////////////////////////
+        document.addEventListener("DOMContentLoaded", function () {
+            const rangeInput = document.getElementById("locationRange");
+            const locationDisplay = document.getElementById("locationDisplay");
+            const timeDisplay = document.getElementById("time");
+            const currentDate = new Date();
+            document.getElementById("date").textContent = currentDate.toISOString().split("T")[0];
+            const rangeValues = {
+                "00:00": 0,
+                "07:01": 2,
+                "07:03": 4,
+                "07:07": 6,
+                "07:10": 8,
+                "07:13": 10,
+                "07:25": 12,
+                "07:30": 14,
+                "07:33": 16,
+                "07:36": 18,
+                "07:38": 20,
+                "07:40": 22,
+                "07:42": 24,
+                "07:43": 26,
+                "07:45": 28,
+                "07:46": 30,
+                "07:47": 32,
+                "07:48": 34,
+                "07:52": 36,
+                "07:53": 38,
+                "07:54": 40,
+                "07:56": 42,
+                "07:57": 44,
+                "07:58": 46,
+                "09:47": 48,
+                "08:11": 50,
+                "08:12": 52,
+                "08:17": 54,
+                "08:22": 56,
+                "08:27": 58,
+                "08:30": 60,
+                "08:36": 62,
+                "08:48": 64,
+                "09:00": 66,
+                "09:23": 68,
+                "09:40": 70,
+                "10:30": 72,
+                "10:36": 74,
+                "10:39": 76,
+                "11:10": 78,
+                "11:25": 80,
+                "11:30": 82,
+                "11:35": 84,
+                "11:40": 86,
+                "11:48": 90,
+                "11:54": 95,
+                "12:00": 100,
+            };
+
+            function updateTimeAndRange() {
+                const now = new Date();
+                const hours = String(now.getHours()).padStart(2, "0");
+                const minutes = String(now.getMinutes()).padStart(2, "0");
+                const currentTime = `${hours}:${minutes}`;
+
+                timeDisplay.textContent = currentTime;
+
+                let closestTime = "00:00";
+
+                for (let time in rangeValues) {
+                    if (currentTime >= time) {
+                        closestTime = time;
+                    } else {
+                        break;
+                    }
+                }
+
+                rangeInput.value = rangeValues[closestTime];
+                locationDisplay.textContent = rangeInput.value;
+            }
+
+            updateTimeAndRange();
+            setInterval(updateTimeAndRange, 1000);
+        });
+
+        document.getElementById("locate-back-btn").addEventListener("click", function () {
+            history.back(); // or history.go(-1);
+        });
+    </script>
+</body>
+
+</html>
