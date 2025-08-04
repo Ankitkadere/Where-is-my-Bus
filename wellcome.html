@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Edit/Delete Entry</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 p-6">
+  <div class="max-w-xl mx-auto bg-white shadow-md rounded-lg p-6 space-y-4">
+    <h1 class="text-2xl font-bold text-center">Edit or Delete Entry</h1>
+
+    <!-- Passcode Input -->
+    <div>
+      <label class="block font-semibold">Enter Passcode:</label>
+      <input id="passcodeInput" type="text" class="w-full border p-2 rounded" placeholder="e.g. ABC123">
+      <button onclick="fetchEntry()" class="mt-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Load
+        Entry</button>
+    </div>
+
+    <!-- Edit Form -->
+    <form id="editForm" class="hidden space-y-4">
+      <div class="grid grid-cols-2 gap-2" id="formFields"></div>
+      <div class="flex space-x-2">
+        <button type="button" onclick="updateEntry()"
+          class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Update</button>
+        <button type="button" onclick="deleteEntry()"
+          class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Delete</button>
+      </div>
+    </form>
+
+    <div id="message" class="text-center text-sm text-gray-700 font-semibold"></div>
+  </div>
+
+  <script>
+    const API_URL = 'YOUR_DEPLOYED_WEBAPP_URL'; // Replace this with your Web App URL
+    let currentEntry = {};
+
+    async function fetchEntry() {
+      const passcode = document.getElementById('passcodeInput').value.trim();
+      if (!passcode) return alert("Please enter a Passcode.");
+
+      const response = await fetch(API_URL, {
+        method: 'PUT',
+        body: JSON.stringify({ Passcode: passcode }),
+        contentType: 'application/json'
+      });
+
+      const text = await response.text();
+
+      try {
+        const data = JSON.parse(text);
+        currentEntry = data;
+        renderForm(data);
+        document.getElementById("message").textContent = "";
+      } catch (err) {
+        document.getElementById("editForm").classList.add("hidden");
+        document.getElementById("message").textContent = "Entry not found.";
+      }
+    }
+
+    function renderForm(data) {
+      const form = document.getElementById("editForm");
+      const container = document.getElementById("formFields");
+      container.innerHTML = "";
+
+      Object.entries(data).forEach(([key, value]) => {
+        const field = document.createElement("div");
+        field.innerHTML = `
+          <label class="block text-sm font-medium">${key}</label>
+          <input name="${key}" value="${value}" class="w-full border p-1 rounded" />
+        `;
+        container.appendChild(field);
+      });
+
+      form.classList.remove("hidden");
+    }
+
+    async function updateEntry() {
+      const inputs = document.querySelectorAll("#formFields input");
+      const updatedData = {};
+      inputs.forEach(input => updatedData[input.name] = input.value);
+
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        body: JSON.stringify(updatedData),
+        contentType: 'application/json'
+      });
+
+      const result = await response.text();
+      document.getElementById("message").textContent = result;
+    }
+
+    async function deleteEntry() {
+      const passcode = currentEntry.Passcode;
+      if (!passcode) return;
+
+      const response = await fetch(`${API_URL}?passcode=${encodeURIComponent(passcode)}`, {
+        method: 'DELETE'
+      });
+
+      const result = await response.text();
+      document.getElementById("message").textContent = result;
+      document.getElementById("editForm").classList.add("hidden");
+    }
+  </script>
+</body>
+</html>

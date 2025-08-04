@@ -35,14 +35,12 @@
 
     function load(url) {
       const req = new XMLHttpRequest();
-      req.open("GET", url, true); // async = true is better
+      req.open("GET", url, true);
       req.onload = function () {
         if (req.status === 200) {
           document.getElementById("ticketContainer").innerHTML = req.responseText;
-
-          // Dynamically load the JS file AFTER HTML is injected
           const script = document.createElement("script");
-          script.src = "index.js"; // Path must be correct
+          script.src = "index.js";
           script.type = "text/javascript";
           document.body.appendChild(script);
         } else {

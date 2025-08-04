@@ -93,12 +93,12 @@
 
     #First,
     #Second {
-      font-size: 1.25rem;
+      font-size: 1.5rem;
       /* 20px */
     }
 
     #numberName {
-      font-size: 1rem;
+      font-size: 1.5rem;
       /* 16px */
     }
 
@@ -111,11 +111,13 @@
 
     #findBusesBtn {
       font-size: 1.125rem;
+      border-radius: 8px;
       /* 18px */
     }
 
     #searchBtn {
-      font-size: 1rem;
+      font-size: 1.125rem;
+      border-radius: 8px;
       /* 16px */
     }
 
@@ -127,11 +129,19 @@
   </style>
 </head>
 
+ 
 <body class="bg-sky-300 min-h-screen flex items-center justify-center p-2  font-sans ">
   <div class="w-full max-w-md space-y-8">
     <!-- First box -->
     <form class="bg-white rounded-lg border border-gray-300 p-4 relative shadow-md w-full max-w-full"
       aria-label="Bus search form" onsubmit="return false" style="margin:0;">
+ 
+<body class="bg-sky-300 min-h-screen flex items-center justify-center p-2 font-sans ">
+  <div class="w-full max-w-md space-y-8">
+    <!-- First box -->
+    <form class="bg-white rounded-lg border border-gray-300 p-4 shadow-md w-full" aria-label="Bus search form"
+      onsubmit="return false" style="margin:0;">
+ 
       <div class="flex items-center space-x-3 mb-6 relative">
         <i class="fas fa-arrow-down text-black font-bold"></i>
         <div class="relative-suggest flex-1">
@@ -155,7 +165,7 @@
       <div class="flex items-center space-x-3 mb-8 relative">
         <span class="w-5 h-5 rounded-full border-2 border-black inline-block flex-shrink-0"></span>
         <div class="relative-suggest flex-1">
-          <input type="text" id="Second" name="set" value=""placeholder="To       -  Ending Place"
+          <input type="text" id="Second" name="set" value="" placeholder="To       -  Ending Place"
             class="font-extrabold text-black w-full border-b border-black focus:outline-none focus:ring-0 pl-2 tracking-tight"
             aria-label="To location input" autocomplete="off" spellcheck="false" />
           <div id="SecondSuggestions" class="suggestions hidden" role="listbox" aria-label="To location suggestions">

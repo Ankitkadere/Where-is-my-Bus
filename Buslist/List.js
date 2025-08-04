@@ -18,11 +18,36 @@ divhead.innerHTML = `
         <span>${to}</span>
       </div>
     </div>
-    <div class="bg-gray-900 text-white text-lg px-2 py-1 text-center">
-      Day 1 - 2025-06-11
-    </div>
+   <div id="datetimeBox" class="bg-gray-900 text-white text-lg px-2 py-1 text-center justify-between">
+  Loading Current Date and Time...
+</div>
+
   </div>
           `;
+
+const datetimeBox = document.getElementById("datetimeBox");
+
+function updateDateTime() {
+  const now = new Date();
+
+  const options = {
+    weekday: "long", // e.g., Tuesday
+    year: "numeric", // e.g., 2025
+    month: "2-digit", // e.g., 06
+    day: "2-digit", // e.g., 24
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  };
+
+  // Format date/time
+  let formatted = now.toLocaleString("en-IN", options);
+  formatted = formatted.replace(/\b(am|pm)\b/i, (match) => match.toUpperCase());
+  datetimeBox.textContent = `Today - ${formatted}`;
+}
+
+updateDateTime(); // initial call
+setInterval(updateDateTime, 1000); // update every second
 
 function fetchData() {
   fetch(scriptURL)
@@ -74,14 +99,12 @@ function fetchData() {
       }
 
       filtered.forEach((entry) => {
-      
-
         const bookButton =
           entry.Book == "No"
-            ? `<button class="mt-14 col-1 text-black text-sm font-bold px-4 py-1 rounded transition cursor-not-allowed">
+            ? `<button class="mt-16 mb-0 col-1 text-black text-lg font-semibold px-4 py-1 rounded transition cursor-not-allowed">
        ${entry.Password} .Rs
      </button>`
-            : `<a  href="/Booking/Form.html?number=${encodeURIComponent(
+            : `<a href="/Booking/Form.html?number=${encodeURIComponent(
                 entry.Number
               )}&english=${encodeURIComponent(
                 entry.English
@@ -91,11 +114,11 @@ function fetchData() {
                 entry.To
               )}&start=${encodeURIComponent(
                 entry.Start
-              )}&end=${encodeURIComponent(entry.End)}&password=${encodeURIComponent(
-                entry.Password
-              )}"
-   class="col-1 bg-green-600 text-white text-sm font-bold px-5 py-1 rounded hover:bg-green-700 transition inline-block text-center">
-  ${entry.Password} ${entry.Book}
+              )}&end=${encodeURIComponent(
+                entry.End
+              )}&password=${encodeURIComponent(entry.Password)}"
+   class="col-1 bg-green-600 text-white text-1x2 font-extrabold px-2 py-0 rounded hover:bg-green-700 transition inline-block text-center">
+   ${entry.Password} .Rs
 </a>
 `;
 
@@ -112,18 +135,18 @@ function fetchData() {
         )}&hindi=${encodeURIComponent(entry.Hindi)}" 
             <div  class="flex items-start sm:items-center justify-between ">
               <div class="">
-                <span class="bg-sky-600 text-white text-sm font-semibold px-2 py-0.5 rounded">${
+                <span class="bg-sky-600 text-white text-lg font-semibold px-2 py-0.5 rounded">${
                   entry.Number
                 }</span>
-                <span class="font-bold ml-2 text-sm">${entry.Start}</span>
-                <span class="font-semibold text-sm">→</span>
-                <span class="font-semibold text-sm">${entry.End}</span>
-                <div class="mt-2 font-bold text-base">${
+                <span class="font-bold ml-2 text-lg">${entry.Start}</span>
+                <span class="font-semibold text-lg">→</span>
+                <span class="font-semibold text-lg">${entry.End}</span>
+                <div class="mt-2 font-bold text-lg">${
                   entry.English
                 } / <span class="font-normal">${entry.Hindi}</span></div>
               </div>
-               <div class=" col-1 text-right -mt-6">
-                 <spam class="text-sky-600 text-sm select-none w-lg  "></spam>
+               <div class=" col-1 text-right -mt-8">
+                 <spam class="text-sky-600 text-lg select-none w-lg  "></spam>
                  ${bookButton}
                </div>
             </div>   </a>

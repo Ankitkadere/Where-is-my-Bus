@@ -4,6 +4,8 @@ const clearBtn = document.getElementById("clearBtn");
 const deleteBtn = document.getElementById("deleteBtn");
 const settext = document.getElementById("settext");
 const submitBtn = document.getElementById("submitBtn");
+const urlParams = new URLSearchParams(window.location.search);
+const passcode = urlParams.get("passcode");
 const API_URL =
   "https://script.google.com/macros/s/AKfycbzkdg6vHCPXYmo8LdLB6Bk6c6hWzqpGNiAzWHBORtIVntStTPPxOTHo3buy31fMhO1Z_g/exec";
 
@@ -136,17 +138,16 @@ function renderTable(data, passcode) {
                     </div>
                     <div>
                         <h1 class="text-white text-xl font-semibold tracking-wide">
-                            SwiftLine Express
+                           ${row.TBName}
                         </h1>
-                        <p class="text-blue-200 text-sm font-medium">
-                            Intercity Bus Service
+                        <p class="text-white text-sm font-bold">
+                              ${row.TBNumber}
                         </p>
                     </div>
                 </div>
                 <div class="text-white text-sm font-semibold tracking-wide">
-                    <i class="fas fa-ticket-alt mr-1">
-                    </i>
-                    Ticket #A1234 
+                  
+                 
                 </div>
             </div>
             <div class="p-6 space-y-6">
@@ -253,11 +254,16 @@ function renderTable(data, passcode) {
                 </div>
                  <div
     class="bg-white p-2 flex flex-row sm:flex-row items-center justify-center border-t border-gray-300 space-y-0 sm:space-y-0">
-    <div class="flex items-center text-center space-x-0">
-        <p class="text-green-700 text-center font-bold text-sm">
-          Ticket Confirmed
-        </p>
-    </div>
+   <div class="flex flex-col items-center justify-center space-y-1">
+  <p class="text-gray-800 font-bold text-lg">
+    ${row.Passcode}
+  </p>
+  <p class="text-green-700 font-bold text-sm text-center">
+    Ticket Confirmed
+  </p>
+</div>
+
+
   </div>
             </div>
             
@@ -334,21 +340,4 @@ window.addEventListener("scroll", () => {
   }, 300);
 });
 
-
-
-
-
 ///////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-
-
-
-
-

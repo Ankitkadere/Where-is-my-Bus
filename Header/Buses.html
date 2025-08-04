@@ -4,13 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Where is my Bus</title>
-
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
   <style>
-     body{
+    body {
       z-index: 999;
     }
+
     .bg-custom-blue {
       background-color: rgba(26, 98, 163);
     }
@@ -28,31 +30,118 @@
       background-color: rgba(255, 255, 255, 0.3);
       border-radius: 3px;
     }
-    ul li a:hover{
-         background-color: rgba(26, 98, 163);
+
+    ul li a:hover {
+      background-color: rgba(26, 98, 163);
     }
   </style>
 </head>
 
 <body class="m-0 p-0 bg-gray-50 mb-2">
-  <header class="bg-custom-blue flex items-center px-5 h-14 shadow-md ">
+  <header class="bg-custom-blue flex justify-between items-center px-5 h-14 shadow-md ">
     <button aria-label="Open menu" id="menuBtn"
       class="text-white text-2xl font-bold mr-5 focus:outline-none focus:ring-2 focus:ring-white rounded">
       <i class="fas fa-bars"></i>
     </button>
-    <h1 class="text-white text-xl font-bold flex-grow select-none">Where is my Bus</h1>
+    <h1 class="text-white text-2xl font-extrabold flex-grow select-none">Where is my Bus</h1>
     <button aria-label="More options"
-      class="text-white text-2xl font-bold focus:outline-none focus:ring-2 focus:ring-white rounded">
-      <i class="fas fa-ellipsis-v"></i>
+      class="text-white bg-white right-0 flex text-sm flex font-bold focus:outline-none focus:ring-2 focus:ring-white rounded">
+      <button id="installBtn" style="display:non; font-size: 20px;"> <span style="font-size: 15px;"
+          class="fa-stack fa-1x1 mt-0">
+          <i class="fas fa-mobile-alt fa-stack-2x text-white  "></i>
+          <i class="fas fa-arrow-down fa-stack-1x  text-white"></i>
+        </span></button>
+      <i class="fas fa-ellipsis-v  text-white" style="display:none; "></i>
     </button>
   </header>
   <nav class="bg-custom-blue flex border-b border-b-white-50 text-white text-lg font-bold">
     <a href="#" target="_self" class="flex-1 text-center py-3 border-b-4 border-white select-none">Buses</a>
     <a href="/Book.html" class="flex-1 text-center py-3 select-none">Booking</a>
   </nav>
+    <section style="display: none ;" id="appDownload" style="z-index: 99999999999999999%;"
+    class="fixed w-full z-50 top-0 left-0 bg-black/60 flex items-center justify-center min-h-screen transition-opacity">
+    <div
+      class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 bg-white rounded-xl p-6 flex flex-col items-center shadow-l">
+      <img alt="App Logo" src="fav.jpg" width="90" height="90" class="mb-3 rounded-full" />
+      <p id="installStatus" class="text-green-700 font-semibold text-lg mb-3"
+        style="font-family: 'Montserrat', sans-serif;">
+        Processing...
+
+      <div class="w-full max-w-md bg-white rounded-lg shadow-lg p-6">
+        <h1 class="text-2xl font-semibold text-gray-800 mb-6 flex items-center justify-center space-x-3">
+          <i class="fas fa-download text-blue-600"></i>
+
+        </h1>
+
+        <div class="w-full bg-gray-200 rounded-full h-6 overflow-hidden relative">
+          <div id="progress-bar" class="bg-blue-600 h-6 rounded-full"
+            style="width: 0%; animation: fillWidth 4s linear forwards;"></div>
+          <span id="progress-text"
+            class="absolute inset-0 flex items-center justify-center text-white font-semibold text-sm select-none">0%</span>
+        </div>
+
+        <p id="status-text" class="mt-4 text-center text-gray-700 font-medium">
+          Downloading your App...
+        </p>
+      </div>
+      <style>
+        @keyframes fillWidth {
+          from {
+            width: 0%;
+          }
+
+          to {
+            width: 100%;
+          }
+        }
+      </style>
+      <script>
+        const progressBar = document.getElementById("progress-bar");
+        const progressText = document.getElementById("progress-text");
+        const statusTexts = document.getElementById("status-text");
+
+        let startTime = null;
+        const duration = 5000; // 4 seconds
+
+        function animateProgress(timestamp) {
+          if (!startTime) startTime = timestamp;
+          const elapsed = timestamp - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const percent = Math.floor(progress * 100);
+
+          progressBar.style.width = percent + "%";
+          progressText.textContent = percent + "%";
+
+          if (progress < 1) {
+            requestAnimationFrame(animateProgress);
+          } else {
+            statusTexts.textContent = "Download Complete!";
+            const statusText = document.getElementById("installStatus");
+
+            statusText.innerText = "Installed";
+            const audio = document.getElementById("audioPlayer");
+            audio.play().catch(err => {
+              statusText.innerText = "Completed";
+              console.error(err);
+            });
+
+            statusTexts.onclick = () => {
+              window.location.reload();
+            };
+          }
+        }
+
+        requestAnimationFrame(animateProgress);
+      </script>
+      </p>
+      <audio id="audioPlayer" class="hidden" src="bell.wav"></audio>
+ 
+    </div>
+  </section>
+
 
   <!-- Professional Side Menu -->
- <aside id="slideMenu"
+  <aside id="slideMenu"
     class="fixed top-0 left-0 h-full w-72 bg-white shadow-lg transform -translate-x-full transition-transform duration-300 ease-in-out z-50 flex flex-col">
     <div class="bg-custom-blue flex items-center justify-between px-6 py-12 border-b border-gray-200">
       <i class="fas fa-bus text-4xl text-white"></i>
@@ -107,7 +196,7 @@
         </li>
       </ul>
     </nav>
-    <a href="/Profile/File.html" target="_self"  class="text-white bg-green-700 hover:bg-greeb-900">
+    <a href="/Profile/File.html" target="_self" class="text-white bg-green-700 hover:bg-greeb-900">
       <div class="px-6 py-4 border-t border-gray-200">
         <button id="logoutBtn"
           class="w-full text-white font-bold hover:text-white flex items-center justify-center rounded-md transition-colors">
