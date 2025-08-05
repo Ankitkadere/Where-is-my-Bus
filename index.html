@@ -11,9 +11,19 @@
     <link rel="icon" href="fav.jpg" type="image/jpeg" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-</head>
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#317EFB" />
 
+</head>
 <body oncontextmenu="return false">
+    <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').then(function () {
+      console.log('Service Worker Registered');
+    });
+  }
+</script>
+
     <!-- SPLASH SCREEN -->
     <div id="container"></div>
 
