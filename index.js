@@ -126,7 +126,7 @@ function renderTable(data, passcode) {
 
     tr.innerHTML = `         
     <body class="bg-gray-100 flex items-center justify-center w-full p-4">
-        <div class="  w-full max-w-md bg-white rounded-xl shadow-lg border border-gray-300 overflow-hidden  ">
+        <div class="  w-full max-w-md bg-white shadow-lg border border-gray-300 overflow-hidden  ">
             <div class="w-full flex items-center justify-between bg-green-800 p-2">
                 <div class="flex items-center space-x-3">
                      <div
@@ -255,7 +255,7 @@ function renderTable(data, passcode) {
                  <div
     class="bg-white p-2 flex flex-row sm:flex-row items-center justify-center border-t border-gray-300 space-y-0 sm:space-y-0">
    <div class="flex flex-col items-center justify-center space-y-1">
-  <p class="text-gray-800 font-bold text-lg">
+  <p class="text-gray-800 font-bold text-xl">
     ${row.Passcode}
   </p>
   <p class="text-green-700 font-bold text-sm text-center">

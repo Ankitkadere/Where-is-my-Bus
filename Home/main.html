@@ -129,81 +129,85 @@
   </style>
 </head>
 
- 
+
 <body class="bg-sky-300 min-h-screen flex items-center justify-center p-2  font-sans ">
   <div class="w-full max-w-md space-y-8">
     <!-- First box -->
     <form class="bg-white rounded-lg border border-gray-300 p-4 relative shadow-md w-full max-w-full"
       aria-label="Bus search form" onsubmit="return false" style="margin:0;">
- 
-<body class="bg-sky-300 min-h-screen flex items-center justify-center p-2 font-sans ">
-  <div class="w-full max-w-md space-y-8">
-    <!-- First box -->
- 
-    <form class="bg-white rounded-lg border border-gray-300 p-4 relative shadow-md w-full max-w-full"
-      aria-label="Bus search form" onsubmit="return false" style="margin:0;">
-<body class="bg-sky-300 min-h-screen flex items-center justify-center p-2 font-sans ">
-  <div class="w-full max-w-md space-y-8">
-    <!-- First box -->
- 
-    <form class="bg-white rounded-lg border border-gray-300 p-4 shadow-md w-full" aria-label="Bus search form"
-      onsubmit="return false" style="margin:0;">
- 
-      <div class="flex items-center space-x-3 mb-6 relative">
-        <i class="fas fa-arrow-down text-black font-bold"></i>
-        <div class="relative-suggest flex-1">
-          <input type="text" id="First" name="get" value="" placeholder="From  -  Starting Place "
-            class="font-extrabold text-black w-full border-b border-black focus:outline-none focus:ring-0 pl-2 tracking-tight"
-            aria-label="From location input" autocomplete="off" spellcheck="false" />
-          <div id="FirstSuggestions" class="suggestions hidden" role="listbox" aria-label="From location suggestions">
-          </div>
-        </div>
-        <button type="button" id="swapBtn" class="circle-icon" aria-label="Swap locations" title="Swap locations"
-          tabindex="0" aria-pressed="false" class="bg-green-600">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <polyline points="16 17 21 12 16 7"></polyline>
-            <polyline points="8 7 3 12 8 17"></polyline>
-            <line x1="21" y1="12" x2="3" y2="12"></line>
-          </svg>
-        </button>
-      </div>
 
-      <div class="flex items-center space-x-3 mb-8 relative">
-        <span class="w-5 h-5 rounded-full border-2 border-black inline-block flex-shrink-0"></span>
-        <div class="relative-suggest flex-1">
-          <input type="text" id="Second" name="set" value="" placeholder="To       -  Ending Place"
-            class="font-extrabold text-black w-full border-b border-black focus:outline-none focus:ring-0 pl-2 tracking-tight"
-            aria-label="To location input" autocomplete="off" spellcheck="false" />
-          <div id="SecondSuggestions" class="suggestions hidden" role="listbox" aria-label="To location suggestions">
-          </div>
-        </div>
-      </div>
+      <body class="bg-sky-300 min-h-screen flex items-center justify-center p-2 font-sans ">
+        <div class="w-full max-w-md space-y-8">
+          <!-- First box -->
 
-      <button id="findBusesBtn" type="submit"
-        class="w-full bg-green-700 hover:bg-green-900 transition-colors text-white rounded focus:outline-none focus:ring-2 focus:ring-green-600 tracking-wide">
-        Find Buses
-      </button>
-    </form>
+          <form class="bg-white rounded-lg border border-gray-300 p-4 relative shadow-md w-full max-w-full"
+            aria-label="Bus search form" onsubmit="return false" style="margin:0;">
 
-    <!-- Second box -->
-    <div class="text-left font-extrabold text-black mb-2 ml-4 text-lg tracking-tight">Live Spot</div>
-    <form class="bg-white rounded-lg border border-gray-300 p-6 shadow-md w-full max-w-full"
-      aria-label="Live spot search form" onsubmit="return false" style="margin:0;">
-      <div class="relative-suggest">
-        <input type="text" id="numberName" name="numberName" placeholder="Number / Name"
-          class="w-full border-b border-black focus:outline-none text-black pb-1 font-semibold tracking-tight"
-          autocomplete="off" spellcheck="false" aria-label="Bus number or name input" />
-        <div id="NumberNameSuggestions" class="suggestions hidden" role="listbox"
-          aria-label="Bus number or name suggestions"></div>
-      </div>
-      <button id="searchBtn" type="submit"
-        class="mt-6 w-full bg-green-700 hover:bg-green-900 transition-colors text-white rounded focus:outline-none focus:ring-2 focus:ring-green-600 tracking-wide">
-        Search
-      </button>
-    </form>
-  </div>
+            <body class="bg-sky-300 min-h-screen flex items-center justify-center p-2 font-sans ">
+              <div class="w-full max-w-md space-y-8">
+                <!-- First box -->
 
-</body>
+                <form class="bg-white rounded-lg border border-gray-300 p-4 shadow-md w-full"
+                  aria-label="Bus search form" onsubmit="return false" style="margin:0;">
+
+                  <div class="flex items-center space-x-3 mb-6 relative">
+                    <i class="fas fa-arrow-down text-black font-bold"></i>
+                    <div class="relative-suggest flex-1">
+                      <input type="text" id="First" name="get" value="" placeholder="From  -  Starting Place "
+                        class="font-extrabold text-black w-full border-b border-black focus:outline-none focus:ring-0 pl-2 tracking-tight"
+                        aria-label="From location input" autocomplete="off" spellcheck="false" />
+                      <div id="FirstSuggestions" class="suggestions hidden" role="listbox"
+                        aria-label="From location suggestions">
+                      </div>
+                    </div>
+                    <button type="button" id="swapBtn" class="circle-icon" aria-label="Swap locations"
+                      title="Swap locations" tabindex="0" aria-pressed="false" class="bg-green-600">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"
+                        focusable="false">
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <polyline points="8 7 3 12 8 17"></polyline>
+                        <line x1="21" y1="12" x2="3" y2="12"></line>
+                      </svg>
+                    </button>
+                  </div>
+
+                  <div class="flex items-center space-x-3 mb-8 relative">
+                    <span class="w-5 h-5 rounded-full border-2 border-black inline-block flex-shrink-0"></span>
+                    <div class="relative-suggest flex-1">
+                      <input type="text" id="Second" name="set" value="" placeholder="To       -  Ending Place"
+                        class="font-extrabold text-black w-full border-b border-black focus:outline-none focus:ring-0 pl-2 tracking-tight"
+                        aria-label="To location input" autocomplete="off" spellcheck="false" />
+                      <div id="SecondSuggestions" class="suggestions hidden" role="listbox"
+                        aria-label="To location suggestions">
+                      </div>
+                    </div>
+                  </div>
+
+                  <button id="findBusesBtn" type="submit"
+                    class="w-full bg-green-700 hover:bg-green-900 transition-colors text-white rounded focus:outline-none focus:ring-2 focus:ring-green-600 tracking-wide">
+                    Find Buses
+                  </button>
+                </form>
+
+                <!-- Second box -->
+                <div class="text-left font-bold text-black  text-sm tracking-tight">Direct Search </div>
+                <form class="bg-white rounded-lg   w-full  " aria-label="Live spot search form" onsubmit="return false"
+                  style="margin:0; margin-top: 5px;">
+                  <div class="relative-suggest">
+                    <input type="text" id="numberName" name="numberName" placeholder="Number / Name"
+                      class="w-full border-b border-black focus:outline-none text-black pb-1 font-semibold tracking-tight"
+                      autocomplete="off" spellcheck="false" aria-label="Bus number or name input" />
+                    <div id="NumberNameSuggestions" class="suggestions hidden" role="listbox"
+                      aria-label="Bus number or name suggestions"></div>
+                  </div>
+                  <button id="searchBtn" type="submit"
+                    class="mt-6 w-full bg-green-700 hover:bg-green-900 transition-colors text-white rounded focus:outline-none focus:ring-2 focus:ring-green-600 tracking-wide">
+                    Search
+                  </button>
+                </form>
+              </div>
+
+            </body>
 
 </html>
