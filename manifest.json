@@ -1,20 +1,77 @@
 {
-  "short_name": "Where is my Bus",
-  "name": "Find Your Best Bus",
+  "name": "Whee is my Bus",
+  "short_name": "Find Your Best bus",
+  "id": "/",
+  "scope": "/",
+  "start_url": "/?source=pwa",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f3f4f6",
+  "theme_color": "#f3f4f6",
+  "dark_theme_color": "#f3f4f6",
+  "dark_background_color": "#f3f4f6",
+  "lang": "en",
+  "dir": "ltr",
+  "description": "Create and customize unique, meaningful gifts for every occasion. Personalized items made with love at Customized Gift Zone.",
   "icons": [
     {
-      "src": "fav.jpg",
-      "type": "image/jpeg",
-      "sizes": "192x192"
+      "src": "app.jpg",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any"
     },
     {
-      "src": "fav.jpg",
-      "type": "image/jpeg",
-      "sizes": "512x512"
+      "src": "app.jpg",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
     }
   ],
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#f5fdf7",
-  "theme_color": "#f5fdf7"
+  "categories": [
+    "Sleeper",
+    "General",
+    "A C Bus"
+  ],
+  "screenshots": [
+    {
+      "src": "screenshots/home.jpg",
+      "type": "image/jpeg",
+      "sizes": "720x1280",
+      "label": "Homepage"
+    },
+    {
+      "src": "screenshots/customizer.jpg",
+      "type": "image/jpeg",
+      "sizes": "720x1280",
+      "label": "Product Customizer"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "My Bus",
+      "short_name": "My Bus",
+      "description": "Browse and shop personalized gifts",
+      "url": "/",
+      "icons": [
+        {
+          "src": "icons/shop.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "My Booking",
+      "short_name": "Booking",
+      "description": "Check Your Recent Tickets",
+      "url": "/orders",
+      "icons": [
+        {
+          "src": "icons/orders.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
 }

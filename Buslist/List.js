@@ -117,7 +117,7 @@ function fetchData() {
               )}&end=${encodeURIComponent(
                 entry.End
               )}&password=${encodeURIComponent(entry.Password)}"
-   class="col-1 bg-green-600 text-white text-1x2 font-extrabold px-2 py-0 rounded hover:bg-green-700 transition inline-block text-center">
+   class=" col-1 bg-gray-100 text-black text-1x2   px-2 py-0 rounded hover:bg-green-700 transition inline-block text-center">
    ${entry.Password} .Rs
 </a>
 `;
@@ -133,15 +133,15 @@ function fetchData() {
         )}&end=${encodeURIComponent(entry.End)}&english=${encodeURIComponent(
           entry.English
         )}&hindi=${encodeURIComponent(entry.Hindi)}" 
-            <div  class="flex items-start sm:items-center justify-between ">
+            <div  class="flex items-start   justify-between ">
               <div class="">
-                <span class="bg-sky-600 text-white text-lg font-semibold px-2 py-0.5 rounded">${
+                <span class="bg-sky-700 text-white font-semibold px-2  rounded">${
                   entry.Number
                 }</span>
-                <span class="font-bold ml-2 text-lg">${entry.Start}</span>
-                <span class="font-semibold text-lg">→</span>
-                <span class="font-semibold text-lg">${entry.End}</span>
-                <div class="mt-2 font-bold text-lg">${
+                <span class="font-bold ml-2  ">${entry.Start}</span>
+                <span class="font-semibold ">→</span>
+                <span class="font-semibold  ">${entry.End}</span>
+                <div class="mt-2 font-bold  ">${
                   entry.English
                 } / <span class="font-normal">${entry.Hindi}</span></div>
               </div>
