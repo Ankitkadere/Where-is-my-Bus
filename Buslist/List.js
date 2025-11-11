@@ -174,8 +174,8 @@ function fetchData() {
           <div class="w-2 h-2 bg-red-600 rounded-full"></div>
         </div>
         <div>
-          <p class="text-black font-medium pb-[0.10rem]">${entry.From}</p>
-          <p class="text-black font-medium">${entry.To}</p>
+          <p class="text-black  pb-[0.10rem]">${entry.From}</p>
+          <p class="text-black  ">${entry.To}</p>
         </div>
       </div>
 
