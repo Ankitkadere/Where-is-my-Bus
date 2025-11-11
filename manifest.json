@@ -1,6 +1,6 @@
 {
-  "name": "Whee is my Bus",
-  "short_name": "Find Your Best bus",
+  "name": "Customized Gift Zone",
+  "short_name": "Gift Zone",
   "id": "/",
   "scope": "/",
   "start_url": "/?source=pwa",
@@ -25,12 +25,20 @@
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "any maskable"
+    },
+    {
+      "src": "app.jpg",
+      "type": "image/png",
+      "sizes": "1024x1024",
+      "purpose": "any maskable"
     }
   ],
   "categories": [
-    "Sleeper",
-    "General",
-    "A C Bus"
+    "shopping",
+    "lifestyle",
+    "gifts",
+    "custom",
+    "ecommerce"
   ],
   "screenshots": [
     {
@@ -48,10 +56,10 @@
   ],
   "shortcuts": [
     {
-      "name": "My Bus",
-      "short_name": "My Bus",
+      "name": "Shop Gifts",
+      "short_name": "Online & Offline Shop",
       "description": "Browse and shop personalized gifts",
-      "url": "/",
+      "url": "/shop",
       "icons": [
         {
           "src": "icons/shop.png",
@@ -61,9 +69,9 @@
       ]
     },
     {
-      "name": "My Booking",
-      "short_name": "Booking",
-      "description": "Check Your Recent Tickets",
+      "name": "My Orders",
+      "short_name": "Orders",
+      "description": "Check your recent orders",
       "url": "/orders",
       "icons": [
         {
