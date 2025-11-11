@@ -2,9 +2,25 @@
 <html lang="en">
 
 <head>
+  <title>Where is My Bus</title>
+  <meta name="description" content="Best app to find buses, live locations, and routes." />
+  <link rel="icon" href="fav.jpg" type="image/jpeg" />
+  <link rel="apple-touch-icon" href="fav.jpg" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#f5fdf7" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="msapplication-navbutton-color" content="#f5fdf7" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+  <script type="module" src="firebase.js"></script>
+ 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Buses List</title>
   <script src="List.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
@@ -35,14 +51,14 @@
 
 <body class="bg-gray-100 ">
   <div id="dataListhead" class="space-y-2"> </div>
-    <div class="flex justify-between items-center bg-gray-800 text-white text-sm font-semibold px-4 py-2">
-        <span>SCHEDULED</span>
-        <span>EXPECTED</span>
-    </div>
+  <div class="flex justify-between items-center bg-gray-800 text-white text-sm font-semibold px-4 py-2">
+    <span>SCHEDULED</span>
+    <span>EXPECTED</span>
+  </div>
   <div class=" mx-auto bg-white  space-y-2 ">
 
     <!-- Container where data will be inserted -->
-    <div id="dataList" class="space-y-2 mt-12">
+    <div id="dataList" class="mt-14">
       <div id="loader" class="absolute inset-0 flex justify-center items-center mt-40 h-44">
         <div class="w-20 h-20 border-4 border-green-700 border-t-transparent rounded-full animate-spin"></div>
       </div>
@@ -52,6 +68,7 @@
       </span>
     </div>
   </div>
+  <div class="text-center justify-center mt-4">No More Buses</div>
 
 
 </body>

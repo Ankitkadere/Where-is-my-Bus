@@ -1,44 +1,42 @@
 {
   "name": "Where is My Bus",
-  "short_name": "Where is My Bus",
+  "short_name": "Where is my Bus",
   "id": "/",
   "scope": "/",
   "start_url": "/?source=pwa",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#f3f4f6",
-  "theme_color": "#f3f4f6",
-  "dark_theme_color": "#f3f4f6",
-  "dark_background_color": "#f3f4f6",
+  "background_color": "#f5fdf7",
+  "theme_color": "#1a62a3",
+  "description": "Best app to find buses, live locations, and routes between stops.",
   "lang": "en",
   "dir": "ltr",
-  "description": "Best Use For Bus FInding ",
   "icons": [
     {
       "src": "app.jpg",
-      "type": "image/png",
       "sizes": "192x192",
+      "type": "image/png",
       "purpose": "any"
     },
     {
       "src": "app.jpg",
-      "type": "image/png",
       "sizes": "512x512",
-      "purpose": "any maskable"
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "app.jpg",
-      "type": "image/png",
       "sizes": "1024x1024",
-      "purpose": "any maskable"
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
   "categories": [
-    "Find Routes",
-    "Buses",
-    "Locations",
-    "Tracking",
-    "Timing"
+    "transportation",
+    "navigation",
+    "travel",
+    "bus",
+    "tracking"
   ],
   "screenshots": [
     {
@@ -48,34 +46,34 @@
       "label": "Homepage"
     },
     {
-      "src": "screenshots/customizer.jpg",
+      "src": "screenshots/tracking.jpg",
       "type": "image/jpeg",
       "sizes": "720x1280",
-      "label": "Product Customizer"
+      "label": "Live Bus Tracking"
     }
   ],
   "shortcuts": [
     {
-      "name": "Where is My Bus",
-      "short_name": "Online & Offline Shop",
-      "description": "Browse and shop personalized gifts",
-      "url": "/shop",
+      "name": "Find Routes",
+      "short_name": "Routes",
+      "description": "Search buses and view live timings",
+      "url": "/routes",
       "icons": [
         {
-          "src": "icons/shop.png",
+          "src": "icons/routes.png",
           "sizes": "96x96",
           "type": "image/png"
         }
       ]
     },
     {
-      "name": "Where is My Bus",
-      "short_name": "Orders",
-      "description": "Check your recent orders",
-      "url": "/orders",
+      "name": "Live Tracking",
+      "short_name": "Tracking",
+      "description": "View live bus locations on the map",
+      "url": "/location",
       "icons": [
         {
-          "src": "icons/orders.png",
+          "src": "icons/tracking.png",
           "sizes": "96x96",
           "type": "image/png"
         }

@@ -10,7 +10,7 @@ divhead.className = "p-2 bg-gray-50 border border-gray-200 rounded shadow";
 divhead.innerHTML = `
   <div class="w-full mx-auto fixed left-0 top-0 z-50">
     <!-- Blue Header -->
-    <div style="background-color: rgba(26, 98, 163);" class="text-white px-4 py-3 flex flex-wrap w-full text-sm font-sans">
+    <div style="background-color: rgba(26, 98, 163);" class="text-white px-4 py-4 flex flex-wrap w-full text-sm font-sans">
       <div class="w-full flex justify-between items-center text-white text-lg font-serif font-bold mb-2">
         <span>${from}</span>
         <span class="flex items-center">
@@ -25,14 +25,13 @@ divhead.innerHTML = `
       <div>
         <span id="datetimeBox" class="text-left">Time</span>
       </div>
-      <div class="flex gap-6">
+      <div class="flex gap-8">
         <span>SCHEDULED</span>
         <span>EXPECTED</span>
       </div>
     </div>
   </div>
 `;
-
 
 const datetimeBox = document.getElementById("datetimeBox");
 
@@ -50,7 +49,7 @@ function updateDateTime() {
   // Format date/time
   let formatted = now.toLocaleString("en-IN", options);
   formatted = formatted.replace(/\b(am|pm)\b/i, (match) => match.toUpperCase());
-  datetimeBox.textContent = `Today - ${formatted}`;
+  datetimeBox.textContent = `${formatted}`;
 }
 
 updateDateTime(); // initial call
@@ -107,10 +106,10 @@ function fetchData() {
       filtered.forEach((entry) => {
         const bookButton =
           entry.Book === "No"
-            ? `<button class="cursor-not-allowed bg-gray-100 text-black  rounded font-semibold">
+            ? `<button class="cursor-not-allowed text-center text-black rounded font-bold">
           ${entry.Password} .Rs
         </button>`
-            : `<a href="/Booking/Form.html?number=${encodeURIComponent(
+            : `<button href="/Booking/Form.html?number=${encodeURIComponent(
                 entry.Number
               )}&english=${encodeURIComponent(
                 entry.English
@@ -125,7 +124,7 @@ function fetchData() {
               )}&password=${encodeURIComponent(entry.Password)}"
           class=" text-black rounded hover:bg-green-700 transition font-bold inline-block text-center">
           ${entry.Password} .Rs
-        </a>`;
+        </button>`;
 
         // Status color logic
         const color =
@@ -143,16 +142,23 @@ function fetchData() {
 
         const div = document.createElement("div");
         div.className =
-          "p-3 bg-gray-50 border border-gray-200 rounded shadow  transition hover:shadow-lg";
+          "px-3 py-1 bg-gray-50 border-b border-gray-600 transition ";
 
         div.innerHTML = `
+            <a href="/Location/location.html?number=${encodeURIComponent(
+              entry.Number
+            )}&start=${encodeURIComponent(
+          entry.Start
+        )}&end=${encodeURIComponent(entry.End)}&english=${encodeURIComponent(
+          entry.English
+        )}&hindi=${encodeURIComponent(entry.Hindi)}" >
     <div class="flex justify-between items-center">
-      <span class="bg-sky-700 text-white font-semibold px-2 rounded">${
+      <span class="bg-sky-700 text-white font-semibold px-4 rounded">${
         entry.Number
       }</span>
       <div class="text-right flex gap-6">
         <p class="text-gray-800 font-extrabold">${entry.Start}</p>
-        <p class="text-red-600 font-bold">${entry.End}</p>
+        <p class="text-red-600 font-extrabold">${entry.End}</p>
       </div>
     </div>
 
@@ -168,8 +174,8 @@ function fetchData() {
           <div class="w-2 h-2 bg-red-600 rounded-full"></div>
         </div>
         <div>
-          <p class="text-black font-semibold pb-[0.10rem]">${entry.From}</p>
-          <p class="text-black font-semibold">${entry.To}</p>
+          <p class="text-black font-medium pb-[0.10rem]">${entry.From}</p>
+          <p class="text-black font-medium">${entry.To}</p>
         </div>
       </div>
 
@@ -180,13 +186,13 @@ function fetchData() {
       </div>
     </div>
 
-    <div class="text-right flex mt-2 flex justify-between items-start ">
-     ${bookButton} 
-    <span class="${statusClass} text-white px-3 text-center rounded text-base font-semibold">
+    <div class="text-left flex mt-1 flex justify-between text-center items-start ">
+    <span> ${bookButton}</span> 
+    <span class="${statusClass} text-white px-3 mt-[1.5px] text-center rounded text-sm font-semibold">
           ${entry.Status || "RUNNING"}
         </span>
-     
     </div>
+    </a>
   `;
 
         container.appendChild(div);
