@@ -1,9 +1,26 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Bus Schedule</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Where is my Bus</title>
+    <meta name="description" content="Best use to find buses, live locations, and routes." />
+    <link rel="icon" href="fav.jpg" type="image/jpeg" />
+    <link rel="apple-touch-icon" href="fav.jpg" />
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#f5fdf7" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="#f5fdf7" />
+    <meta name="msapplication-navbutton-color" content="#f5fdf7" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js"></script>
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+    <script type="module" src="firebase.js"></script>
+    <script src="Blocked.js"></script>
     <link rel="icon" type="image/x-icon" href="/IMG-20241006-WA0008.jpg" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <script src="https://cdn.tailwindcss.com"></script>
@@ -34,9 +51,9 @@
 
 <body class="bg-white-900 font-sans">
     <div id="location" class="space-y-2 mb-20   mt-[16vh]">
-      <div id="loader" class="absolute inset-0 flex justify-center items-center mt-40 h-44">
-  <div class="w-20 h-20 border-4 border-green-700 border-t-transparent rounded-full animate-spin"></div>
-</div>
+        <div id="loader" class="absolute inset-0 flex justify-center items-center mt-40 h-44">
+            <div class="w-20 h-20 border-4 border-green-700 border-t-transparent rounded-full animate-spin"></div>
+        </div>
 
         <span class="text-4xl fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
             Loading...

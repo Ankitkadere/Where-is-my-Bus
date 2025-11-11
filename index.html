@@ -1,57 +1,25 @@
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Gift Zone : Customized Gift Zone</title>
-  <meta name="description" content="Gift Zone : Photo Frame's App" />
+  <title>Where is my Bus</title>
+  <meta name="description" content="Best use to find buses, live locations, and routes." />
   <link rel="icon" href="fav.jpg" type="image/jpeg" />
-  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
-  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-  <link rel="manifest" href="manifest.json">
-  <meta name="background-color" content="bg-blue-600" />
-  <meta name="background-color" content="#f3f4f6" />
-  <meta name="apple-mobile-web-app-title" content="Gift Zone">
-  <link rel="apple-touch-icon" href="fav.jpg">
-  <meta name="theme-color" content="#f3f4f6" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="#f3f4f6" />
-  <meta name="msapplication-navbutton-color" content="#f3f4f6" />
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="mobile-web-app-capable" content="yes">
-  <script type="module" src="firebase.js"></script>
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-
   <link rel="apple-touch-icon" href="fav.jpg" />
-  <link rel="icon" href="fav.jpg" type="image/jpeg/jpg" />
   <link rel="manifest" href="manifest.json" />
-  <link rel="icon" href="fav.jpg" type="image/jpeg" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="theme-color" content="#f5fdf7" />
   <meta name="apple-mobile-web-app-status-bar-style" content="#f5fdf7" />
   <meta name="msapplication-navbutton-color" content="#f5fdf7" />
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="mobile-web-app-capable" content="yes">
-  <title>Gift Zone : Photo Frame</title>
-  <script src="Blocked.js"></script>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js"></script>
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-
-  <script>
-    /*
-    window.OneSignalDeferred = window.OneSignalDeferred || [];
-    OneSignalDeferred.push(async function (OneSignal) {
-      await OneSignal.init({
-        appId: "3fa7f09b-cf8a-43dd-9ec7-8defe4142b00",
-        notifyButton: {
-          enable: true
-        }
-      });
-    });*/
-  </script>
+  <script type="module" src="firebase.js"></script>
+  <script src="Blocked.js"></script>
 </head>
 
 <body class="font-inter bg-gray-100  text-gray-900 flex flex-col text-sm  ">
@@ -546,162 +514,163 @@
       }
     });
   </script>
- 
-<div class="w-full max-w-md mx-auto space-y-8 mt-2 px-1">
 
-  <style>
-    .circle-icon {
-      width: 44px;
-      height: 44px;
-      border: 2px solid #047857;
-      border-radius: 9999px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: absolute;
-      right: 12px;
-      top: 8px;
-      transform: rotate(90deg);
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
-      background-color: #047857;
-      box-shadow: 0 4px 6px rgba(4, 120, 87, 0.3);
-      z-index: 10;
-    }
+  <div class="w-full max-w-md mx-auto space-y-8 mt-2 px-1">
 
-    .circle-icon:hover {
-      background-color: #065f46;
-      border-color: #065f46;
-      transform: scale(1.1);
-    }
+    <style>
+      .circle-icon {
+        width: 44px;
+        height: 44px;
+        border: 2px solid #047857;
+        border-radius: 9999px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        right: 12px;
+        top: 8px;
+        transform: rotate(90deg);
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+        background-color: #047857;
+        box-shadow: 0 4px 6px rgba(4, 120, 87, 0.3);
+        z-index: 10;
+      }
 
-    .circle-icon svg {
-      width: 20px;
-      height: 20px;
-      color: #ffffff;
-      transition: color 0.3s ease;
-      pointer-events: none;
-    }
+      .circle-icon:hover {
+        background-color: #065f46;
+        border-color: #065f46;
+        transform: scale(1.1);
+      }
 
-    /* Suggestion dropdown */
-    .suggestions {
-      position: absolute;
-      background: white;
-      border: 1px solid #d1d5db;
-      border-radius: 0.5rem;
-      max-height: 200px;
-      overflow-y: auto;
-      width: 100%;
-      z-index: 20;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+      .circle-icon svg {
+        width: 20px;
+        height: 20px;
+        color: #ffffff;
+        transition: color 0.3s ease;
+        pointer-events: none;
+      }
 
-    .suggestion-item {
-      padding: 0.6rem 0.9rem;
-      cursor: pointer;
-      font-weight: 600;
-      color: #047857;
-      font-size: 1rem;
-    }
+      /* Suggestion dropdown */
+      .suggestions {
+        position: absolute;
+        background: white;
+        border: 1px solid #d1d5db;
+        border-radius: 0.5rem;
+        max-height: 200px;
+        overflow-y: auto;
+        width: 100%;
+        z-index: 20;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
 
-    .suggestion-item:hover,
-    .suggestion-item.active {
-      background-color: #d1fae5;
-      color: #064e3b;
-    }
+      .suggestion-item {
+        padding: 0.6rem 0.9rem;
+        cursor: pointer;
+        font-weight: 600;
+        color: #047857;
+        font-size: 1rem;
+      }
 
-    input[type="text"] {
-      font-weight: 700;
-      color: #111827;
-    }
+      .suggestion-item:hover,
+      .suggestion-item.active {
+        background-color: #d1fae5;
+        color: #064e3b;
+      }
 
-    #First,
-    #Second,
-    #numberName {
-      font-size: 1.125rem;
-      letter-spacing: -0.5px;
-    }
+      input[type="text"] {
+        font-weight: 700;
+        color: #111827;
+      }
 
-    button[type="submit"] {
-      font-weight: 700;
-      border-radius: 10px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
+      #First,
+      #Second,
+      #numberName {
+        font-size: 1.125rem;
+        letter-spacing: -0.5px;
+      }
 
-    button[type="submit"]:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(28, 138, 1, 0.753);
-    }
-  </style>
+      button[type="submit"] {
+        font-weight: 700;
+        border-radius: 10px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
 
-  <!-- Bus Route Search Form -->
-  <form
-    class="bg-white border border-gray-200 rounded-2xl px-4 py-6 shadow-md hover:shadow-xl transition-shadow relative"
-    aria-label="Bus search form" onsubmit="return false">
+      button[type="submit"]:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(28, 138, 1, 0.753);
+      }
+    </style>
 
-    <h2 class="text-xl font-bold text-emerald-700 mb-5 tracking-tight flex items-center gap-2">
-      <i class="fas fa-map-marker-alt text-emerald-700"></i>
-      Route Search
-    </h2>
+    <!-- Bus Route Search Form -->
+    <form
+      class="bg-white border border-gray-200 rounded-2xl px-4 py-6 shadow-md hover:shadow-xl transition-shadow relative"
+      aria-label="Bus search form" onsubmit="return false">
 
-    <!-- From Input -->
-    <div class="flex items-center space-x-3 mb-8 relative">
-      <i class="fas fa-arrow-down text-emerald-800 text-2xl"></i>
-      <div class="relative-suggest flex-1">
-        <input type="text" id="First" name="get" placeholder="From  -  Starting Place"
-          class="w-full border-b-2 border-emerald-700 focus:outline-none focus:border-emerald-900 pl-2 font-semibold tracking-tight"
-          autocomplete="off" spellcheck="false" />
-        <div id="FirstSuggestions" class="suggestions hidden"></div>
+      <h2 class="text-xl font-bold text-emerald-700 mb-5 tracking-tight flex items-center gap-2">
+        <i class="fas fa-map-marker-alt text-emerald-700"></i>
+        Route Search
+      </h2>
+
+      <!-- From Input -->
+      <div class="flex items-center space-x-3 mb-8 relative">
+        <i class="fas fa-arrow-down text-emerald-800 text-2xl"></i>
+        <div class="relative-suggest flex-1">
+          <input type="text" id="First" name="get" placeholder="From  -  Starting Place"
+            class="w-full border-b-2 border-emerald-700 focus:outline-none focus:border-emerald-900 pl-2 font-semibold tracking-tight"
+            autocomplete="off" spellcheck="false" />
+          <div id="FirstSuggestions" class="suggestions hidden"></div>
+        </div>
+
+        <!-- Swap Button -->
+        <button type="button" id="swapBtn" class="circle-icon" aria-label="Swap locations" title="Swap locations">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <polyline points="8 7 3 12 8 17"></polyline>
+            <line x1="21" y1="12" x2="3" y2="12"></line>
+          </svg>
+        </button>
       </div>
 
-      <!-- Swap Button -->
-      <button type="button" id="swapBtn" class="circle-icon" aria-label="Swap locations" title="Swap locations">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
-          stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-          <polyline points="16 17 21 12 16 7"></polyline>
-          <polyline points="8 7 3 12 8 17"></polyline>
-          <line x1="21" y1="12" x2="3" y2="12"></line>
-        </svg>
-      </button>
-    </div>
-
-    <!-- To Input -->
-    <div class="flex items-center space-x-3 mb-8 relative">
-      <span class="w-5 h-5 rounded-full border-2 border-emerald-700 flex-shrink-0"></span>
-      <div class="relative-suggest flex-1">
-        <input type="text" id="Second" name="set" placeholder="To  -  Destination Place"
-          class="w-full border-b-2 border-emerald-700 focus:outline-none focus:border-emerald-900 pl-2 font-semibold tracking-tight"
-          autocomplete="off" spellcheck="false" />
-        <div id="SecondSuggestions" class="suggestions hidden"></div>
-      </div>
-    </div>
-
-    <button id="findBusesBtn" type="submit"
-      class="w-full bg-green-700 hover:bg-emerald-900 text-white py-3 focus:outline-none focus:ring-4 focus:ring-emerald-400">
-      Find Buses
-    </button>
-  </form>
-
-  <!-- Direct Search Section -->
-  <div>
-    <h3 class="text-left font-bold text-emerald-800 text-sm ml-2 uppercase tracking-wide">Direct Search</h3>
-    <form class="bg-white border border-gray-200 rounded-2xl px-4 py-6 shadow-md hover:shadow-xl transition-shadow mt-3"
-      aria-label="Live spot search form" onsubmit="return false">
-
-      <div class="relative-suggest">
-        <input type="text" id="numberName" name="numberName" placeholder="Bus Number or Name"
-          class="w-full border-b-2 border-emerald-700 focus:outline-none focus:border-emerald-900 pb-1 font-semibold tracking-tight"
-          autocomplete="off" spellcheck="false" />
-        <div id="NumberNameSuggestions" class="suggestions hidden"></div>
+      <!-- To Input -->
+      <div class="flex items-center space-x-3 mb-8 relative">
+        <span class="w-5 h-5 rounded-full border-2 border-emerald-700 flex-shrink-0"></span>
+        <div class="relative-suggest flex-1">
+          <input type="text" id="Second" name="set" placeholder="To  -  Destination Place"
+            class="w-full border-b-2 border-emerald-700 focus:outline-none focus:border-emerald-900 pl-2 font-semibold tracking-tight"
+            autocomplete="off" spellcheck="false" />
+          <div id="SecondSuggestions" class="suggestions hidden"></div>
+        </div>
       </div>
 
-      <button id="searchBtn" type="submit"
-        class="mt-6 w-full bg-green-700 hover:bg-emerald-900 text-white py-3 focus:outline-none focus:ring-4 focus:ring-emerald-400">
-        Search
+      <button id="findBusesBtn" type="submit"
+        class="w-full bg-green-700 hover:bg-emerald-900 text-white py-3 focus:outline-none focus:ring-4 focus:ring-emerald-400">
+        Find Buses
       </button>
     </form>
+
+    <!-- Direct Search Section -->
+    <div>
+      <h3 class="text-left font-bold text-emerald-800 text-sm ml-2 uppercase tracking-wide">Direct Search</h3>
+      <form
+        class="bg-white border border-gray-200 rounded-2xl px-4 py-6 shadow-md hover:shadow-xl transition-shadow mt-3"
+        aria-label="Live spot search form" onsubmit="return false">
+
+        <div class="relative-suggest">
+          <input type="text" id="numberName" name="numberName" placeholder="Bus Number or Name"
+            class="w-full border-b-2 border-emerald-700 focus:outline-none focus:border-emerald-900 pb-1 font-semibold tracking-tight"
+            autocomplete="off" spellcheck="false" />
+          <div id="NumberNameSuggestions" class="suggestions hidden"></div>
+        </div>
+
+        <button id="searchBtn" type="submit"
+          class="mt-6 w-full bg-green-700 hover:bg-emerald-900 text-white py-3 focus:outline-none focus:ring-4 focus:ring-emerald-400">
+          Search
+        </button>
+      </form>
+    </div>
   </div>
-</div>
 
 </body>
 <script>
@@ -907,4 +876,16 @@
 
 </script>
 
+  <script>
+    /*
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    OneSignalDeferred.push(async function (OneSignal) {
+      await OneSignal.init({
+        appId: "3fa7f09b-cf8a-43dd-9ec7-8defe4142b00",
+        notifyButton: {
+          enable: true
+        }
+      });
+    });*/
+  </script>
 </html>

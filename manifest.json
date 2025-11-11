@@ -1,6 +1,6 @@
 {
-  "name": "Customized Gift Zone",
-  "short_name": "Gift Zone",
+  "name": "Where is My Bus",
+  "short_name": "Where is My Bus",
   "id": "/",
   "scope": "/",
   "start_url": "/?source=pwa",
@@ -12,7 +12,7 @@
   "dark_background_color": "#f3f4f6",
   "lang": "en",
   "dir": "ltr",
-  "description": "Create and customize unique, meaningful gifts for every occasion. Personalized items made with love at Customized Gift Zone.",
+  "description": "Best Use For Bus FInding ",
   "icons": [
     {
       "src": "app.jpg",
@@ -34,11 +34,11 @@
     }
   ],
   "categories": [
-    "shopping",
-    "lifestyle",
-    "gifts",
-    "custom",
-    "ecommerce"
+    "Find Routes",
+    "Buses",
+    "Locations",
+    "Tracking",
+    "Timing"
   ],
   "screenshots": [
     {
@@ -56,7 +56,7 @@
   ],
   "shortcuts": [
     {
-      "name": "Shop Gifts",
+      "name": "Where is My Bus",
       "short_name": "Online & Offline Shop",
       "description": "Browse and shop personalized gifts",
       "url": "/shop",
@@ -69,7 +69,7 @@
       ]
     },
     {
-      "name": "My Orders",
+      "name": "Where is My Bus",
       "short_name": "Orders",
       "description": "Check your recent orders",
       "url": "/orders",
