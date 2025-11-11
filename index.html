@@ -1,4 +1,5 @@
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -44,7 +45,6 @@
   </style>
   </head>
 
-
   <!-- Page Loader -->
   <div id="page-loader">
     <div class="text-center">
@@ -52,7 +52,6 @@
       <h2 class="text-lg font-semibold text-blue-700"> Where Is My Bus...</h2>
     </div>
   </div>
-
 
   <!-- Loader Script -->
   <script>
@@ -75,16 +74,16 @@
 
   <header class="bg-[#1a62a3] pt-2 ">
     <div class="flex bottom-4 text-white items-center justify-between w-full px-4  space-x-2 ">
-      <button id="mobile-menu-button" aria-label="Open menu"
-        class=" text-white hover:text-gray-900   focus:outline-none">
+      <button id="mobile-menu-button" aria-label="Toggle menu"
+        class="flex items-center justify-between text-white hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
         <i class="fas fa-bars text-xl"></i>
+        <a href="index.html" class="flex items-center ml-2">
+          <h1 class="font-extrabold text-2xl leading-none md:pt-3">
+            Where is my Bus
+          </h1>
+        </a>
       </button>
-      <a href="index.html" class="flex">
 
-        <h1 class="font-extrabold w-full  pt-0 md:pt-3 flex  md:text-1x1 text-2xl leading-none">
-          Where is my Bus
-        </h1>
-      </a>
       <div class="  text-left">
         <!-- Trigger -->
         <button id="menuAppDownload" onclick="toggleMenu()" class=" text-white p-2 rounded-full hover:bg-gray-200">
@@ -202,7 +201,7 @@
         </div>
       </div>
     </div>
-    <nav class="  flex border-b border-b-white-50 text-white text-lg font-bold">
+    <nav class=" pt-4 flex border-b border-b-white-50 text-white text-lg font-bold">
       <a href="#" target="_self" class="flex-1 text-center py-3 border-b-4 border-white select-none">Buses</a>
       <a href="/Book.html" class="flex-1 text-center py-3 select-none">Booking</a>
     </nav>
@@ -215,9 +214,9 @@
         <img alt="ClassyShop logo blue square with white text ClassyShop" class="w-28 h-8 object-contain" height="32"
           src="fav.jpg" width="32" />
         <h1 class="font-extrabold w-full text-2xl leading-none">
-          Gift Zone
+          Where is my Bus
           <span class="font-normal text-gray-500 text-base sm:text-lg ">
-            Store
+            Google
           </span>
         </h1>
       </a>
@@ -515,7 +514,7 @@
     });
   </script>
 
-  <div class="w-full max-w-md mx-auto space-y-8 mt-2 px-1">
+  <div class="w-full max-w-md mx-auto space-y-8 mt-0 px-1">
 
     <style>
       .circle-icon {
@@ -604,7 +603,7 @@
 
     <!-- Bus Route Search Form -->
     <form
-      class="bg-white border border-gray-200 rounded-2xl px-4 py-6 shadow-md hover:shadow-xl transition-shadow relative"
+      class="bg-white border border-gray-200 rounded-2xl px-2 py-6 shadow-md hover:shadow-xl transition-shadow relative"
       aria-label="Bus search form" onsubmit="return false">
 
       <h2 class="text-xl font-bold text-emerald-700 mb-5 tracking-tight flex items-center gap-2">
@@ -875,16 +874,17 @@
   //////////////////////////////
 
 </script>
-  <script>
-    /*
-    window.OneSignalDeferred = window.OneSignalDeferred || [];
-    OneSignalDeferred.push(async function (OneSignal) {
-      await OneSignal.init({
-        appId: "3fa7f09b-cf8a-43dd-9ec7-8defe4142b00",
-        notifyButton: {
-          enable: true
-        }
-      });
-    });*/
-  </script>
+<script>
+  /*
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function (OneSignal) {
+    await OneSignal.init({
+      appId: "3fa7f09b-cf8a-43dd-9ec7-8defe4142b00",
+      notifyButton: {
+        enable: true
+      }
+    });
+  });*/
+</script>
+
 </html>
