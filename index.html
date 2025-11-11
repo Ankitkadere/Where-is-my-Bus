@@ -557,7 +557,7 @@
         border-radius: 0.5rem;
         max-height: 200px;
         overflow-y: auto;
-        width: 100%;
+        width: 93%;
         z-index: 20;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       }
@@ -565,15 +565,16 @@
       .suggestion-item {
         padding: 0.6rem 0.9rem;
         cursor: pointer;
-        font-weight: 600;
-        color: #04780a;
+        font-weight: 700;
+        color: #08770e;
         font-size: 1rem;
+        border-bottom: 0.1px solid black;
       }
 
       .suggestion-item:hover,
       .suggestion-item.active {
         background-color: #d1fae5;
-        color: #064e3b;
+        color: #107407;
       }
 
       input[type="text"] {
@@ -617,7 +618,7 @@
         <div class="relative-suggest flex-1 ">
           <input type="text" id="First" name="get" placeholder="From  -  Starting Place"
             class="w-full border-b-2 py-2 border-emerald-700 focus:outline-none focus:border-emerald-900 pl-2 font-semibold tracking-tight"
-            autocomplete="on" spellcheck="false" />
+            autocomplete="off" spellcheck="false" />
           <div id="FirstSuggestions" class="suggestions hidden"></div>
         </div>
 
@@ -638,7 +639,7 @@
         <div class="relative-suggest flex-1">
           <input type="text" id="Second" name="set" placeholder="To  -  Destination Place"
             class="w-full border-b-2 border-emerald-700 focus:outline-none focus:border-emerald-900 pl-2 font-semibold tracking-tight"
-            autocomplete="on" spellcheck="false" />
+            autocomplete="off" spellcheck="false" />
           <div id="SecondSuggestions" class="suggestions hidden"></div>
         </div>
       </div>
@@ -659,7 +660,7 @@
         <div class="relative-suggest">
           <input type="text" id="numberName" name="numberName" placeholder="Bus Number or Name"
             class="w-full text-2xl border-b-2 border-emerald-700 focus:outline-none focus:border-emerald-900 pb-1 font-semibold tracking-tight"
-            autocomplete="on" spellcheck="false" />
+            autocomplete="off" spellcheck="false" />
           <div id="NumberNameSuggestions" class="suggestions hidden"></div>
         </div>
 
