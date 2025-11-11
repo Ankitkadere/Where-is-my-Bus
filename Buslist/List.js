@@ -8,22 +8,31 @@ const bus = urlParams.get("bus");
 const divhead = document.getElementById("dataListhead");
 divhead.className = "p-2 bg-gray-50 border border-gray-200 rounded shadow";
 divhead.innerHTML = `
-          <div  class="w-full mx-auto fixed left-0 top-0 " >
-    <div style="background-color: rgba(26, 98, 163);" class=" text-white px-4 py-2 flex flex-wrap w-full text-sm font-sans pt-4">
-      <div class="w-full flex justify-between text-white text-lg font-serif font-bold mb-2">
+  <div class="w-full mx-auto fixed left-0 top-0 z-50">
+    <!-- Blue Header -->
+    <div style="background-color: rgba(26, 98, 163);" class="text-white px-4 py-3 flex flex-wrap w-full text-sm font-sans">
+      <div class="w-full flex justify-between items-center text-white text-lg font-serif font-bold mb-2">
         <span>${from}</span>
         <span class="flex items-center">
-          <i class="fas fa-arrow-right"></i>
+          <i class="fas fa-arrow-right mx-2"></i>
         </span>
         <span>${to}</span>
       </div>
     </div>
-   <div id="datetimeBox" class="bg-gray-900 text-white text-lg px-2 py-1 text-center justify-between">
-  Loading Current Date and Time...
-</div>
-
+ 
+    <!-- Schedule Row -->
+    <div class="flex justify-between items-center bg-gray-800 text-white text-sm font-semibold px-4 py-2">
+      <div>
+        <span id="datetimeBox" class="text-left">Time</span>
+      </div>
+      <div class="flex gap-6">
+        <span>SCHEDULED</span>
+        <span>EXPECTED</span>
+      </div>
+    </div>
   </div>
-          `;
+`;
+
 
 const datetimeBox = document.getElementById("datetimeBox");
 
@@ -31,8 +40,6 @@ function updateDateTime() {
   const now = new Date();
 
   const options = {
-    weekday: "long", // e.g., Tuesday
-    year: "numeric", // e.g., 2025
     month: "2-digit", // e.g., 06
     day: "2-digit", // e.g., 24
     hour: "2-digit",
@@ -97,13 +104,12 @@ function fetchData() {
   `;
         return;
       }
-
       filtered.forEach((entry) => {
         const bookButton =
-          entry.Book == "No"
-            ? `<button class="mt-16 mb-0 col-1 text-black text-lg font-semibold px-4 py-1 rounded transition cursor-not-allowed">
-       ${entry.Password} .Rs
-     </button>`
+          entry.Book === "No"
+            ? `<button class="cursor-not-allowed bg-gray-200 text-black px-3 py-1 rounded font-semibold">
+          ${entry.Password} .Rs
+        </button>`
             : `<a href="/Booking/Form.html?number=${encodeURIComponent(
                 entry.Number
               )}&english=${encodeURIComponent(
@@ -117,40 +123,71 @@ function fetchData() {
               )}&end=${encodeURIComponent(
                 entry.End
               )}&password=${encodeURIComponent(entry.Password)}"
-   class=" col-1 bg-gray-100 text-black text-1x2   px-2 py-0 rounded hover:bg-green-700 transition inline-block text-center">
-   ${entry.Password} .Rs
-</a>
-`;
+          class="bg-green-600 text-white px-3  rounded hover:bg-green-700 transition font-semibold inline-block text-center">
+          ${entry.Password} .Rs
+        </a>`;
+
+        // Status color logic
+        const color =
+          entry.Status === "ARRIVED"
+            ? "green"
+            : entry.Status === "DEPARTED"
+            ? "red"
+            : "gray";
+        const statusClass =
+          color === "green"
+            ? "bg-green-600"
+            : color === "red"
+            ? "bg-red-600"
+            : "bg-gray-400";
 
         const div = document.createElement("div");
         div.className =
-          "p-2 bg-gray-50 border border-gray-200 mt-20 rounded shadow";
+          "p-3 bg-gray-50 border border-gray-200 rounded shadow mt-4 transition hover:shadow-lg";
+
         div.innerHTML = `
-            <a href="/Location/location.html?number=${encodeURIComponent(
-              entry.Number
-            )}&start=${encodeURIComponent(
-          entry.Start
-        )}&end=${encodeURIComponent(entry.End)}&english=${encodeURIComponent(
-          entry.English
-        )}&hindi=${encodeURIComponent(entry.Hindi)}" 
-            <div  class="flex items-start   justify-between ">
-              <div class="">
-                <span class="bg-sky-700 text-white font-semibold px-2  rounded">${
-                  entry.Number
-                }</span>
-                <span class="font-bold ml-2  ">${entry.Start}</span>
-                <span class="font-semibold ">→</span>
-                <span class="font-semibold  ">${entry.End}</span>
-                <div class="mt-2 font-bold  ">${
-                  entry.English
-                } / <span class="font-normal">${entry.Hindi}</span></div>
-              </div>
-               <div class=" col-1 text-right -mt-8">
-                 <spam class="text-sky-600 text-lg select-none w-lg  "></spam>
-                 ${bookButton}
-               </div>
-            </div>   </a>
-          `;
+    <div class="flex justify-between items-center">
+      <span class="bg-sky-700 text-white font-semibold px-2 rounded">${
+        entry.Number
+      }</span>
+      <div class="text-right flex gap-6">
+        <p class="text-gray-800 font-bold">${entry.Start}</p>
+        <p class="text-red-600 font-semibold">${entry.End}</p>
+      </div>
+    </div>
+
+    <p class="text-black font-bold mt-1">${entry.English} / 
+      <span class="font-normal">${entry.Hindi}</span>
+    </p>
+
+    <div class="flex justify-between items-start mt-1">
+      <div class="flex items-start space-x-3">
+        <div class="flex flex-col items-center mt-1">
+          <div class="w-2 h-2 bg-green-600 rounded-full"></div>
+          <div class="h-6 border-l border-gray-400"></div>
+          <div class="w-2 h-2 bg-red-600 rounded-full"></div>
+        </div>
+        <div>
+          <p class="text-black h-6">${entry.From}</p>
+          <p class="text-black">${entry.To}</p>
+        </div>
+      </div>
+
+      <div class="text-right text-sm space-y-1">
+        <p class="text-red-600">${entry.Arrival || "On Time"}</p>
+        <p>Bus: ${entry.Bus || "-"}</p>
+      
+      </div>
+    </div>
+
+    <div class="text-right flex mt-2 flex justify-between items-start ">
+     ${bookButton} 
+    <span class="${statusClass} text-white px-3 text-center rounded text-base font-semibold">
+          ${entry.Status || "RUNNING"}
+        </span>
+     
+    </div>
+  `;
 
         container.appendChild(div);
       });
