@@ -107,7 +107,7 @@ function fetchData() {
       filtered.forEach((entry) => {
         const bookButton =
           entry.Book === "No"
-            ? `<button class="cursor-not-allowed bg-gray-200 text-black px-3 py-1 rounded font-semibold">
+            ? `<button class="cursor-not-allowed bg-gray-100 text-black  rounded font-semibold">
           ${entry.Password} .Rs
         </button>`
             : `<a href="/Booking/Form.html?number=${encodeURIComponent(
@@ -123,7 +123,7 @@ function fetchData() {
               )}&end=${encodeURIComponent(
                 entry.End
               )}&password=${encodeURIComponent(entry.Password)}"
-          class="bg-green-600 text-white px-3  rounded hover:bg-green-700 transition font-semibold inline-block text-center">
+          class=" text-black rounded hover:bg-green-700 transition font-bold inline-block text-center">
           ${entry.Password} .Rs
         </a>`;
 
@@ -143,7 +143,7 @@ function fetchData() {
 
         const div = document.createElement("div");
         div.className =
-          "p-3 bg-gray-50 border border-gray-200 rounded shadow mt-4 transition hover:shadow-lg";
+          "p-3 bg-gray-50 border border-gray-200 rounded shadow  transition hover:shadow-lg";
 
         div.innerHTML = `
     <div class="flex justify-between items-center">
@@ -151,31 +151,31 @@ function fetchData() {
         entry.Number
       }</span>
       <div class="text-right flex gap-6">
-        <p class="text-gray-800 font-bold">${entry.Start}</p>
-        <p class="text-red-600 font-semibold">${entry.End}</p>
+        <p class="text-gray-800 font-extrabold">${entry.Start}</p>
+        <p class="text-red-600 font-bold">${entry.End}</p>
       </div>
     </div>
 
     <p class="text-black font-bold mt-1">${entry.English} / 
-      <span class="font-normal">${entry.Hindi}</span>
+      <span class="font-bold">${entry.Hindi}</span>
     </p>
 
     <div class="flex justify-between items-start mt-1">
       <div class="flex items-start space-x-3">
-        <div class="flex flex-col items-center mt-1">
+        <div class="flex flex-col items-center mt-2">
           <div class="w-2 h-2 bg-green-600 rounded-full"></div>
-          <div class="h-6 border-l border-gray-400"></div>
+          <div class="h-5 border-l border-gray-400"></div>
           <div class="w-2 h-2 bg-red-600 rounded-full"></div>
         </div>
         <div>
-          <p class="text-black h-6">${entry.From}</p>
-          <p class="text-black">${entry.To}</p>
+          <p class="text-black font-semibold pb-[0.10rem]">${entry.From}</p>
+          <p class="text-black font-semibold">${entry.To}</p>
         </div>
       </div>
 
       <div class="text-right text-sm space-y-1">
-        <p class="text-red-600">${entry.Arrival || "On Time"}</p>
-        <p>Bus: ${entry.Bus || "-"}</p>
+        <p class="text-red-600 font-bold">${entry.Arrival || "On Time"}</p>
+        <p>  ${entry.Bus || "-"}</p>
       
       </div>
     </div>
