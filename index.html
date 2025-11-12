@@ -1,4 +1,5 @@
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,11 +8,11 @@
   <link rel="icon" href="logo.jpg" type="image/jpeg" />
   <link rel="apple-touch-icon" href="logo.jpg" />
   <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#f5fdf7" />
+  <meta name="theme-color" content="#1a62a3" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="msapplication-navbutton-color" content="#f5fdf7" />
+  <meta name="msapplication-navbutton-color" content="#1a62a3" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
@@ -21,6 +22,7 @@
   <script src="Blocked.js" defer></script>
   <script src="sw.js"></script>
 </head>
+
 <body class="font-inter bg-gray-100  text-gray-900 flex flex-col text-sm  ">
 
   <!-- Loader Style -->
@@ -72,14 +74,15 @@
   <header class="bg-[#1a62a3] pt-2 ">
     <div class="flex bottom-4 text-white items-center justify-between w-full px-4  space-x-2 ">
       <div id="mobile-menu-button" aria-label="Toggle menu"
-        class="flex items-center justify-between text-white hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+        class="flex items-center gap-4 justify-between text-white hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
         <i class="fas fa-bars text-xl"></i>
+        <a href="index.html" class="flex items-center ml-2">
+          <h1 class="font-extrabold text-2xl leading-none md:pt-3">
+            Where is my Bus
+          </h1>
+        </a>
       </div>
-      <a href="index.html" class="flex items-center ml-2">
-        <h1 class="font-extrabold text-2xl leading-none md:pt-3">
-          Where is my Bus
-        </h1>
-      </a>
+
 
       <div class="  text-left">
         <!-- Trigger -->
