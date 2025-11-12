@@ -31,9 +31,9 @@
 
   <style>
     #map {
-      height: 90vh;
+      height: 80vh;
       width: 100%;
-    
+
     }
 
     .leaflet-marker-icon {
@@ -43,7 +43,33 @@
 </head>
 
 <body class="bg-gray-100 p-0 m-0">
-  <div id="location" class="space-y-2 h-[8.5rem]"> </div>
+  <div id="location" class="space-y-2 h-[8.5rem]">
+      <div class="fixed top-0 left-0 w-full z-50">
+        <header style="background-color: rgba(26, 98, 163);" class="text-white px-4 py-3 flex flex-col sm:flex-row items-center justify-between">
+            <div class="flex items-center w-full sm:w-auto justify-between space-x-3">
+               
+                <span class="text-lg font-bold flex items-left space-x-2">
+                     <a href="/Buslist/List.html"> <i id="location-back-btn" class="fas fa-arrow-left text-xl"></i> </a>
+                    <span  class="text-xl px-2 py-0 font-bold rounded font-mono">00000</span>
+                    <span> Where is my Bus</span>
+                </span>
+                <i class="fas fa-ellipsis-v text-xl cursor-pointer"></i>
+            </div>
+            <div class="flex items-center space-x-5 mt-3 sm:mt-0 w-full sm:w-auto justify-between">
+                <button
+                    class="bg-white text-blue-600 px-4 py-1 rounded-lg font-semibold hover:bg-blue-100 transition">Today</button>
+                <i class="fas fa-bell text-xl cursor-pointer hover:text-blue-300 transition"></i>
+                 <i class="fas fa-bus text-xl cursor-pointer hover:text-blue-300 transition"></i>
+                <i class="fas fa-share-alt text-xl cursor-pointer hover:text-blue-300 transition"></i>
+            </div>
+        </header>
+        
+        <div class="bg-gray-800 text-white flex justify-between px-6 py-2 text-sm font-semibold tracking-wide">
+            <span>Arrival</span>
+            <span>Departure</span>
+        </div>
+    </div> 
+  </div>
   <div id="map" class="shadow-lg top-0"></div>
 
   <script>
