@@ -19,7 +19,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
   <script type="module" src="firebase.js"></script>
-
   <script src="sw.js"></script>
   <title>Where is My Bus - Live Route Map</title>
   <link rel="icon" href="logo.jpg" type="image/jpeg" />
@@ -31,7 +30,7 @@
 
   <style>
     #map {
-      height: 78vh;
+      height: 75vh;
       width: 100%;
       z-index: 1px;
     }
@@ -57,7 +56,7 @@
           </span>
           <i class="fas fa-ellipsis-v text-xl cursor-pointer"></i>
         </div>
-        <div class="flex items-center space-x-5 mt-4 sm:mt-0 w-full sm:w-auto justify-between">
+        <div class="flex items-center space-x-5 mt-6 sm:mt-0 w-full sm:w-auto justify-between">
           <button
             class="bg-white text-blue-600 px-4 py-1 rounded-lg font-semibold hover:bg-blue-100 transition">Today</button>
           <i class="fas fa-bell text-xl cursor-pointer hover:text-blue-300 transition"></i>
@@ -66,7 +65,7 @@
         </div>
       </header>
 
-      <div class="bg-gray-800 text-white flex justify-between px-6 py-2 text-sm font-semibold tracking-wide">
+      <div class="bg-gray-800 text-white flex justify-between px-6 py-3 z-50 text-sm font-semibold tracking-wide">
         <span>Arrival</span>
         <span>Departure</span>
       </div>
@@ -76,7 +75,7 @@
   <div id="map" class="shadow-lg top-0"></div>
   <!-- Footer -->
   <footer
-    class="fixed bottom-0 gap-4 px-2 left-0 w-full text-center bg-blue-300 z-[50] text-blue-900 flex items-center justify-center shadow-inner border-t border-blue-400">
+    class="fixed bottom-0 gap-4 px-2 left-0 w-full py-3 text-center bg-blue-300 z-[50] text-blue-900 flex items-center justify-center shadow-inner border-t border-blue-400">
     <span
       class="bg-white w-96 text-center text-blue-700 p-2 rounded-full shadow hover:bg-blue-100 transition transform hover:scale-110">
       Live Tracking
@@ -143,7 +142,7 @@
           filtered.forEach(entry => {
             // Conditionally hide "Book Now" button if Book = "No"
             const div = document.createElement('div');
-            div.className = 'p-2 z-[999px]';
+            div.className = 'p-2 z-[999px] mt-4';
             div.innerHTML = `
                <div class="fixed top-0 left-0 w-full z-50">
         <header style="background-color: rgba(26, 98, 163);" class="text-white px-4 py-3 flex flex-col sm:flex-row items-center justify-between">
@@ -156,7 +155,7 @@
                 </span>
                 <i class="fas fa-ellipsis-v text-xl cursor-pointer"></i>
             </div>
-            <div class="flex items-center space-x-5 mt-4 sm:mt-0 w-full sm:w-auto justify-between">
+            <div class="flex items-center space-x-5 mt-6 sm:mt-0 w-full sm:w-auto justify-between">
                 <button
                     class="bg-white text-blue-600 px-4 py-1 rounded-lg font-semibold hover:bg-blue-100 transition">Today</button>
                 <i class="fas fa-bell text-xl cursor-pointer hover:text-blue-300 transition"></i>
@@ -165,17 +164,11 @@
             </div>
         </header>
         
-        <div class="bg-gray-800 text-white flex justify-between px-6 py-2 text-sm font-semibold tracking-wide">
+        <div class="bg-gray-800 text-white flex justify-between px-6 py-3 text-sm font-semibold tracking-wide">
             <span>Arrival</span>
             <span>Departure</span>
         </div>
     </div> 
-    <footer
-  class="fixed bottom-0 left-0 w-full z-[20px]  text-blue-700 text-center py-6 text-sm font-semibold tracking-wide shadow-md">
-  <span class="text-gray-600 font-normal">Updated Based On Live Location: </span>
-  <span id="time" class="font-semibold text-lg"></span>
-</footer>
-
           `;
 
             container.appendChild(div);
@@ -310,12 +303,16 @@
 
     document.getElementById("refreshBtn").addEventListener("click", () => {
       const icon = document.querySelector("#refreshBtn i");
+      icon.classList.remove("animate-spin");
       icon.classList.add("animate-spin");
       fetchLiveLocationData();
       if (typeof swap === "function") swap();
       fetchData();
-      setTimeout(() => icon.classList.remove("animate-spin"), 2000);
+      setTimeout(() => {
+        icon.classList.remove("animate-spin");
+      }, 2000);
     });
+
 
   </script>
 </body>
