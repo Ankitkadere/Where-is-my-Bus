@@ -19,7 +19,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
   <script type="module" src="firebase.js"></script>
-  <script src="Blocked.js" defer></script>
+
   <script src="sw.js"></script>
   <title>Where is My Bus - Live Route Map</title>
   <link rel="icon" href="logo.jpg" type="image/jpeg" />
@@ -44,6 +44,7 @@
 
 <body class="bg-gray-100 p-0 m-0">
   <div id="location" class="space-y-2 h-[8.5rem]">
+
     <div class="fixed top-0 left-0 w-full z-50">
       <header style="background-color: rgba(26, 98, 163);"
         class="text-white px-4 py-3 flex flex-col sm:flex-row items-center justify-between">
@@ -56,7 +57,7 @@
           </span>
           <i class="fas fa-ellipsis-v text-xl cursor-pointer"></i>
         </div>
-        <div class="flex items-center space-x-5 mt-3 sm:mt-0 w-full sm:w-auto justify-between">
+        <div class="flex items-center space-x-5 mt-4 sm:mt-0 w-full sm:w-auto justify-between">
           <button
             class="bg-white text-blue-600 px-4 py-1 rounded-lg font-semibold hover:bg-blue-100 transition">Today</button>
           <i class="fas fa-bell text-xl cursor-pointer hover:text-blue-300 transition"></i>
@@ -73,11 +74,42 @@
 
   </div>
   <div id="map" class="shadow-lg top-0"></div>
-  <footer
-    class="fixed bottom-0 left-0 w-full bg-blue-200 z-[50] text-blue-700 text-center py-3 text-sm font-semibold tracking-wide">
-    <span class="text-gray-600 font-normal">Updated Based On Live Location </span><span id="time"
-      class="font-semibold text-lg"></span>
-  </footer>
+  <!-- Footer -->
+ <footer
+  class="fixed bottom-0 gap-4 px-2 left-0 w-full text-center bg-blue-300 z-[50] text-blue-900 flex items-center justify-center shadow-inner border-t border-blue-400">
+   <span 
+    class="bg-white w-96 text-center text-blue-700 p-2 rounded-full shadow hover:bg-blue-100 transition transform hover:scale-110">
+    Live Tracking
+  </span>
+  <span id="refreshBtn"
+    class="bg-white w-12 text-center text-blue-700 p-2 rounded-full shadow hover:bg-blue-100 transition transform hover:scale-110">
+    <i class="fas fa-sync-alt text-lg"></i>
+  </span>
+</footer>
+
+<style>
+  .animate-spin {
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+</style>
+
+<script>
+  document.getElementById("refreshBtn").addEventListener("click", () => {
+    const icon = document.querySelector("#refreshBtn i");
+    icon.classList.add("animate-spin");
+
+    fetchLiveLocationData();
+    if (typeof swap === "function") swap();
+
+    setTimeout(() => icon.classList.remove("animate-spin"), 1200);
+  });
+</script>
+
   <script>
     ////////////////////////////////////////////////////////
 
@@ -129,12 +161,12 @@
                
                 <span class="text-lg font-bold flex items-left space-x-2">
                      <a href="/Buslist/List.html"> <i id="location-back-btn" class="fas fa-arrow-left text-xl"></i> </a>
-                    <span  class="text-xl px-2 py-0 font-bold rounded font-mono">${entry.Number}</span>
+                    <span  class="text-xl px-2 py-0 font-bold rounded font-mono">${number}</span>
                     <span>${english + " / " + hindi}</span>
                 </span>
                 <i class="fas fa-ellipsis-v text-xl cursor-pointer"></i>
             </div>
-            <div class="flex items-center space-x-5 mt-3 sm:mt-0 w-full sm:w-auto justify-between">
+            <div class="flex items-center space-x-5 mt-4 sm:mt-0 w-full sm:w-auto justify-between">
                 <button
                     class="bg-white text-blue-600 px-4 py-1 rounded-lg font-semibold hover:bg-blue-100 transition">Today</button>
                 <i class="fas fa-bell text-xl cursor-pointer hover:text-blue-300 transition"></i>
@@ -149,7 +181,7 @@
         </div>
     </div> 
     <footer
-  class="fixed bottom-0 left-0 w-full z-[20px]  text-blue-700 text-center py-3 text-sm font-semibold tracking-wide shadow-md">
+  class="fixed bottom-0 left-0 w-full z-[20px]  text-blue-700 text-center py-6 text-sm font-semibold tracking-wide shadow-md">
   <span class="text-gray-600 font-normal">Updated Based On Live Location: </span>
   <span id="time" class="font-semibold text-lg"></span>
 </footer>
@@ -171,12 +203,9 @@
     document.getElementById("location-back-btn").addEventListener("click", function () {
       history.back(); // or history.go(-1);
     });
-  </script>
 
+    ////////////////////////////
 
-
-  <script>
-    // Get latitude & longitude from URL parameters
     const params = new URLSearchParams(window.location.search);
     let busLat = parseFloat(params.get("lat")) || 23.2599; // default Bhopal
     let busLon = parseFloat(params.get("lon")) || 77.4126;
@@ -242,7 +271,7 @@
     // Create bus marker
     let busMarker = L.marker([busLat, busLon], { icon: busIcon })
       .addTo(map)
-      .bindPopup("Live")
+      .bindPopup('<img src="https://cdn-icons-png.flaticon.com/512/743/743922.png" width="30" height="30" alt="Car Icon" />')
       .openPopup();
 
     // Smooth movement function
