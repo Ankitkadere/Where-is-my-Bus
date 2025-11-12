@@ -33,7 +33,7 @@
     #map {
       height: 80vh;
       width: 100%;
-
+      z-index: 1px;
     }
 
     .leaflet-marker-icon {
@@ -69,8 +69,14 @@
             <span>Departure</span>
         </div>
     </div> 
+      <footer
+        class="fixed bottom-0 left-0 w-full bg-blue-200 z-[20px] text-blue-700 text-center py-3 text-sm font-semibold tracking-wide">
+       
+        <span class="text-gray-600 font-normal">Updated Based On Time </span><span id="time"
+            class="font-semibold text-lg"></span>
+    </footer>
   </div>
-  <div id="map" class="shadow-lg top-0"></div>
+  <div id="map" class="shadow-lg top-0 z-20"></div>
 
   <script>
     ////////////////////////////////////////////////////////
@@ -115,7 +121,7 @@
           filtered.forEach(entry => {
             // Conditionally hide "Book Now" button if Book = "No"
             const div = document.createElement('div');
-            div.className = 'p-2';
+            div.className = 'p-2 z-[999px]';
             div.innerHTML = `
                <div class="fixed top-0 left-0 w-full z-50">
         <header style="background-color: rgba(26, 98, 163);" class="text-white px-4 py-3 flex flex-col sm:flex-row items-center justify-between">
@@ -144,7 +150,7 @@
     </div> 
     
         <footer
-        class="fixed bottom-0 left-0 w-full bg-blue-200 text-blue-700 text-center py-3 text-sm font-semibold tracking-wide">
+        class="fixed bottom-0 left-0 w-fullz-[20px] bg-blue-200 text-blue-700 text-center py-3 text-sm font-semibold tracking-wide">
        
         <span class="text-gray-600 font-normal">Updated Based On Time </span><span id="time"
             class="font-semibold text-lg"></span>
