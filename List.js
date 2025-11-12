@@ -154,17 +154,17 @@ function fetchData() {
       <span class="bg-sky-700 text-white font-semibold px-4 rounded">${
         entry.Number
       }</span>
-      <div class="text-right flex gap-6">
+      <div class="text-right flex gap-4">
         <p class="text-gray-800 font-extrabold">${entry.Start}</p>
         <p class="text-red-600 font-extrabold">${entry.End}</p>
       </div>
     </div>
 
-    <p class="text-black font-bold mt-1">${entry.English} / 
+    <p class="text-black font-bold ">${entry.English} / 
       <span class="font-bold">${entry.Hindi}</span>
     </p>
 
-    <div class="flex justify-between items-start mt-1">
+    <div class="flex justify-between items-start ">
       <div class="flex items-start space-x-3">
         <div class="flex flex-col items-center mt-2">
           <div class="w-2 h-2 bg-green-600 rounded-full"></div>
@@ -184,7 +184,7 @@ function fetchData() {
       </div>
     </div>
 
-    <div class="text-left flex mt-1 flex justify-between text-center items-start ">
+    <div class="text-left flex flex justify-between text-center items-start ">
     <span> ${bookButton}</span> 
     <span class="${statusClass} text-white px-3 mt-[1.5px] text-center rounded text-sm font-semibold">
           ${entry.Status || "RUNNING"}
