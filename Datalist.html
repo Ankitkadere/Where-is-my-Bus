@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Where is My Bus</title>
+    <meta name="description" content="Best app to find buses, live locations, and routes." />
+    <link rel="icon" href="logo.jpg" type="image/jpeg" />
+    <link rel="apple-touch-icon" href="logo.jpg" />
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#f5fdf7" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="msapplication-navbutton-color" content="#f5fdf7" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script type="module" src="firebase.js"></script>
+    <script src="Blocked.js" defer></script>
+    <script src="sw.js"></script>
+</head>
+
+<body oncontextmenu="return false">
+    <div id="datalist"></div>
+    <script>
+        load("List.html");
+        function load(url) {
+            const req = new XMLHttpRequest();
+            req.open("GET", url, true);
+            req.onload = function () {
+                if (req.status === 200) {
+                    document.getElementById("datalist").innerHTML = req.responseText;
+                    const script = document.createElement("script");
+                    script.src = "List.js";
+                    script.type = "text/javascript";
+                    script.onload = function () {
+                        if (typeof fetchData === "function") {
+                            fetchData();
+                        } else {
+                            console.error("fetchData function not found in List.js");
+                        }
+                    };
+                    document.body.appendChild(script);
+                } else {
+                    console.error("Failed to load HTML:", req.status);
+                }
+            };
+            req.onerror = function () {
+                console.error("Request failed");
+            };
+            req.send();
+        }
+    </script>
+</body>
+
+</html>

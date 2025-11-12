@@ -1,12 +1,11 @@
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Where is My Bus</title>
   <meta name="description" content="Best app to find buses, live locations, and routes." />
-  <link rel="icon" href="fav.jpg" type="image/jpeg" />
-  <link rel="apple-touch-icon" href="fav.jpg" />
+  <link rel="icon" href="logo.jpg" type="image/jpeg" />
+  <link rel="apple-touch-icon" href="logo.jpg" />
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#f5fdf7" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
@@ -19,10 +18,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
   <script type="module" src="firebase.js"></script>
-  <script src="Location/Blocked.js" defer></script>
+  <script src="Blocked.js" defer></script>
+  <script src="sw.js"></script>
 </head>
-
-
 <body class="font-inter bg-gray-100  text-gray-900 flex flex-col text-sm  ">
 
   <!-- Loader Style -->
@@ -76,12 +74,12 @@
       <div id="mobile-menu-button" aria-label="Toggle menu"
         class="flex items-center justify-between text-white hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
         <i class="fas fa-bars text-xl"></i>
-        <a href="index.html" class="flex items-center ml-2">
-          <h1 class="font-extrabold text-2xl leading-none md:pt-3">
-            Where is my Bus
-          </h1>
-        </a>
       </div>
+      <a href="index.html" class="flex items-center ml-2">
+        <h1 class="font-extrabold text-2xl leading-none md:pt-3">
+          Where is my Bus
+        </h1>
+      </a>
 
       <div class="  text-left">
         <!-- Trigger -->
@@ -210,8 +208,7 @@
     class="bg-white z-[100]  fixed inset-y-0 left-0 w-80  shadow-lg transform -translate-x-full transition-transform duration-300 ease-in-out z-50 overflow-y-auto">
     <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200">
       <a href="index.html" class="flex items-center space-x-2 pt-2">
-        <img alt="ClassyShop logo blue square with white text ClassyShop" class="w-28 h-8 object-contain" height="32"
-          src="fav.jpg" width="32" />
+        <i class="fas fa-bus fa-3x text-[#1a62a3] animate-bounce"></i>
         <h1 class="font-extrabold w-full text-2xl leading-none">
           Where is my Bus
           <span class="font-normal text-gray-500 text-base sm:text-lg ">
@@ -228,7 +225,7 @@
       <div class="relative w-full">
         <input aria-label="Search for products"
           class="w-full  border border-gray-400 rounded-md py-2 pl-3 pr-10 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-transparent"
-          placeholder="Search For Products..." type="search" />
+          placeholder="Search For ..." type="search" />
 
         <span class="absolute inset-y-0 right-3 flex items-center text-gray-500">
           <i class="fas fa-search text-[#1a1a1a] text-lg"></i>
@@ -250,18 +247,12 @@
         </li>
         <li>
           <a class="flex items-center gap-2 hover:text-gray-900" href="Adminpenel.html">
-            <i class="fas fa-user-shield"></i> services
+            <i class="fas fa-user-shield"></i> Booking
           </a>
         </li>
         <li>
           <a class="flex items-center gap-2 hover:text-gray-900" href="Userchat.html">
-            <i class="fas fa-tv"></i> Chat
-          </a>
-        </li>
-
-        <li>
-          <a class="flex items-center gap-2 hover:text-gray-900" href="#">
-            <i class="fas fa-shoe-prints"></i> Footwear
+            <i class="fas fa-tv"></i> services
           </a>
         </li>
         <li>
@@ -274,12 +265,12 @@
             <i class="fas fa-spa"></i> Beauty
           </a>
         </li>
-        <li>
+        <li class="hidden">
           <a class="flex items-center gap-2 hover:text-gray-900" href="#">
             <i class="fas fa-heartbeat"></i> Wellness
           </a>
         </li>
-        <li>
+        <li class="hidden">
           <a class="flex items-center gap-2 hover:text-gray-900" href="#">
             <i class="fas fa-gem"></i> Jewellery
           </a>
@@ -682,7 +673,7 @@
       return;
     }
 
-    window.location.href = `/Buslist/Datalist.html?from=${encodeURIComponent(
+    window.location.href = `Datalist.html?from=${encodeURIComponent(
       from
     )}&to=${encodeURIComponent(to)}`;
   });
@@ -695,7 +686,7 @@
       return;
     }
 
-    window.location.href = `/Location/Directlocation.html?bus=${encodeURIComponent(code)}`;
+    window.location.href = `Map.html?bus=${encodeURIComponent(code)}`;
   });
 
   // Data arrays for suggestions - city names

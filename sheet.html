@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auto Time Sender (With Seconds)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
+
+  <div class="bg-white shadow-xl rounded-2xl p-6 w-full max-w-md text-center">
+    <h1 class="text-2xl font-bold mb-4 text-gray-800">🕒 Auto Time Sender</h1>
+
+    <input id="Time" type="text" readonly
+      class="border-2 border-gray-300 p-3 rounded-lg w-full text-lg text-center font-mono mb-4 bg-gray-50" />
+
+    <h2 class="text-lg font-semibold mb-2 text-gray-700">📋 Sheet Records</h2>
+    <div id="records"
+      class="text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-lg p-3 h-48 overflow-y-auto">
+      Loading data...
+    </div>
+  </div>
+
+  <script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbwOin6VhgVwerqqvDhEWiGe5tcYJlZdxGit6Nf2k0LPThjjmhhZX3RHSvysKDMpYbyr/exec"; // Replace with your own Apps Script URL
+    const timeInput = document.getElementById("Time");
+
+    // ⏰ Format current time with seconds
+    function getCurrentTime() {
+      const now = new Date();
+      return now.toLocaleTimeString("en-IN", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true
+      });
+    }
+
+    // 🚀 Send time to Google Sheet
+    async function sendTime() {
+      const currentTime = getCurrentTime();
+      timeInput.value = currentTime;
+
+      try {
+        await fetch(API_URL, {
+          method: "POST",
+          body: new URLSearchParams({ action: "addTime", Time: currentTime }),
+        });
+        console.log("✅ Sent:", currentTime);
+      } catch (err) {
+        console.error("❌ Send error:", err);
+      }
+    }
+
+    // 📥 Fetch and show data from sheet
+    async function fetchData() {
+      try {
+        const res = await fetch(API_URL);
+        const data = await res.json();
+        renderTable(data);
+      } catch (err) {
+        console.error("❌ Fetch error:", err);
+        document.getElementById("records").innerHTML =
+          `<p class="text-red-500">Failed to load data.</p>`;
+      }
+    }
+
+    function renderTable(data) {
+      const box = document.getElementById("records");
+      if (!data || !data.length) {
+        box.innerHTML = `<p class="text-gray-500">No data found.</p>`;
+        return;
+      }
+      box.innerHTML = data
+        .map((r, i) => `<p class="py-1 border-b">${i + 1}. ⏱️ ${r.Time || "N/A"}</p>`)
+        .join("");
+    }
+
+    // 🔁 Send and fetch periodically
+    setInterval(sendTime, 2000);
+    setInterval(fetchData, 4000);
+
+    // Initial load
+    sendTime();
+    fetchData();
+
+    // ⚙️ Register Service Worker
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("sw.js").then(() => {
+        console.log("✅ Service Worker Registered");
+      });
+    }
+  </script>
+  <script src="sw.js"></script>
+</body>
+
+</html>

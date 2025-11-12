@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Best app to find buses, live locations, and routes." />
+  <link rel="icon" href="logo.jpg" type="image/jpeg" />
+  <link rel="apple-touch-icon" href="logo.jpg" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#f5fdf7" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="msapplication-navbutton-color" content="#f5fdf7" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+  <script type="module" src="firebase.js"></script>
+  <script src="Blocked.js" defer></script>
+  <script src="sw.js"></script>
+  <title>Where is My Bus - Live Route Map</title>
+  <link rel="icon" href="logo.jpg" type="image/jpeg" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+
+  <style>
+    #map {
+      height: 90vh;
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .leaflet-marker-icon {
+      transition: transform 0.8s ease-in-out;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100">
+  <div id="location" class="space-y-2"> </div>
+  <div id="map" class="shadow-lg top-0"></div>
+
+  <script>
+    ////////////////////////////////////////////////////////
+
+
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbyhf7gsy7_zxqucs-PYBbCvnQDy-66RF10OrSLNhxTBMtrLQoAhdQstYZtNiGaI-iDr/exec';
+
+    const paramss = new URLSearchParams(window.location.search);
+    const from = paramss.get("from");
+    const to = paramss.get("to");
+    const number = paramss.get("number");
+    const start = paramss.get("start");
+    const end = paramss.get("end");
+    const english = paramss.get("english");
+    const hindi = paramss.get("hindi");
+
+    function fetchData() {
+      fetch(scriptURL)
+        .then(res => res.json())
+        .then(data => {
+          const container = document.getElementById('location');
+          container.innerHTML = '';
+
+          if (!Array.isArray(data) || data.length === 0) {
+            container.innerHTML = '<p class="text-center text-gray-500">No entries found.</p>';
+            return;
+          }
+          const filtered = data.filter(entry =>
+            entry.Number == number && entry.Arrival && entry.Departure
+          );
+
+
+          if (filtered.length === 0) {
+            container.innerHTML = '<p class="text-center text-gray-500">No matching results found.</p>';
+            return;
+          }
+          if (filtered.length == "null") {
+            container.innerHTML = '';
+            return;
+          }
+
+          filtered.forEach(entry => {
+            // Conditionally hide "Book Now" button if Book = "No"
+            const div = document.createElement('div');
+            div.className = 'p-2';
+            div.innerHTML = `
+               <div class="fixed top-0 left-0 w-full z-50">
+        <header style="background-color: rgba(26, 98, 163);" class="text-white px-4 py-3 flex flex-col sm:flex-row items-center justify-between">
+            <div class="flex items-center w-full sm:w-auto justify-between space-x-3">
+               
+                <span class="text-lg font-bold flex items-left space-x-2">
+                     <a href="/Buslist/List.html"> <i id="location-back-btn" class="fas fa-arrow-left text-xl"></i> </a>
+                    <span  class="text-xl px-2 py-0 font-bold rounded font-mono">${entry.Number}</span>
+                    <span>${english + " / " + hindi}</span>
+                </span>
+                <i class="fas fa-ellipsis-v text-xl cursor-pointer"></i>
+            </div>
+            <div class="flex items-center space-x-5 mt-3 sm:mt-0 w-full sm:w-auto justify-between">
+                <button
+                    class="bg-white text-blue-600 px-4 py-1 rounded-lg font-semibold hover:bg-blue-100 transition">Today</button>
+                <i class="fas fa-bell text-xl cursor-pointer hover:text-blue-300 transition"></i>
+                 <i class="fas fa-bus text-xl cursor-pointer hover:text-blue-300 transition"></i>
+                <i class="fas fa-share-alt text-xl cursor-pointer hover:text-blue-300 transition"></i>
+            </div>
+        </header>
+        
+        <div class="bg-gray-800 text-white flex justify-between px-6 py-2 text-sm font-semibold tracking-wide">
+            <span>Arrival</span>
+            <span>Departure</span>
+        </div>
+    </div> 
+    
+        <footer
+        class="fixed bottom-0 left-0 w-full bg-blue-200 text-blue-700 text-center py-3 text-sm font-semibold tracking-wide">
+       
+        <span class="text-gray-600 font-normal">Updated Based On Time </span><span id="time"
+            class="font-semibold text-lg"></span>
+    </footer>
+          `;
+
+            container.appendChild(div);
+          });
+        })
+        .catch(err => {
+          console.error('Fetch error:', err);
+          document.getElementById('dataList').innerHTML = '<p class="text-red-500 text-center">Failed to load data.</p>';
+        });
+    }
+
+
+    window.onload = fetchData;
+
+    document.getElementById("location-back-btn").addEventListener("click", function () {
+      history.back(); // or history.go(-1);
+    });
+  </script>
+
+
+
+  <script>
+    // Get latitude & longitude from URL parameters
+    const params = new URLSearchParams(window.location.search);
+    let busLat = parseFloat(params.get("lat")) || 23.2599; // default Bhopal
+    let busLon = parseFloat(params.get("lon")) || 77.4126;
+
+    // Start and End coordinates
+    const startCoords = [23.1815, 79.9864]; // Jabalpur
+    const endCoords = [23.2599, 77.4126];   // Bhopal
+
+    // Initialize map
+    const map = L.map("map").setView(startCoords, 7);
+
+    // Tile layer
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 30,
+      attribution: "© OpenStreetMap contributors"
+    }).addTo(map);
+
+    // Icons
+    const startIcon = L.icon({
+      iconUrl: "https://www.iconpacks.net/icons/2/free-location-icon-2955-thumb.png",
+      iconSize: [40, 40],
+      iconAnchor: [20, 40],
+    });
+
+    const endIcon = L.icon({
+      iconUrl: "https://cdn-icons-png.flaticon.com/512/1483/1483336.png",
+      iconSize: [40, 40],
+      iconAnchor: [20, 40],
+    });
+
+    const busIcon = L.icon({
+      iconUrl: "https://cdn-icons-png.flaticon.com/512/61/61088.png",
+      iconSize: [40, 40],
+      iconAnchor: [20, 40],
+    });
+
+    const userIcon = L.icon({
+      iconUrl: "https://static.vecteezy.com/system/resources/previews/032/176/191/non_2x/business-avatar-profile-black-icon-man-of-user-symbol-in-trendy-flat-style-isolated-on-male-profile-people-diverse-face-for-social-network-or-web-vector.jpg",
+      iconSize: [30, 30],
+      iconAnchor: [15, 30],
+    });
+
+    // Start & End markers
+    L.marker(startCoords, { icon: startIcon }).addTo(map).bindPopup("🟢 Start: Jabalpur");
+    L.marker(endCoords, { icon: endIcon }).addTo(map).bindPopup("🔴 Destination: Bhopal");
+
+    // Draw actual road route
+    const control = L.Routing.control({
+      waypoints: [L.latLng(startCoords), L.latLng(endCoords)],
+      routeWhileDragging: false,
+      addWaypoints: false,
+      draggableWaypoints: false,
+      lineOptions: {
+        styles: [{ color: "blue", opacity: 0.7, weight: 5 }]
+      },
+      createMarker: () => null
+    }).addTo(map);
+
+    // Create bus marker
+    let busMarker = L.marker([busLat, busLon], { icon: busIcon })
+      .addTo(map)
+      .bindPopup("🚌")
+      .openPopup();
+
+    // Smooth movement function
+    function smoothMove(marker, newLat, newLng, steps = 10, delay = 0) {
+      const startLat = marker.getLatLng().lat;
+      const startLng = marker.getLatLng().lng;
+      const deltaLat = (newLat - startLat) / steps;
+      const deltaLng = (newLng - startLng) / steps;
+      let i = 0;
+
+      const interval = setInterval(() => {
+        if (i >= steps) return clearInterval(interval);
+        const lat = startLat + deltaLat * i;
+        const lng = startLng + deltaLng * i;
+        marker.setLatLng([lat, lng]);
+        i++;
+      }, delay);
+    }
+
+    // Simulate location update every 5 sec (replace with live API later)
+    setInterval(() => {
+      const newLat = busLat + (Math.random() - 0.5) * 0.05;
+      const newLon = busLon + (Math.random() - 0.5) * 0.05;
+      smoothMove(busMarker, newLat, newLon);
+      busLat = newLat;
+      busLon = newLon;
+    }, 5000);
+
+    // Show live user location
+    if (navigator.geolocation) {
+      navigator.geolocation.watchPosition(
+        (pos) => {
+          const lat = pos.coords.latitude;
+          const lon = pos.coords.longitude;
+          L.marker([lat, lon], { icon: userIcon })
+            .addTo(map)
+            .bindPopup("📍 You are here");
+        },
+        (err) => console.warn("Location Error:", err),
+        { enableHighAccuracy: true }
+      );
+    } else {
+      alert("Geolocation not supported.");
+    }
+  </script>
+</body>
+
+</html>

@@ -39,8 +39,6 @@ function updateDateTime() {
   const now = new Date();
 
   const options = {
-    month: "2-digit", // e.g., 06
-    day: "2-digit", // e.g., 24
     hour: "2-digit",
     minute: "2-digit",
     hour12: true,
@@ -145,7 +143,7 @@ function fetchData() {
           "px-3 py-1 bg-gray-50 border-b border-gray-600 transition ";
 
         div.innerHTML = `
-            <a href="/Location/location.html?number=${encodeURIComponent(
+            <a href="Map.html?number=${encodeURIComponent(
               entry.Number
             )}&start=${encodeURIComponent(
           entry.Start

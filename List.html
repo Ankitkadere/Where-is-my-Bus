@@ -2,10 +2,12 @@
 <html lang="en">
 
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Where is My Bus</title>
   <meta name="description" content="Best app to find buses, live locations, and routes." />
-  <link rel="icon" href="fav.jpg" type="image/jpeg" />
-  <link rel="apple-touch-icon" href="fav.jpg" />
+  <link rel="icon" href="logo.jpg" type="image/jpeg" />
+  <link rel="apple-touch-icon" href="logo.jpg" />
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#f5fdf7" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
@@ -18,9 +20,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
   <script type="module" src="firebase.js"></script>
-
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="List.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
@@ -51,14 +50,34 @@
 
 <body class="bg-gray-100 ">
   <div id="dataListhead" class="space-y-2"> </div>
-  <div class="flex justify-between items-center bg-gray-800 text-white text-sm font-semibold px-4 py-2">
-    <span>SCHEDULED</span>
-    <span>EXPECTED</span>
-  </div>
-  <div class=" mx-auto bg-white  space-y-2 ">
+  <div class=" mx-auto bg-white mt-[5.5rem] space-y-2 ">
 
     <!-- Container where data will be inserted -->
     <div id="dataList" class="mt-14">
+      <div class="w-full mx-auto fixed left-0 top-0 z-50">
+        <!-- Blue Header -->
+        <div style="background-color: rgba(26, 98, 163);"
+          class="text-white px-4 py-4 flex flex-wrap w-full text-sm font-sans">
+          <div class="w-full flex justify-between items-center text-white text-lg font-serif font-bold mb-2">
+            <span>From</span>
+            <span class="flex items-center">
+              <i class="fas fa-arrow-right mx-2"></i>
+            </span>
+            <span>To</span>
+          </div>
+        </div>
+
+        <!-- Schedule Row -->
+        <div class="flex justify-between items-center bg-gray-800 text-white text-sm font-semibold px-4 py-2">
+          <div>
+            <span id="datetimeBox" class="text-left">Time</span>
+          </div>
+          <div class="flex gap-8">
+            <span>SCHEDULED</span>
+            <span>EXPECTED</span>
+          </div>
+        </div>
+      </div>
       <style>
         /* Skeleton shimmer effect */
         .skeleton {
@@ -90,7 +109,7 @@
           </div>
 
           <div class="w-3/4 h-4 rounded skeleton mb-1"></div>
-    
+
 
           <div class="flex justify-between items-start mt-3">
             <div class="flex items-start space-x-3">
@@ -115,7 +134,7 @@
             <div class="w-16 h-4 rounded skeleton"></div>
           </div>
         </div>
- <div class="bg-white shadow-md rounded-lg p-2 border border-gray-200">
+        <div class="bg-white shadow-md rounded-lg p-2 border border-gray-200">
           <div class="flex justify-between items-center mb-1">
             <div class="w-20 h-5 rounded skeleton"></div>
             <div class="flex gap-4">
@@ -125,75 +144,7 @@
           </div>
 
           <div class="w-3/4 h-4 rounded skeleton mb-1"></div>
-    
 
-          <div class="flex justify-between items-start mt-3">
-            <div class="flex items-start space-x-3">
-              <div class="flex flex-col items-center ">
-                <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
-                <div class="h-5 border-l border-gray-300"></div>
-                <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
-              </div>
-              <div>
-                <div class="w-24 h-3 rounded skeleton mb-1"></div>
-                <div class="w-24 h-3 rounded skeleton"></div>
-              </div>
-            </div>
-            <div class="text-right space-y-2">
-              <div class="w-16 h-3 rounded skeleton"></div>
-              <div class="w-10 h-3 rounded skeleton"></div>
-            </div>
-          </div>
-
-          <div class="flex justify-between items-center mt-3">
-            <div class="w-20 h-4 rounded skeleton"></div>
-            <div class="w-16 h-4 rounded skeleton"></div>
-          </div>
-        </div> <div class="bg-white shadow-md rounded-lg p-2 border border-gray-200">
-          <div class="flex justify-between items-center mb-1">
-            <div class="w-20 h-5 rounded skeleton"></div>
-            <div class="flex gap-4">
-              <div class="w-16 h-5 rounded skeleton"></div>
-              <div class="w-16 h-5 rounded skeleton"></div>
-            </div>
-          </div>
-
-          <div class="w-3/4 h-4 rounded skeleton mb-1"></div>
-    
-
-          <div class="flex justify-between items-start mt-3">
-            <div class="flex items-start space-x-3">
-              <div class="flex flex-col items-center ">
-                <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
-                <div class="h-5 border-l border-gray-300"></div>
-                <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
-              </div>
-              <div>
-                <div class="w-24 h-3 rounded skeleton mb-1"></div>
-                <div class="w-24 h-3 rounded skeleton"></div>
-              </div>
-            </div>
-            <div class="text-right space-y-2">
-              <div class="w-16 h-3 rounded skeleton"></div>
-              <div class="w-10 h-3 rounded skeleton"></div>
-            </div>
-          </div>
-
-          <div class="flex justify-between items-center mt-3">
-            <div class="w-20 h-4 rounded skeleton"></div>
-            <div class="w-16 h-4 rounded skeleton"></div>
-          </div>
-        </div> <div class="bg-white shadow-md rounded-lg p-2 border border-gray-200">
-          <div class="flex justify-between items-center mb-1">
-            <div class="w-20 h-5 rounded skeleton"></div>
-            <div class="flex gap-4">
-              <div class="w-16 h-5 rounded skeleton"></div>
-              <div class="w-16 h-5 rounded skeleton"></div>
-            </div>
-          </div>
-
-          <div class="w-3/4 h-4 rounded skeleton mb-1"></div>
-    
 
           <div class="flex justify-between items-start mt-3">
             <div class="flex items-start space-x-3">
@@ -218,14 +169,80 @@
             <div class="w-16 h-4 rounded skeleton"></div>
           </div>
         </div>
-      
+        <div class="bg-white shadow-md rounded-lg p-2 border border-gray-200">
+          <div class="flex justify-between items-center mb-1">
+            <div class="w-20 h-5 rounded skeleton"></div>
+            <div class="flex gap-4">
+              <div class="w-16 h-5 rounded skeleton"></div>
+              <div class="w-16 h-5 rounded skeleton"></div>
+            </div>
+          </div>
+
+          <div class="w-3/4 h-4 rounded skeleton mb-1"></div>
+
+
+          <div class="flex justify-between items-start mt-3">
+            <div class="flex items-start space-x-3">
+              <div class="flex flex-col items-center ">
+                <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
+                <div class="h-5 border-l border-gray-300"></div>
+                <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
+              </div>
+              <div>
+                <div class="w-24 h-3 rounded skeleton mb-1"></div>
+                <div class="w-24 h-3 rounded skeleton"></div>
+              </div>
+            </div>
+            <div class="text-right space-y-2">
+              <div class="w-16 h-3 rounded skeleton"></div>
+              <div class="w-10 h-3 rounded skeleton"></div>
+            </div>
+          </div>
+
+          <div class="flex justify-between items-center mt-3">
+            <div class="w-20 h-4 rounded skeleton"></div>
+            <div class="w-16 h-4 rounded skeleton"></div>
+          </div>
+        </div>
+        <div class="bg-white shadow-md rounded-lg p-2 border border-gray-200">
+          <div class="flex justify-between items-center mb-1">
+            <div class="w-20 h-5 rounded skeleton"></div>
+            <div class="flex gap-4">
+              <div class="w-16 h-5 rounded skeleton"></div>
+              <div class="w-16 h-5 rounded skeleton"></div>
+            </div>
+          </div>
+
+          <div class="w-3/4 h-4 rounded skeleton mb-1"></div>
+
+
+          <div class="flex justify-between items-start mt-3">
+            <div class="flex items-start space-x-3">
+              <div class="flex flex-col items-center ">
+                <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
+                <div class="h-5 border-l border-gray-300"></div>
+                <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
+              </div>
+              <div>
+                <div class="w-24 h-3 rounded skeleton mb-1"></div>
+                <div class="w-24 h-3 rounded skeleton"></div>
+              </div>
+            </div>
+            <div class="text-right space-y-2">
+              <div class="w-16 h-3 rounded skeleton"></div>
+              <div class="w-10 h-3 rounded skeleton"></div>
+            </div>
+          </div>
+
+          <div class="flex justify-between items-center mt-3">
+            <div class="w-20 h-4 rounded skeleton"></div>
+            <div class="w-16 h-4 rounded skeleton"></div>
+          </div>
+        </div>
       </div>
-
     </div>
   </div>
   <div class="text-center justify-center mt-4">No More Buses</div>
-
-
 </body>
 
 </html>

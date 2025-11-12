@@ -13,19 +13,19 @@
   "dir": "ltr",
   "icons": [
     {
-      "src": "app.jpg",
+      "src": "logo.jpg",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "app.jpg",
+      "src": "logo.jpg",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "app.jpg",
+      "src": "logo.jpg",
       "sizes": "1024x1024",
       "type": "image/png",
       "purpose": "maskable"
