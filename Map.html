@@ -19,10 +19,12 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+  <script type="module" src="firebase.js"></script>
+  <script src="Blocked.js" defer></script>
+  <script src="sw.js"></script>
   <style>
     #map {
-
-      height: 69vh;
+      height: 68vh;
       width: 100%;
     }
 
@@ -59,16 +61,7 @@
         <i class="fas fa-share-alt text-xl cursor-pointer hover:text-blue-300 transition"></i>
       </div>
     </header>
-    <div class="flex justify-around w-full max-w-md text-sm font-semibold">
-      <span class="flex items-center gap-2">
-        <i class="fas fa-bus text-blue-800"></i> Arrival:
-        <span id="arrivalTime" class="text-green-700">10:15 AM</span>
-      </span>
-      <span class="flex items-center gap-2">
-        <i class="fas fa-clock text-blue-800"></i> Departure:
-        <span id="departureTime" class="text-red-700">10:30 AM</span>
-      </span>
-    </div>
+
     <div class="bg-gray-800 text-white flex justify-between px-6 py-2 text-sm font-semibold tracking-wide">
       <span>Arrival</span>
       <span>Departure</span>
@@ -81,52 +74,63 @@
   </main>
   <!-- Footer -->
   <footer id="footerPanel"
-    class="fixed bottom-0 left-0 w-full bg-blue-300 py-3 rounded-t-2xl px-4 text-blue-900 flex flex-col items-center gap-3 border-t border-blue-400 shadow-inner transition-all duration-500 ease-in-out cursor-pointer select-none">
+    class="fixed bottom-0 z-50 left-0 w-full bg-gradient-to-r from-blue-400 to-blue-500 py-2 rounded-t-3xl px-5 text-blue-900 flex flex-col items-center gap-3 border-t border-blue-200 shadow-xl transition-all duration-500 ease-in-out cursor-pointer select-none backdrop-blur-md">
 
     <!-- Drag Handle -->
-    <div class="w-12 h-1.5 bg-blue-700 rounded-full mb-2"></div>
-
+    <div class="w-14 h-1.5 bg-white/70 rounded-full mb-1"></div>
 
     <!-- Bus Times -->
-    <div class="flex justify-around w-full max-w-md text-sm font-semibold">
+    <div class="flex justify-around w-full max-w-md text-sm font-semibold text-white">
       <span class="flex items-center gap-2">
-        <i class="fas fa-bus text-blue-800"></i> Arrival:
-        <span id="arrivalTime" class="text-green-700">10:15 AM</span>
+        <i class="fas fa-bus text-white"></i> Arrival:
+        <span id="arrivalTime" class="text-green-200">10:15 AM</span>
       </span>
       <span class="flex items-center gap-2">
-        <i class="fas fa-clock text-blue-800"></i> Departure:
-        <span id="departureTime" class="text-red-700">10:30 AM</span>
+        <i class="fas fa-clock text-white"></i> Departure:
+        <span id="departureTime" class="text-yellow-200">10:30 AM</span>
       </span>
     </div>
 
-    <!-- Live Tracking -->
-    <span
-      class="relative flex items-center justify-center bg-white w-80 text-center text-blue-700   rounded-full shadow hover:bg-blue-100 transition transform hover:scale-105">
-      <span class="relative flex items-center justify-center mr-2">
-        <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-green-500 opacity-75"></span>
-        <span class="relative inline-flex h-3 w-3 rounded-full bg-green-600"></span>
-      </span>
-      <span class="font-semibold">Live Tracking</span>
-      <button id="refreshBtn"
-        class="bg-white w-12 h-12 flex items-center justify-center text-blue-700 rounded-full shadow hover:bg-blue-100 transition transform hover:scale-110">
-        <i class="fas fa-sync-alt text-lg"></i>
-      </button>
-    </span>
+    <!-- Live Tracking Section -->
+    <div
+      class="relative flex items-center justify-between bg-white w-full max-w-md text-blue-700 py-2 px-4 rounded-full shadow-md hover:bg-blue-50 transition transform hover:scale-105">
+      <div class="flex items-center gap-2">
+        <!-- Live Green Ping -->
+        <span class="relative flex items-center justify-center">
+          <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-green-500 opacity-75"></span>
+          <span class="relative inline-flex h-3 w-3 rounded-full bg-green-600"></span>
+        </span>
+        <span class="font-semibold">Live Tracking</span>
+      </div>
 
+      <!-- Refresh Button -->
+      <button id="refreshBtn"
+        class="bg-blue-600 text-white w-10 h-10 flex items-center justify-center rounded-full shadow-md hover:bg-blue-700 transition transform hover:rotate-180">
+        <i class="fas fa-sync-alt text-md"></i>
+      </button>
+    </div>
   </footer>
 
   <script>
-
     const footer = document.getElementById("footerPanel");
     const refreshBtn = document.getElementById("refreshBtn");
 
-    // 🔄 Refresh spin
+    // 🔄 Refresh reload + bus focus
     refreshBtn.onclick = (e) => {
       e.stopPropagation(); // prevent footer toggle
       const iconEl = refreshBtn.querySelector("i");
       iconEl.classList.add("animate-spin");
-      if (typeof fetchData === "function") fetchData();
-      setTimeout(() => iconEl.classList.remove("animate-spin"), 2000);
+
+      // If map & busMarker exist, refocus on the bus
+      if (typeof map !== "undefined" && typeof busMarker !== "undefined") {
+        map.flyTo(busMarker.getLatLng(), 15, { animate: true, duration: 1.5 });
+      }
+
+      // Reload after a short delay
+      setTimeout(() => {
+        iconEl.classList.remove("animate-spin");
+        location.reload();
+      }, 1500);
     };
 
     // 🧭 Toggle expand/collapse
@@ -150,7 +154,7 @@
         if (!dragging) return;
         currentY = ev.touches ? ev.touches[0].clientY : ev.clientY;
         const diff = startY - currentY;
-        if (diff > 0 && diff < window.innerHeight * 0.15) {
+        if (diff > 0 && diff < window.innerHeight * 0.2) {
           footer.style.transform = `translateY(-${diff}px)`;
         }
       };
@@ -163,9 +167,7 @@
         document.removeEventListener("touchend", endHandler);
 
         const diff = startY - currentY;
-        if (diff > window.innerHeight * 0.05) expanded = true;
-        else expanded = false;
-
+        expanded = diff > window.innerHeight * 0.05;
         footer.style.transform = expanded ? "translateY(-10%)" : "translateY(0)";
       };
 
@@ -312,7 +314,7 @@
       smoothMove(busMarker, newLat, newLon);
       busLat = newLat;
       busLon = newLon;
-    }, 5000);
+    }, 1000);
 
     // Show user location
     if (navigator.geolocation) {
@@ -323,7 +325,7 @@
           .bindPopup("📍 You are here");
       });
     }
- 
+
 
     window.onload = fetchData;
   </script>
