@@ -10,13 +10,21 @@ divhead.className = "p-2 bg-gray-50 border border-gray-200 rounded shadow";
 divhead.innerHTML = `
   <div class="w-full mx-auto fixed left-0 top-0 z-50">
     <!-- Blue Header -->
-    <div style="background-color: rgba(26, 98, 163);" class="text-white px-4 py-4 flex flex-wrap w-full text-sm font-sans">
-      <div class="w-full flex justify-between items-center text-white text-lg font-serif font-bold mb-2">
-        <span>${from}</span>
-        <span class="flex items-center">
+       <div style="background-color: rgba(26, 98, 163);"
+          class="flex items-center text-white w-full sm:w-auto justify-between px-4 pt-2">
+          <span class="text-lg font-bold flex items-left space-x-2">
+            <a href="/Buslist/List.html"><i id="location-back-btn" class="fas fa-arrow-left text-xl"></i></a>
+            <span>Where is My Bus</span>
+          </span>
+          <i class="fas fa-ellipsis-v text-xl cursor-pointer"></i>
+        </div>
+    <div style="background-color: rgba(26, 98, 163);" class="text-white px-3 py-4 flex flex-wrap w-full text-sm font-sans">
+      <div class="w-full  flex justify-between items-center text-white text-lg font-bold mb-1">
+        <span class="min-w-[45%] bg-sky-800 rounded-full py-1 px-1">${from}</span>
+        <span class="flex items-center w-[10%]">
           <i class="fas fa-arrow-right mx-2"></i>
         </span>
-        <span>${to}</span>
+        <span class="min-w-[45%] text-right bg-sky-800 rounded-full py-1 px-1">${to}</span>
       </div>
     </div>
  
@@ -140,10 +148,10 @@ function fetchData() {
 
         const div = document.createElement("div");
         div.className =
-          "px-3 py-1 bg-gray-50 border-b border-gray-600 transition ";
+          "px-3 py-2 bg-gray-100 border-b border-gray-600 transition ";
 
         div.innerHTML = `
-            <a href="Map.html?number=${encodeURIComponent(
+            <a href="location.html?number=${encodeURIComponent(
               entry.Number
             )}&start=${encodeURIComponent(
           entry.Start
@@ -151,7 +159,7 @@ function fetchData() {
           entry.English
         )}&hindi=${encodeURIComponent(entry.Hindi)}" >
     <div class="flex justify-between items-center">
-      <span class="bg-sky-700 text-white font-semibold px-4 rounded">${
+      <span class="bg-sky-700 text-white font-semibold px-3 rounded">${
         entry.Number
       }</span>
       <div class="text-right flex gap-4">
@@ -159,10 +167,17 @@ function fetchData() {
         <p class="text-red-600 font-extrabold">${entry.End}</p>
       </div>
     </div>
+   <div class="flex justify-between text-center">
+  <p class="text-black font-bold">
+    ${entry.English || "—"} /
+    <span class="font-bold">${entry.Hindi || "—"}</span>
+  </p>
 
-    <p class="text-black font-bold ">${entry.English} / 
-      <span class="font-bold">${entry.Hindi}</span>
-    </p>
+  <p class="text-red-600 font-bold">
+    ${entry.Arrival || "- -"}
+  </p>
+</div>
+
 
     <div class="flex justify-between items-start ">
       <div class="flex items-start space-x-3">
@@ -177,19 +192,16 @@ function fetchData() {
         </div>
       </div>
 
-      <div class="text-right text-sm space-y-1">
-        <p class="text-red-600 font-bold">${entry.Arrival || "On Time"}</p>
-        <p>  ${entry.Bus || "-"}</p>
-      
-      </div>
-    </div>
+    <div class="text-right text-sm text-center">
+  <span class="pb-2 block">${bookButton || "- -"}</span>
+  <span class="${statusClass || 'bg-green-500'} text-white px-3 text-center rounded text-sm font-semibold">
+    ${entry.Status || "RUNNING"}
+  </span>
+</div>
 
-    <div class="text-left flex flex justify-between text-center items-start ">
-    <span> ${bookButton}</span> 
-    <span class="${statusClass} text-white px-3 mt-[1.5px] text-center rounded text-sm font-semibold">
-          ${entry.Status || "RUNNING"}
-        </span>
+
     </div>
+ 
     </a>
   `;
 

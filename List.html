@@ -50,20 +50,28 @@
 
 <body class="bg-gray-100 ">
   <div id="dataListhead" class="space-y-2"> </div>
-  <div class=" mx-auto bg-white mt-[5.5rem] space-y-2 ">
+  <div class=" mx-auto bg-gray-100 mt-[7.7rem] space-y-2 ">
 
     <!-- Container where data will be inserted -->
     <div id="dataList" class="mt-14">
       <div class="w-full mx-auto fixed left-0 top-0 z-50">
         <!-- Blue Header -->
         <div style="background-color: rgba(26, 98, 163);"
+          class="flex items-center text-white w-full sm:w-auto justify-between px-4 pt-2">
+          <span class="text-lg font-bold flex items-left space-x-2">
+            <a href="/Buslist/List.html"><i id="location-back-btn" class="fas fa-arrow-left text-xl"></i></a>
+            <span>Where is My Bus</span>
+          </span>
+          <i class="fas fa-ellipsis-v text-xl cursor-pointer"></i>
+        </div>
+        <div style="background-color: rgba(26, 98, 163);"
           class="text-white px-4 py-4 flex flex-wrap w-full text-sm font-sans">
-          <div class="w-full flex justify-between items-center text-white text-lg font-serif font-bold mb-2">
-            <span>From</span>
+          <div class="w-full flex justify-between items-center text-white text-lg font-serif font-bold mb-1">
+            <span class="min-w-[45%]  bg-sky-800 rounded-full py-1 px-1">From</span>
             <span class="flex items-center">
               <i class="fas fa-arrow-right mx-2"></i>
             </span>
-            <span>To</span>
+            <span class="min-w-[45%] text-right bg-sky-800 rounded-full py-1 px-1">To</span>
           </div>
         </div>
 
