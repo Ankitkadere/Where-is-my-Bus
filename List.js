@@ -20,11 +20,11 @@ divhead.innerHTML = `
         </div>
     <div style="background-color: rgba(26, 98, 163);" class="text-white px-3 py-4 flex flex-wrap w-full text-sm font-sans">
       <div class="w-full  flex justify-between items-center text-white text-lg font-bold mb-1">
-        <span class="min-w-[45%] bg-sky-800 rounded-full py-1 px-1">${from}</span>
+        <span class="min-w-[45%] bg-sky-900 rounded-full py-1 px-1">${from}</span>
         <span class="flex items-center w-[10%]">
           <i class="fas fa-arrow-right mx-2"></i>
         </span>
-        <span class="min-w-[45%] text-right bg-sky-800 rounded-full py-1 px-1">${to}</span>
+        <span class="min-w-[45%] text-right bg-sky-900 rounded-full py-1 px-1">${to}</span>
       </div>
     </div>
  
@@ -148,7 +148,7 @@ function fetchData() {
 
         const div = document.createElement("div");
         div.className =
-          "px-3 py-3 bg-gray-100 border-b border-gray-600 transition ";
+          "px-3 py-3 bg-gray-50 border-b border-gray-600 transition ";
 
         div.innerHTML = `
             <a href="location.html?number=${encodeURIComponent(
