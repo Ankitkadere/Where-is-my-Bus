@@ -130,7 +130,6 @@
       // Reload after a short delay
       setTimeout(() => {
         iconEl.classList.remove("animate-spin");
-        location.reload();
       }, 1500);
     };
 
@@ -243,21 +242,25 @@
       icon: icon("https://cdn-icons-png.flaticon.com/512/61/61088.png")
     }).addTo(map).bindPopup("🚌 Bus").openPopup();
 
+
     // Draw route
     L.Routing.control({
       waypoints: [L.latLng(startCoords), L.latLng(endCoords)],
-      routeWhileDragging: true,
-      addWaypoints: true,
-      draggableWaypoints: true,
-      routeWhileDragging: true,       // re-route while dragging a waypoint
-      fitSelectedRoute: true,         // zoom map to selected route
-      showAlternatives: true,           // show alternative routes (if router supports)
-      useZoomParameter: true,         // pass z param to routing server (if supported)
-      autoRoute: true,                // compute route automatically on add waypoints
-      show: true,
+      routeWhileDragging: true,     // Recalculate the route in real-time while dragging
+      addWaypoints: true,           // Allow adding new waypoints by clicking on the route
+      draggableWaypoints: true,     // Allow dragging existing waypoints
+      fitSelectedRoute: true,       // Automatically zoom map to fit the full route
+      showAlternatives: true,       // Show alternative routes (if OSRM supports)
+      autoRoute: true,              // Automatically compute route when waypoints change
+      useZoomParameter: true,       // Include zoom level in routing server requests
+      collapsible: true,            // Allow collapsing the route panel
+      show: true,                   // Display the default route panel
+      zIndexOffset: 1000,           // Ensure route lines appear above base layers
       lineOptions: { styles: [{ color: "blue", opacity: 0.7, weight: 5 }] },
-      createMarker: () => null
+      createMarker: () => null,
+   
     }).addTo(map);
+ 
 
     // Smooth movement
     function smoothMove(marker, newLat, newLng, steps = 10, delay = 50) {
@@ -278,7 +281,7 @@
       smoothMove(busMarker, newLat, newLon);
       busLat = newLat;
       busLon = newLon;
-    }, 1000);
+    }, 5000);
 
     // Show user location
     if (navigator.geolocation) {
@@ -291,7 +294,7 @@
     }
 
     window.onload = fetchData;
-    
+
   </script>
 </body>
 
