@@ -148,7 +148,7 @@ function fetchData() {
 
         const div = document.createElement("div");
         div.className =
-          "px-3 py-2 bg-gray-100 border-b border-gray-600 transition ";
+          "px-3 py-3 bg-gray-100 border-b border-gray-600 transition ";
 
         div.innerHTML = `
             <a href="location.html?number=${encodeURIComponent(
@@ -162,24 +162,24 @@ function fetchData() {
       <span class="bg-sky-700 text-white font-semibold px-3 rounded">${
         entry.Number
       }</span>
-      <div class="text-right flex gap-4">
+      <div class="text-right flex gap-4 ">
         <p class="text-gray-800 font-extrabold">${entry.Start}</p>
         <p class="text-red-600 font-extrabold">${entry.End}</p>
       </div>
-    </div>
-   <div class="flex justify-between text-center">
-  <p class="text-black font-bold">
-    ${entry.English || "—"} /
-    <span class="font-bold">${entry.Hindi || "—"}</span>
-  </p>
+    </div class="pt-2">
+         <div class="flex pt-2 justify-between text-center">
+         <p class="text-black font-bold">
+         ${entry.English || "—"} /
+           <span class="font-bold">${entry.Hindi || "—"}</span>
+        </p>
 
-  <p class="text-red-600 font-bold">
+     <p class="text-red-600 font-bold">
     ${entry.Arrival || "- -"}
-  </p>
-</div>
+       </p>
+    </div>
 
 
-    <div class="flex justify-between items-start ">
+    <div class="flex justify-between items-start mt-2 ">
       <div class="flex items-start space-x-3">
         <div class="flex flex-col items-center mt-2">
           <div class="w-2 h-2 bg-green-600 rounded-full"></div>
@@ -187,13 +187,13 @@ function fetchData() {
           <div class="w-2 h-2 bg-red-600 rounded-full"></div>
         </div>
         <div>
-          <p class="text-black  pb-[0.10rem]">${entry.From}</p>
+          <p class="text-black  pb-[0.20rem]">${entry.From}</p>
           <p class="text-black  ">${entry.To}</p>
         </div>
       </div>
 
     <div class="text-right text-sm text-center">
-  <span class="pb-2 block">${bookButton || "- -"}</span>
+  <span class="pb-3 block">${bookButton || "- -"}</span>
   <span class="${statusClass || 'bg-green-500'} text-white px-3 text-center rounded text-sm font-semibold">
     ${entry.Status || "RUNNING"}
   </span>
