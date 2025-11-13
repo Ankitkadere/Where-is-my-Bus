@@ -140,6 +140,7 @@
     const scriptURL = 'https://script.google.com/macros/s/AKfycbyhf7gsy7_zxqucs-PYBbCvnQDy-66RF10OrSLNhxTBMtrLQoAhdQstYZtNiGaI-iDr/exec';
     const params = new URLSearchParams(window.location.search);
     const from = params.get("from");
+    const name = params.get("name");
     const to = params.get("to");
     const number = params.get("number");
     const start = params.get("start");
@@ -159,7 +160,7 @@
             return;
           }
 
-          const filtered = data.filter(entry => entry.Number == number);
+          const filtered = data.filter(entry => entry.Number.trim() == number.trim());
 
           if (filtered.length === 0) {
             container.innerHTML = '<p class="text-center text-gray-500">No matching results found.</p>';
@@ -176,7 +177,7 @@
                     <span class="text-lg font-bold flex items-left space-x-2">
                       <a href="/Buslist/List.html"><i id="location-back-btn" class="fas fa-arrow-left text-xl"></i></a>
                       <span class="text-xl px-2 py-0 font-bold rounded font-mono">${entry.Number}</span>
-                      <span>${english + " / " + hindi}</span>
+                      <span>${english || name} ${" "} ${hindi || " "}</span>
                     </span>
                     <i class="fas fa-ellipsis-v text-xl cursor-pointer"></i>
                   </div>
@@ -240,7 +241,7 @@
     let busLat = 23.1815, busLon = 79.9864;
     const busMarker = L.marker([busLat, busLon], {
       icon: L.icon({
-        iconUrl: "https://freesvg.org/img/glibersat_Nioubiteul.png",
+        iconUrl: "https://png.pngtree.com/png-clipart/20220918/original/pngtree-blue-bus-icon-cartoon-vector-png-image_8622915.png",
         iconSize: [70, 70],
         iconAnchor: [35, 35] // center the icon properly
       })
@@ -248,20 +249,31 @@
 
 
     // Draw route
+    // ✅ Enable full map interactivity
+    map.dragging.enable();          // Allow dragging the map by hand
+    map.scrollWheelZoom.enable();   // Allow zooming in/out with mouse wheel
+    map.doubleClickZoom.enable();   // Allow zooming by double-click
+    map.touchZoom.enable();         // Allow pinch zoom on touch devices
+    map.boxZoom.enable();           // Enable box zoom selection
+    map.keyboard.enable();          // Enable arrow-key map navigation
+
+    // ✅ Routing control with all advanced options
     L.Routing.control({
       waypoints: [L.latLng(startCoords), L.latLng(endCoords)],
-      routeWhileDragging: true,     // Recalculate the route in real-time while dragging
-      addWaypoints: true,           // Allow adding new waypoints by clicking on the route
-      draggableWaypoints: true,     // Allow dragging existing waypoints
-      fitSelectedRoute: true,       // Automatically zoom map to fit the full route
-      showAlternatives: true,       // Show alternative routes (if OSRM supports)
-      autoRoute: true,              // Automatically compute route when waypoints change
-      useZoomParameter: true,       // Include zoom level in routing server requests
-      collapsible: true,            // Allow collapsing the route panel
-      show: true,                   // Display the default route panel
-      zIndexOffset: 1000,           // Ensure route lines appear above base layers
-      lineOptions: { styles: [{ color: "blue", opacity: 1, weight: 5 }] },
-      createMarker: () => null,
+      routeWhileDragging: false,     // Don't reroute while dragging marker
+      addWaypoints: true,            // Allow adding new waypoints
+      draggableWaypoints: true,      // Drag existing waypoints
+      fitSelectedRoute: true,        // Zoom to fit route
+      showAlternatives: true,        // Display alternate routes
+      autoRoute: true,               // Auto recompute on waypoint change
+      useZoomParameter: true,        // Pass zoom level to router
+      collapsible: true,             // Collapse route panel
+      show: true,                    // Show route control by default
+      zIndexOffset: 1000,            // Bring route above other layers
+      lineOptions: {
+        styles: [{ color: "blue", opacity: 1, weight: 7 }]
+      },
+      createMarker: () => null,      // Hide routing markers
     }).addTo(map);
 
 

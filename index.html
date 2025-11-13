@@ -279,7 +279,7 @@
         </li>
       </ul>
 
-      
+
       <div
         class="flex fixed bottom-0 left-0 w-full items-center justify-between  border-t border-gray-200 px-4 py-3 text-gray-900 font-semibold text-sm z-[100] shadow-lg">
 
@@ -502,7 +502,8 @@
       }
     });
   </script>
-
+  <span id="Eng" class="hidden"></span>
+  <span id="Hi" class="hidden"></span>
   <div class="w-full justify-center  mx-auto space-y-4 mt-0 px-1 md:flex">
 
     <style>
@@ -662,7 +663,7 @@
           <input type="text" id="numberName" name="numberName" placeholder="Bus Number or Name"
             class="w-full text-2xl border-b-2 border-emerald-700 focus:outline-none focus:border-emerald-900 pb-1 font-semibold tracking-tight"
             autocomplete="off" spellcheck="false" />
-          <div id="NumberNameSuggestions" class="suggestions hidden"></div>
+          <div id="NumberNameSuggestions" class="suggestions hidden w-96"></div>
         </div>
 
         <button id="searchBtn" type="submit"
@@ -688,17 +689,19 @@
       from
     )}&to=${encodeURIComponent(to)}`;
   });
+document.getElementById("searchBtn").addEventListener("click", () => {
+  let value = document.getElementById("numberName").value.trim();
 
-  document.getElementById("searchBtn").addEventListener("click", () => {
-    const code = document.getElementById("numberName").value.trim();
+  // Extract code and name
+  let code = value.slice(0, 6).trim();
+  let name = value.slice(8).trim();
 
-    if (!code) {
-      alert("Enter A Valid Value");
-      return;
-    }
-
-    window.location.href = `Map.html?bus=${encodeURIComponent(code)}`;
-  });
+  if (!code) {
+    alert("Enter a valid value");
+    return;
+  } 
+  window.location.href = `Map.html?number=${encodeURIComponent(code)}&name=${encodeURIComponent(name)}`;
+});
 
   // Data arrays for suggestions - city names
   const cities = [
@@ -706,7 +709,7 @@
     "BPL - Bhopal",
     "MDL - Medical",
     "Shahpura",
-    "Indore",
+    "IND - Indore",
     "Nagpur",
     "Raipur",
     "Bilaspur",
