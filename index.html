@@ -43,7 +43,7 @@
       pointer-events: none;
     }
   </style>
-  </head>
+
 
   <!-- Page Loader -->
   <div id="page-loader" class="bg-[#1a62a3]">
@@ -212,7 +212,7 @@
     <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200">
       <a href="index.html" class="flex items-center space-x-2 pt-2">
         <i class="fas fa-bus fa-3x text-[#1a62a3] animate-bounce"></i>
-        <h1 class="font-extrabold w-full text-2xl leading-none">
+        <h1 class="font-extrabold w-full pr-2 text-2xl leading-none">
           Where is my Bus
           <span class="font-normal text-gray-500 text-base sm:text-lg ">
             Google
@@ -237,14 +237,13 @@
     </div>
 
     <nav class="px-4 py-4 text-gray-700 text-lg">
-      <div onclick="window.location.href='Job.html'"
-        class="mb-3 flex items-center space-x-2 cursor-pointer select-none font-semibold">
-        <span>SHOP BY CATEGORIES</span>
+      <div class="mb-3 flex items-center space-x-2 cursor-pointer select-none font-semibold">
+        <span>SERVICES BY BUS</span>
         <i class="fas fa-chevron-down text-lg"></i>
       </div>
       <ul class="space-y-4 text-lg sm:text-sm">
         <li>
-          <a class="flex items-center gap-2 hover:text-gray-900" href="">
+          <a class="flex items-center gap-2 hover:text-gray-900" href="index.html">
             <i class="fas fa-home"></i> Home
           </a>
         </li>
@@ -288,9 +287,9 @@
         class="flex fixed bottom-0 left-0 w-full items-center justify-between  border-t border-gray-200 px-4 py-3 text-gray-900 font-semibold text-sm z-[100] shadow-lg">
 
         <div onclick="window.location.href='Owner.html'">
-          <div id="HomeName">Gift Zone</div>
+          <div id="HomeName">Whereis My Bus</div>
           <div id="Homemails" class="text-gray-600 font-normal text-xs">
-            Giftzone@Gmail.Com
+            Whereismybus.com
           </div>
         </div>
 
@@ -511,33 +510,34 @@
 
     <style>
       .circle-icon {
-        width: 44px;
-        height: 44px;
-        border: 2px solid #03941b;
+        width: 50px;
+        height: 50px;
+        border: 2px solid #086117;
         border-radius: 9999px;
         display: flex;
         align-items: center;
         justify-content: center;
         position: absolute;
         right: 12px;
-        top: 15px;
+        top: 25px;
         transform: rotate(90deg);
         cursor: pointer;
         transition: background-color 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
-        background-color: #047857;
+        background-color: #f3f3f3;
         z-index: 10;
+
       }
 
       .circle-icon:hover {
-        background-color: #065f46;
-        border-color: #065f46;
+        background-color: #d4d4d4;
+        border-color: #0b9206;
         transform: scale(1.1);
       }
 
       .circle-icon svg {
-        width: 20px;
-        height: 20px;
-        color: #ffffff;
+        width: 30px;
+        height: 30px;
+        color: #20740f;
         transition: color 0.3s ease;
         pointer-events: none;
       }
@@ -556,11 +556,11 @@
       }
 
       .suggestion-item {
-        padding: 0.6rem 0.9rem;
+        padding: 0.8rem 0.9rem;
         cursor: pointer;
         font-weight: 700;
-        color: #08770e;
-        font-size: 1rem;
+        color: #1a62a3;
+        font-size: 1.3rem;
         border-bottom: 0.1px solid black;
       }
 
@@ -573,13 +573,13 @@
       input[type="text"] {
         font-weight: 700;
         color: #111827;
-        padding: 2% 0px;
+        padding: 3% 0px;
       }
 
       #First,
       #Second,
       #numberName {
-        font-size: 1.125rem;
+        font-size: 1.4rem;
         letter-spacing: -0.5px;
       }
 
@@ -591,7 +591,7 @@
 
       button[type="submit"]:hover {
         transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(30, 146, 1, 0.925);
+        box-shadow: 0 4px 8px #1a62a3;
       }
     </style>
 
@@ -624,6 +624,17 @@
             <line x1="21" y1="12" x2="3" y2="12"></line>
           </svg>
         </button>
+        <script>
+          const swapBtns = document.getElementById("swapBtn");
+          let rotated = false;
+
+          swapBtns.addEventListener("click", () => {
+            rotated = !rotated;
+            swapBtns.style.transition = "transform 0.3s ease";
+            swapBtns.style.transform = rotated ? "rotate(270deg)" : "rotate(90deg)";
+          });
+        </script>
+
       </div>
 
       <!-- To Input -->

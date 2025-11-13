@@ -75,7 +75,7 @@
   <div id="map" class="shadow-lg top-0"></div>
   <!-- Footer -->
   <footer
-    class="fixed bottom-0 gap-4 px-2 left-0 w-full py-3 text-center bg-blue-300 z-[50] text-blue-900 flex items-center justify-center shadow-inner border-t border-blue-400">
+    class="fixed bottom-0 gap-4 px-4 left-0 w-full py-3 text-center bg-blue-300 z-[50] text-blue-900 flex items-center justify-center shadow-inner border-t border-blue-400">
     <span
       class="bg-white w-96 text-center text-blue-700 p-2 rounded-full shadow hover:bg-blue-100 transition transform hover:scale-110">
       Live Tracking
@@ -202,8 +202,8 @@
 
     // Tile layer
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      maxZoom: 30,
-      attribution: "© OpenStreetMap contributors"
+       minZoom: 200,
+      
     }).addTo(map);
 
     // Icons
