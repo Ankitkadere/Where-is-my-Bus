@@ -236,11 +236,15 @@
       .addTo(map)
       .bindPopup("🔴 Destination: Bhopal");
 
-    // Create bus marker safely
+    // 🚌 Create bus marker safely
     let busLat = 23.1815, busLon = 79.9864;
     const busMarker = L.marker([busLat, busLon], {
-      icon: icon("https://cdn-icons-png.flaticon.com/512/61/61088.png")
-    }).addTo(map).bindPopup("🚌 Bus").openPopup();
+      icon: L.icon({
+        iconUrl: "https://freesvg.org/img/glibersat_Nioubiteul.png",
+        iconSize: [70, 70],
+        iconAnchor: [35, 35] // center the icon properly
+      })
+    }).addTo(map).bindPopup("🚌 Bus");
 
 
     // Draw route
@@ -256,11 +260,10 @@
       collapsible: true,            // Allow collapsing the route panel
       show: true,                   // Display the default route panel
       zIndexOffset: 1000,           // Ensure route lines appear above base layers
-      lineOptions: { styles: [{ color: "blue", opacity: 0.7, weight: 5 }] },
+      lineOptions: { styles: [{ color: "blue", opacity: 1, weight: 5 }] },
       createMarker: () => null,
-   
     }).addTo(map);
- 
+
 
     // Smooth movement
     function smoothMove(marker, newLat, newLng, steps = 10, delay = 50) {
