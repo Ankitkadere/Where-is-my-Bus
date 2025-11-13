@@ -98,7 +98,7 @@
       <div class="flex items-center gap-2">
         <!-- Live Green Ping -->
         <span class="relative flex items-center justify-center">
-          <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-green-500 opacity-75"></span>
+          <span class="animate-ping absolute inline-flex h-4 w-4 rounded-full bg-green-500 opacity-75"></span>
           <span class="relative inline-flex h-3 w-3 rounded-full bg-green-600"></span>
         </span>
         <span class="font-semibold">Live Tracking</span>
@@ -193,7 +193,7 @@
              <!-- Arrival -->
                   <span class="flex items-center gap-2 text-base">
                     <span class="relative flex items-center justify-center">
-                      <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-green-500 opacity-75"></span>
+                      <span class="animate-ping absolute inline-flex h-4 w-4 rounded-full bg-green-500 opacity-75"></span>
                       <span class="relative inline-flex h-3 w-3 rounded-full bg-green-600"></span>
                     </span>
                     Arrival
@@ -202,7 +202,7 @@
                   <!-- Departure -->
                   <span class="flex items-center gap-2 text-base">
                     <span class="relative flex items-center justify-center">
-                      <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-red-500 opacity-75"></span>
+                      <span class="animate-ping absolute inline-flex h-4 w-4 rounded-full bg-red-500 opacity-75"></span>
                       <span class="relative inline-flex h-3 w-3 rounded-full bg-red-600"></span>
                     </span>
                     Departure
@@ -246,9 +246,15 @@
     // Draw route
     L.Routing.control({
       waypoints: [L.latLng(startCoords), L.latLng(endCoords)],
-      routeWhileDragging: false,
-      addWaypoints: false,
-      draggableWaypoints: false,
+      routeWhileDragging: true,
+      addWaypoints: true,
+      draggableWaypoints: true,
+      routeWhileDragging: true,       // re-route while dragging a waypoint
+      fitSelectedRoute: true,         // zoom map to selected route
+      showAlternatives: true,           // show alternative routes (if router supports)
+      useZoomParameter: true,         // pass z param to routing server (if supported)
+      autoRoute: true,                // compute route automatically on add waypoints
+      show: true,
       lineOptions: { styles: [{ color: "blue", opacity: 0.7, weight: 5 }] },
       createMarker: () => null
     }).addTo(map);
@@ -284,8 +290,8 @@
       });
     }
 
-
     window.onload = fetchData;
+    
   </script>
 </body>
 
