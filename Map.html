@@ -15,14 +15,14 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
   <style>
     #map {
-      height: 75vh;
+
+      height: 69vh;
       width: 100%;
     }
 
@@ -59,6 +59,16 @@
         <i class="fas fa-share-alt text-xl cursor-pointer hover:text-blue-300 transition"></i>
       </div>
     </header>
+    <div class="flex justify-around w-full max-w-md text-sm font-semibold">
+      <span class="flex items-center gap-2">
+        <i class="fas fa-bus text-blue-800"></i> Arrival:
+        <span id="arrivalTime" class="text-green-700">10:15 AM</span>
+      </span>
+      <span class="flex items-center gap-2">
+        <i class="fas fa-clock text-blue-800"></i> Departure:
+        <span id="departureTime" class="text-red-700">10:30 AM</span>
+      </span>
+    </div>
     <div class="bg-gray-800 text-white flex justify-between px-6 py-2 text-sm font-semibold tracking-wide">
       <span>Arrival</span>
       <span>Departure</span>
@@ -69,19 +79,103 @@
   <main class="pt-[8.5rem]">
     <div id="map" class="shadow-lg"></div>
   </main>
-
   <!-- Footer -->
-  <footer
-    class="fixed bottom-0 left-0 w-full bg-blue-300 py-3 px-4 text-blue-900 flex justify-center items-center gap-4 border-t border-blue-400 shadow-inner">
+  <footer id="footerPanel"
+    class="fixed bottom-0 left-0 w-full bg-blue-300 py-3 rounded-t-2xl px-4 text-blue-900 flex flex-col items-center gap-3 border-t border-blue-400 shadow-inner transition-all duration-500 ease-in-out cursor-pointer select-none">
+
+    <!-- Drag Handle -->
+    <div class="w-12 h-1.5 bg-blue-700 rounded-full mb-2"></div>
+
+
+    <!-- Bus Times -->
+    <div class="flex justify-around w-full max-w-md text-sm font-semibold">
+      <span class="flex items-center gap-2">
+        <i class="fas fa-bus text-blue-800"></i> Arrival:
+        <span id="arrivalTime" class="text-green-700">10:15 AM</span>
+      </span>
+      <span class="flex items-center gap-2">
+        <i class="fas fa-clock text-blue-800"></i> Departure:
+        <span id="departureTime" class="text-red-700">10:30 AM</span>
+      </span>
+    </div>
+
+    <!-- Live Tracking -->
     <span
-      class="bg-white w-96 text-center text-blue-700 p-2 rounded-full shadow hover:bg-blue-100 transition transform hover:scale-110">
-     🔴 Live Tracking
+      class="relative flex items-center justify-center bg-white w-80 text-center text-blue-700   rounded-full shadow hover:bg-blue-100 transition transform hover:scale-105">
+      <span class="relative flex items-center justify-center mr-2">
+        <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-green-500 opacity-75"></span>
+        <span class="relative inline-flex h-3 w-3 rounded-full bg-green-600"></span>
+      </span>
+      <span class="font-semibold">Live Tracking</span>
+      <button id="refreshBtn"
+        class="bg-white w-12 h-12 flex items-center justify-center text-blue-700 rounded-full shadow hover:bg-blue-100 transition transform hover:scale-110">
+        <i class="fas fa-sync-alt text-lg"></i>
+      </button>
     </span>
-    <span id="refreshBtn"
-      class="bg-white w-12 text-center text-blue-700 p-2 rounded-full shadow hover:bg-blue-100 transition transform hover:scale-110">
-      <i class="fas fa-sync-alt text-lg"></i>
-    </span>
+
   </footer>
+
+  <script>
+
+    const footer = document.getElementById("footerPanel");
+    const refreshBtn = document.getElementById("refreshBtn");
+
+    // 🔄 Refresh spin
+    refreshBtn.onclick = (e) => {
+      e.stopPropagation(); // prevent footer toggle
+      const iconEl = refreshBtn.querySelector("i");
+      iconEl.classList.add("animate-spin");
+      if (typeof fetchData === "function") fetchData();
+      setTimeout(() => iconEl.classList.remove("animate-spin"), 2000);
+    };
+
+    // 🧭 Toggle expand/collapse
+    let expanded = false;
+    footer.addEventListener("click", () => toggleFooter());
+    footer.addEventListener("mousedown", startDrag);
+    footer.addEventListener("touchstart", startDrag);
+
+    let startY = 0, currentY = 0, dragging = false;
+
+    function toggleFooter() {
+      expanded = !expanded;
+      footer.style.transform = expanded ? "translateY(-10%)" : "translateY(0)";
+    }
+
+    function startDrag(e) {
+      dragging = true;
+      startY = e.touches ? e.touches[0].clientY : e.clientY;
+
+      const moveHandler = (ev) => {
+        if (!dragging) return;
+        currentY = ev.touches ? ev.touches[0].clientY : ev.clientY;
+        const diff = startY - currentY;
+        if (diff > 0 && diff < window.innerHeight * 0.15) {
+          footer.style.transform = `translateY(-${diff}px)`;
+        }
+      };
+
+      const endHandler = () => {
+        dragging = false;
+        document.removeEventListener("mousemove", moveHandler);
+        document.removeEventListener("mouseup", endHandler);
+        document.removeEventListener("touchmove", moveHandler);
+        document.removeEventListener("touchend", endHandler);
+
+        const diff = startY - currentY;
+        if (diff > window.innerHeight * 0.05) expanded = true;
+        else expanded = false;
+
+        footer.style.transform = expanded ? "translateY(-10%)" : "translateY(0)";
+      };
+
+      document.addEventListener("mousemove", moveHandler);
+      document.addEventListener("mouseup", endHandler);
+      document.addEventListener("touchmove", moveHandler);
+      document.addEventListener("touchend", endHandler);
+    }
+  </script>
+
 
   <script>
     const scriptURL = 'https://script.google.com/macros/s/AKfycbyhf7gsy7_zxqucs-PYBbCvnQDy-66RF10OrSLNhxTBMtrLQoAhdQstYZtNiGaI-iDr/exec';
@@ -134,10 +228,29 @@
                     <i class="fas fa-share-alt text-xl cursor-pointer hover:text-blue-300 transition"></i>
                   </div>
                 </header>
+
                 <div class="bg-gray-800 text-white flex justify-between px-6 py-2 text-sm font-semibold tracking-wide">
-                  <span>Arrival</span>
-                  <span>Departure</span>
+             <!-- Arrival -->
+                  <span class="flex items-center gap-2">
+                    <span class="relative flex items-center justify-center">
+                      <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-green-500 opacity-75"></span>
+                      <span class="relative inline-flex h-3 w-3 rounded-full bg-green-600"></span>
+                    </span>
+                    Arrival
+                  </span>
+
+                  <!-- Departure -->
+                  <span class="flex items-center gap-2">
+                    <span class="relative flex items-center justify-center">
+                      <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-red-500 opacity-75"></span>
+                      <span class="relative inline-flex h-3 w-3 rounded-full bg-red-600"></span>
+                    </span>
+                    Departure
+                  </span>
+
                 </div>
+
+
               </div>`;
             container.appendChild(div);
           });
@@ -210,21 +323,7 @@
           .bindPopup("📍 You are here");
       });
     }
-
-    const refreshBtn = document.getElementById("refreshBtn");
-
-    refreshBtn.addEventListener("click", () => {
-      const iconEl = refreshBtn.querySelector("i");
-      if (!iconEl) return;
-      if (iconEl.classList.contains("animate-spin")) {
-        iconEl.classList.remove("animate-spin");
-      } else {
-        iconEl.classList.add("animate-spin");
-        fetchData();
-        setTimeout(() => iconEl.classList.remove("animate-spin"), 2000);
-      }
-    });
-
+ 
 
     window.onload = fetchData;
   </script>
