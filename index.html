@@ -46,7 +46,7 @@
 
 
   <!-- Page Loader -->
-  <div id="page-loader" class="bg-[#1a62a3]">
+  <div id="page-loader" class="hidden bg-[#1a62a3]">
     <div class="text-center">
       <i class="fas fa-bus fa-6x text-[#1a62a3] mb-4 animate-bounce"></i>
       <h2 class="text-lg font-extrabold text-[#1a62a3]"> Where Is My Bus...</h2>
@@ -54,7 +54,7 @@
   </div>
   <!-- Loader Script -->
   <script>
-    window.addEventListener('load', () => {
+  /*  window.addEventListener('load', () => {
       const loader = document.getElementById('page-loader');
       const app = document.getElementById('app');
 
@@ -68,7 +68,7 @@
           }, 500); // Wait for fade-out
         }, 3000); // Show for 3 seconds
       }
-    });
+    });*/
   </script>
 
   <header class="bg-[#1a62a3] pt-2 ">
@@ -236,73 +236,71 @@
       </div>
     </div>
 
-    <nav class="px-4 py-4 text-gray-700 text-lg">
-      <div class="mb-3 flex items-center space-x-2 cursor-pointer select-none font-semibold">
-        <span>SERVICES BY BUS</span>
-        <i class="fas fa-chevron-down text-lg"></i>
-      </div>
-      <ul class="space-y-4 text-lg sm:text-sm">
-        <li>
-          <a class="flex items-center gap-2 hover:text-gray-900" href="index.html">
-            <i class="fas fa-home"></i> Home
-          </a>
-        </li>
-        <li>
-          <a class="flex items-center gap-2 hover:text-gray-900" href="Adminpenel.html">
-            <i class="fas fa-user-shield"></i> Booking
-          </a>
-        </li>
-        <li>
-          <a class="flex items-center gap-2 hover:text-gray-900" href="Userchat.html">
-            <i class="fas fa-tv"></i> services
-          </a>
-        </li>
-        <li>
-          <a class="flex items-center gap-2 hover:text-gray-900" href="#">
-            <i class="fas fa-apple-alt"></i> Change Time
-          </a>
-        </li>
-        <li>
-          <a class="flex items-center gap-2 hover:text-gray-900" href="#">
-            <i class="fas fa-spa"></i> Remove Something
-          </a>
-        </li>
-        <li class=" ">
-          <a class="flex items-center gap-2 hover:text-gray-900" href="#">
-            <i class="fas fa-heartbeat"></i> Add Location
-          </a>
-        </li>
-        <li class=" ">
-          <a class="flex items-center gap-2 hover:text-gray-900" href="#">
-            <i class="fas fa-gem"></i> Add Buses
-          </a>
-        </li>
-      </ul>
+   <nav class="  h-screen bg-white shadow-lg flex flex-col ">
 
+  <!-- Top Section -->
+  <div class="p-4">
+    <!-- Title -->
+    <div class="flex items-center justify-between font-semibold text-gray-800 mb-4 cursor-pointer">
+      <span>SERVICES BY BUS</span>
+      <i class="fas fa-chevron-down text-sm"></i>
+    </div>
 
-      <div
-        class="flex fixed bottom-0 left-0 w-full items-center justify-between  border-t border-gray-200 px-4 py-3 text-gray-900 font-semibold text-sm z-[100] shadow-lg">
+    <!-- Menu -->
+    <ul class="space-y-2 text-sm">
+      <li>
+        <a href="index.html" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
+          <i class="fas fa-home"></i> Home
+        </a>
+      </li>
+      <li>
+        <a href="Adminpenel.html" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
+          <i class="fas fa-user-shield"></i> Booking
+        </a>
+      </li>
+      <li>
+        <a href="Userchat.html" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
+          <i class="fas fa-tv"></i> Services
+        </a>
+      </li>
+      <li>
+        <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
+          <i class="fas fa-clock"></i> Change Time
+        </a>
+      </li>
+      <li>
+        <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
+          <i class="fas fa-trash"></i> Remove Something
+        </a>
+      </li>
+      <li>
+        <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
+          <i class="fas fa-map-marker-alt"></i> Add Location
+        </a>
+      </li>
+      <li>
+        <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
+          <i class="fas fa-bus"></i> Add Buses
+        </a>
+      </li>
+    </ul>
+  </div>
 
-        <div onclick="window.location.href='Owner.html'">
-          <div id="HomeName">Whereis My Bus</div>
-          <div id="Homemails" class="text-gray-600 font-normal text-xs">
-            Whereismybus.com
-          </div>
-        </div>
+  <!-- Bottom Bar -->
+  <div class="border-t p-4 flex items-center justify-between text-sm">
+    <div onclick="window.location.href='Owner.html'" class="cursor-pointer">
+      <div class="font-semibold">Whereis My Bus</div>
+      <div class="text-xs text-gray-500">Whereismybus.com</div>
+    </div>
 
-        <!-- Action Buttons -->
-        <div class="flex space-x-4">
-          <button aria-label="Favorites" class="hidden text-gray-600 hover:text-red-500 transition">
-            <i class="far fa-heart text-lg"></i>
-          </button>
-          <button onclick="window.location.href='Orderlist.html'" aria-label="Shopping cart"
-            class="text-gray-600 hover:text-blue-600 transition">
-            <i class="fas fa-shopping-cart text-lg"></i>
-          </button>
-        </div>
-      </div>
+    <button onclick="window.location.href='Orderlist.html'"
+      class="text-gray-600 hover:text-blue-600 transition">
+      <i class="fas fa-shopping-cart text-lg"></i>
+    </button>
+  </div>
 
-    </nav>
+</nav>
+
   </div>
   <!-- Overlay -->
   <div id="overlay" class="fixed inset-0 bg-black bg-opacity-30 hidden z-[50]" aria-hidden="true"></div>
@@ -508,8 +506,8 @@
 
     <style>
       .circle-icon {
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
         border: 2px solid #086117;
         border-radius: 9999px;
         display: flex;
@@ -517,7 +515,7 @@
         justify-content: center;
         position: absolute;
         right: 12px;
-        top: 25px;
+        top: 20px;
         transform: rotate(90deg);
         cursor: pointer;
         transition: background-color 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
@@ -527,14 +525,13 @@
       }
 
       .circle-icon:hover {
-        background-color: #d4d4d4;
         border-color: #0b9206;
         transform: scale(1.1);
       }
 
       .circle-icon svg {
-        width: 30px;
-        height: 30px;
+        width: 20px;
+        height: 20px;
         color: #20740f;
         transition: color 0.3s ease;
         pointer-events: none;
