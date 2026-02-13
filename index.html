@@ -54,21 +54,21 @@
   </div> -->
   <!-- Loader Script -->
   <script>
-  /*  window.addEventListener('load', () => {
-      const loader = document.getElementById('page-loader');
-      const app = document.getElementById('app');
-
-      if (loader) {
-        loader.classList.remove('hidden'); // Show loader
-        setTimeout(() => {
-          loader.classList.add('fade-out');
+    /*  window.addEventListener('load', () => {
+        const loader = document.getElementById('page-loader');
+        const app = document.getElementById('app');
+  
+        if (loader) {
+          loader.classList.remove('hidden'); // Show loader
           setTimeout(() => {
-            loader.remove();
-            app.classList.remove('hidden'); // Show main app
-          }, 500); // Wait for fade-out
-        }, 3000); // Show for 3 seconds
-      }
-    });*/
+            loader.classList.add('fade-out');
+            setTimeout(() => {
+              loader.remove();
+              app.classList.remove('hidden'); // Show main app
+            }, 500); // Wait for fade-out
+          }, 3000); // Show for 3 seconds
+        }
+      });*/
   </script>
 
   <header class="bg-[#1a62a3] pt-2 ">
@@ -87,7 +87,7 @@
       <div class="  text-left">
         <!-- Trigger -->
         <div id="menuAppDownload" onclick="toggleMenu()" class=" text-white p-2 rounded-full hover:bg-gray-200">
-          <i class="fas fa-ellipsis-v text-white text-lg"></i>
+          <i class="fas fa-mobile-alt text-white text-lg"></i>
         </div>
 
         <!-- Menu -->
@@ -211,7 +211,7 @@
     class="bg-white z-[100]  fixed inset-y-0 left-0 w-80  shadow-lg transform -translate-x-full transition-transform duration-300 ease-in-out z-50 overflow-y-auto">
     <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200">
       <a href="index.html" class="flex items-center space-x-2 pt-2">
-        <i class="fas fa-bus fa-3x text-[#1a62a3] animate-bounce"></i>
+        <i class="fas fa-bus fa-3x text-[#1a62a3]  "></i>
         <h1 class="font-extrabold w-full pr-2 text-2xl leading-none">
           Where is my Bus
           <span class="font-normal text-gray-500 text-base sm:text-lg ">
@@ -236,71 +236,70 @@
       </div>
     </div>
 
-   <nav class="  h-screen bg-white shadow-lg flex flex-col ">
+    <nav class="bg-white flex flex-col">
+      <!-- Top Section -->
+      <div class="p-4">
+        <!-- Title -->
+        <div class="flex items-center justify-between font-semibold text-gray-800 mb-4 cursor-pointer">
+          <span>SERVICES BY BUS</span>
+          <i class="fas fa-chevron-down text-sm"></i>
+        </div>
 
-  <!-- Top Section -->
-  <div class="p-4">
-    <!-- Title -->
-    <div class="flex items-center justify-between font-semibold text-gray-800 mb-4 cursor-pointer">
-      <span>SERVICES BY BUS</span>
-      <i class="fas fa-chevron-down text-sm"></i>
-    </div>
+        <!-- Menu -->
+        <ul class="space-y-2 text-sm">
+          <li>
+            <a href="index.html" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
+              <i class="fas fa-home"></i> Home
+            </a>
+          </li>
+          <li>
+            <a href="Adminpenel.html" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
+              <i class="fas fa-user-shield"></i> Booking
+            </a>
+          </li>
+          <li>
+            <a href="Userchat.html" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
+              <i class="fas fa-tv"></i> Services
+            </a>
+          </li>
+          <li>
+            <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
+              <i class="fas fa-clock"></i> Change Time
+            </a>
+          </li>
+          <li>
+            <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
+              <i class="fas fa-trash"></i> Remove Something
+            </a>
+          </li>
+          <li>
+            <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
+              <i class="fas fa-map-marker-alt"></i> Add Location
+            </a>
+          </li>
+          <li>
+            <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
+              <i class="fas fa-bus"></i> Add Buses
+            </a>
+          </li>
+        </ul>
+      </div>
 
-    <!-- Menu -->
-    <ul class="space-y-2 text-sm">
-      <li>
-        <a href="index.html" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
-          <i class="fas fa-home"></i> Home
-        </a>
-      </li>
-      <li>
-        <a href="Adminpenel.html" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
-          <i class="fas fa-user-shield"></i> Booking
-        </a>
-      </li>
-      <li>
-        <a href="Userchat.html" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
-          <i class="fas fa-tv"></i> Services
-        </a>
-      </li>
-      <li>
-        <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
-          <i class="fas fa-clock"></i> Change Time
-        </a>
-      </li>
-      <li>
-        <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
-          <i class="fas fa-trash"></i> Remove Something
-        </a>
-      </li>
-      <li>
-        <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
-          <i class="fas fa-map-marker-alt"></i> Add Location
-        </a>
-      </li>
-      <li>
-        <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
-          <i class="fas fa-bus"></i> Add Buses
-        </a>
-      </li>
-    </ul>
-  </div>
+      <!-- Bottom Bar -->
+      <div
+        class="fixed bottom-0 left-0 w-full border-t bg-white p-4 flex items-center justify-between text-sm shadow-md z-50">
 
-  <!-- Bottom Bar -->
-  <div class="border-t p-4 flex items-center justify-between text-sm">
-    <div onclick="window.location.href='Owner.html'" class="cursor-pointer">
-      <div class="font-semibold">Whereis My Bus</div>
-      <div class="text-xs text-gray-500">Whereismybus.com</div>
-    </div>
+        <div onclick="window.location.href='Owner.html'" class="cursor-pointer">
+          <div class="font-semibold">Whereis My Bus</div>
+          <div class="text-xs text-gray-500">Whereismybus.com</div>
+        </div>
 
-    <button onclick="window.location.href='Orderlist.html'"
-      class="text-gray-600 hover:text-blue-600 transition">
-      <i class="fas fa-shopping-cart text-lg"></i>
-    </button>
-  </div>
-
-</nav>
-
+        <button title="Profile" onclick="window.location.href='Orderlist.html'"
+          class="text-gray-600 hover:text-blue-600 transition">
+          <i class="fas fa-shopping-cart text-lg"></i>
+        </button>
+      </div>
+    </nav>
   </div>
   <!-- Overlay -->
   <div id="overlay" class="fixed inset-0 bg-black bg-opacity-30 hidden z-[50]" aria-hidden="true"></div>
@@ -506,16 +505,16 @@
 
     <style>
       .circle-icon {
-        width: 40px;
-        height: 40px;
+        width: 45px;
+        height: 45px;
         border: 2px solid #086117;
         border-radius: 9999px;
         display: flex;
         align-items: center;
         justify-content: center;
         position: absolute;
-        right: 12px;
-        top: 20px;
+        right: 30px;
+        top: 90px;
         transform: rotate(90deg);
         cursor: pointer;
         transition: background-color 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
@@ -545,17 +544,17 @@
         border-radius: 0.5rem;
         max-height: 200px;
         overflow-y: auto;
-        width: 93%;
+        width: 83%;
         z-index: 20;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       }
 
       .suggestion-item {
-        padding: 0.6rem 0.7rem;
+        padding: 0.5rem 0.5rem;
         cursor: pointer;
         font-weight: 700;
-        color: #1a62a3;
-        font-size: 1.3rem;
+        color: #023a6b;
+        font-size: 1.2rem;
         border-bottom: 0.1px solid black;
       }
 
@@ -566,16 +565,10 @@
       }
 
       input[type="text"] {
-        font-weight: 700;
+        font-weight: 900;
         color: #111827;
         padding: 1% 0px;
-      }
-
-      #First,
-      #Second,
-      #numberName {
-        font-size: 1.4rem;
-        letter-spacing: -0.5px;
+        font-size: 1rem;
       }
 
       button[type="submit"] {
@@ -592,7 +585,7 @@
 
     <!-- Bus Route Search Form -->
     <form
-      class="bg-white border md:w-[48%] overflow-hidden border-gray-200 rounded-2xl px-4 pb-6 shadow-md hover:shadow-xl transition-shadow relative"
+      class="bg-white border md:w-[48%] overflow-hidden border-gray-200 rounded-2xl px-4 pb-6 shadow-md  transition-shadow relative"
       aria-label="Bus search form" onsubmit="return false">
 
       <h2 class="text-base font-bold text-emerald-700 py-4 tracking-tight flex items-center gap-2">
@@ -601,73 +594,93 @@
       </h2>
 
       <!-- From Input -->
-      <div class="flex items-center space-x-3 mb-8 relative ">
-        <i class="fas fa-arrow-down text-emerald-800 text-base"></i>
-        <div class="relative-suggest flex-1 ">
-          <input type="text" id="First" name="get" placeholder="From  -  Starting Place"
-            class="w-full border-b-2 border-emerald-700 focus:outline-none focus:border-emerald-900 pl-2 font-semibold tracking-tight"
-            autocomplete="off" spellcheck="false" />
+      <div class="flex items-center gap-3 bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-200 mb-4">
+        <i class="fas fa-map-marker-alt text-emerald-700 text-lg"></i>
+        <div class="relative-suggest flex-1">
+          <input type="text" id="First" name="get" placeholder="From - Start-Place"
+            class="w-full bg-transparent focus:outline-none font-semibold text-gray-700" autocomplete="off"
+            spellcheck="false" />
           <div id="FirstSuggestions" class="suggestions hidden"></div>
         </div>
-
-        <!-- Swap Button -->
-        <button type="button" id="swapBtn" class="circle-icon" aria-label="Swap locations" title="Swap locations">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-            <polyline points="16 17 21 12 16 7"></polyline>
-            <polyline points="8 7 3 12 8 17"></polyline>
-            <line x1="21" y1="12" x2="3" y2="12"></line>
-          </svg>
-        </button>
-        <script>
-          const swapBtns = document.getElementById("swapBtn");
-          let rotated = false;
-
-          swapBtns.addEventListener("click", () => {
-            rotated = !rotated;
-            swapBtns.style.transition = "transform 0.3s ease";
-            swapBtns.style.transform = rotated ? "rotate(270deg)" : "rotate(90deg)";
-          });
-        </script>
-
       </div>
 
+      <!-- Swap Button -->
+      <button type="button" id="swapBtn" class="circle-icon" aria-label="Swap locations" title="Swap locations">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <polyline points="8 7 3 12 8 17"></polyline>
+          <line x1="21" y1="12" x2="3" y2="12"></line>
+        </svg>
+      </button>
+      <script>
+        const swapBtns = document.getElementById("swapBtn");
+        let rotated = false;
+
+        swapBtns.addEventListener("click", () => {
+          rotated = !rotated;
+          swapBtns.style.transition = "transform 0.3s ease";
+          swapBtns.style.transform = rotated ? "rotate(270deg)" : "rotate(90deg)";
+        });
+      </script>
+
+
       <!-- To Input -->
-      <div class="flex items-center space-x-3 mb-8 relative">
-        <span class="w-3 h-3 rounded-full border-2 border-emerald-700 flex-shrink-0 text-base"></span>
+      <div class="flex items-center gap-3 bg-white rounded-xl px-4 py-3  border border-gray-200 mt-3">
+        <i class="fas fa-map-marker-alt text-emerald-700 text-lg"></i>
+
         <div class="relative-suggest flex-1">
-          <input type="text" id="Second" name="set" placeholder="To  -  Destination Place"
-            class="w-full  border-b-2 border-emerald-700 focus:outline-none focus:border-emerald-900 pl-2 font-semibold tracking-tight"
-            autocomplete="off" spellcheck="false" />
+          <input type="text" id="Second" name="set" placeholder="To - End-Place"
+            class="w-full bg-transparent focus:outline-none font-semibold text-gray-700" autocomplete="off"
+            spellcheck="false" />
           <div id="SecondSuggestions" class="suggestions hidden"></div>
         </div>
       </div>
 
+
       <button id="findBusesBtn" type="submit"
-        class="w-full bg-green-700 hover:bg-green-800 text-white py-3 focus:outline-none ">
+        class="w-full bg-green-700 mt-4 hover:bg-green-800 text-white py-3 focus:outline-none ">
         Find Buses
       </button>
     </form>
 
     <!-- Direct Search Section -->
-    <div class=" md:w-[48%]">
-      <h3 class="text-left font-bold text-emerald-800 text-sm ml-2 uppercase tracking-wide">Direct Search</h3>
-      <form
-        class="bg-white border border-gray-200 rounded-2xl md:pt-[21%] md:pb-12 px-4 py-6 shadow-md hover:shadow-xl transition-shadow mt-1"
+    <div class="md:w-[48%]">
+      <h3 class="text-left font-bold text-emerald-800 text-sm ml-2 uppercase tracking-wide">
+        Direct Search
+      </h3>
+
+      <form class="bg-white border border-gray-200 rounded-3xl px-3 py-2 shadow-lg hover:shadow-xl transition mt-2"
         aria-label="Live spot search form" onsubmit="return false">
 
-        <div class="relative-suggest">
-          <input type="text" id="numberName" name="numberName" placeholder="Bus Number or Name"
-            class="w-full border-b-2 border-emerald-700 focus:outline-none focus:border-emerald-900 pb-1 font-semibold tracking-tight"
-            autocomplete="off" spellcheck="false" />
-          <div id="NumberNameSuggestions" class="suggestions hidden w-96"></div>
+        <!-- Input Card -->
+        <div class=" rounded-2xl ">
+          <div class="flex items-center gap-3 bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-200">
+            <i class="fas fa-bus text-emerald-700 text-lg"></i>
+
+            <div class="relative-suggest flex-1">
+              <input type="text" id="numberName" name="numberName" placeholder="Enter Bus Number or Name"
+                class="w-full focus:outline-none font-semibold text-gray-700" autocomplete="off" spellcheck="false" />
+              <div id="NumberNameSuggestions" class="suggestions hidden w-96"></div>
+            </div>
+          </div>
         </div>
 
+        <!-- Search Button -->
         <button id="searchBtn" type="submit"
-          class="mt-6 w-full bg-green-700 hover:bg-green-800 text-white py-3 focus:outline-none ">
+          class="mt-5 w-full bg-green-700 hover:from-emerald-800 hover:to-emerald-700 text-white py-3 rounded-xl font-semibold shadow-md transition">
           Search
         </button>
+
       </form>
+    </div>
+
+
+    <!-- Search History-->
+
+    <div class=" md:w-[48%]">
+      <h3 class="text-left font-bold text-emerald-800 text-sm ml-2 uppercase tracking-wide"> Search History</h3>
+
     </div>
   </div>
 
@@ -686,19 +699,19 @@
       from
     )}&to=${encodeURIComponent(to)}`;
   });
-document.getElementById("searchBtn").addEventListener("click", () => {
-  let value = document.getElementById("numberName").value.trim();
+  document.getElementById("searchBtn").addEventListener("click", () => {
+    let value = document.getElementById("numberName").value.trim();
 
-  // Extract code and name
-  let code = value.slice(0, 6).trim();
-  let name = value.slice(8).trim();
+    // Extract code and name
+    let code = value.slice(0, 6).trim();
+    let name = value.slice(8).trim();
 
-  if (!code) {
-    alert("Enter a valid value");
-    return;
-  } 
-  window.location.href = `Map.html?number=${encodeURIComponent(code)}&name=${encodeURIComponent(name)}`;
-});
+    if (!code) {
+      alert("Enter a valid value");
+      return;
+    }
+    window.location.href = `Map.html?number=${encodeURIComponent(code)}&name=${encodeURIComponent(name)}`;
+  });
 
   // Data arrays for suggestions - city names
   const cities = [
