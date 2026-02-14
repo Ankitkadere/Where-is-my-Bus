@@ -12,19 +12,19 @@ divhead.innerHTML = `
     <!-- Blue Header -->
        <div style="background-color: rgba(26, 98, 163);"
           class="flex items-center text-white w-full sm:w-auto justify-between px-4 pt-2">
-          <span class="text-lg font-bold flex items-left space-x-2">
-            <a href="/Buslist/List.html"><i id="location-back-btn" class="fas fa-arrow-left text-xl"></i></a>
-            <span>Where is My Bus</span>
+          <span class="text-lg font-bold flex items-left space-x-2  text-xl">
+            <a href="/Buslist/List.html"><i id="location-back-btn" class="fas fa-arrow-left"></i></a>
+            <span class="text-xl" >Where is My Bus</span>
           </span>
           <i class="fas fa-ellipsis-v text-xl cursor-pointer"></i>
         </div>
     <div style="background-color: rgba(26, 98, 163);" class="text-white px-3 py-4 flex flex-wrap w-full text-sm font-sans">
-      <div class="w-full  flex justify-between items-center text-white text-lg font-bold mb-1">
-        <span class="min-w-[45%] bg-sky-900 rounded-full py-1 px-1">${from}</span>
+      <div class="w-full flex justify-between items-center text-white text-lg font-bold mb-1">
+        <span class="min-w-[45%] bg-sky-800 rounded-md py-1 px-1">${from}</span>
         <span class="flex items-center w-[10%]">
           <i class="fas fa-arrow-right mx-2"></i>
         </span>
-        <span class="min-w-[45%] text-right bg-sky-900 rounded-full py-1 px-1">${to}</span>
+        <span class="min-w-[45%] text-right bg-sky-800 rounded-md py-1 px-1">${to}</span>
       </div>
     </div>
  
@@ -159,7 +159,7 @@ function fetchData() {
           entry.English
         )}&hindi=${encodeURIComponent(entry.Hindi)}" >
     <div class="flex justify-between items-center">
-      <span class="bg-sky-700 text-white font-semibold px-3 rounded">${
+      <span class="bg-sky-700 text-white font-bold px-3 rounded">${
         entry.Number
       }</span>
       <div class="text-right flex gap-4 ">

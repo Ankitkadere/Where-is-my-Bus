@@ -47,6 +47,79 @@
     }
   }
 </style>
+<style>
+  body {
+    background: #f1f5f9;
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+
+  /* App-style header */
+  .app-header {
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  }
+
+  /* Route pills */
+  .route-pill {
+    background: rgba(0,0,0,0.25);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    letter-spacing: 0.3px;
+  }
+
+  /* Card improvements */
+  #busList > div {
+    border-radius: 16px;
+    padding: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: all 0.25s ease;
+    border: none;
+  }
+
+  #busList > div:active {
+    transform: scale(0.98);
+  }
+
+  /* Skeleton shimmer effect (enhanced) */
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      #e2e8f0 25%,
+      #f8fafc 50%,
+      #e2e8f0 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+    border-radius: 6px;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  /* Schedule bar */
+  .schedule-bar {
+    background: #1f2937;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+  }
+
+  /* Bottom message */
+  .no-more {
+    color: #64748b;
+    font-size: 0.85rem;
+    padding: 20px 0;
+  }
+
+  /* Better spacing for mobile */
+  @media (max-width: 640px) {
+    .mobile-content {
+      padding: 0 10px;
+    }
+  }
+</style>
 
 <body class="bg-gray-100 ">
   <div id="dataListhead" class="space-y-2"> </div>
@@ -57,21 +130,21 @@
       <div class="w-full mx-auto fixed left-0 top-0 z-50">
         <!-- Blue Header -->
         <div style="background-color: rgba(26, 98, 163);"
-          class="flex items-center text-white w-full sm:w-auto justify-between px-4 pt-2">
+          class="flex items-center text-white w-full text-xl sm:w-auto justify-between px-4 pt-2">
           <span class="text-lg font-bold flex items-left space-x-2">
             <a href="/Buslist/List.html"><i id="location-back-btn" class="fas fa-arrow-left text-xl"></i></a>
-            <span>Where is My Bus</span>
+            <span class="text-xl">Where is My Bus</span>
           </span>
           <i class="fas fa-ellipsis-v text-xl cursor-pointer"></i>
         </div>
         <div style="background-color: rgba(26, 98, 163);"
           class="text-white px-4 py-4 flex flex-wrap w-full text-sm font-sans">
           <div class="w-full flex justify-between items-center text-white text-lg font-serif font-bold mb-1">
-            <span class="min-w-[45%]  bg-sky-900 rounded-full py-1 px-1">From</span>
+            <span class="min-w-[45%]  bg-sky-900 rounded-md py-1 px-1">From</span>
             <span class="flex items-center">
               <i class="fas fa-arrow-right mx-2"></i>
             </span>
-            <span class="min-w-[45%] text-right bg-sky-900 rounded-full py-1 px-1">To</span>
+            <span class="min-w-[45%] text-right bg-sky-800 rounded-md py-1 px-1">To</span>
           </div>
         </div>
 
