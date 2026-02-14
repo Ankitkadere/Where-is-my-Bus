@@ -158,7 +158,7 @@ function fetchData() {
         )}&end=${encodeURIComponent(entry.End)}&english=${encodeURIComponent(
           entry.English
         )}&hindi=${encodeURIComponent(entry.Hindi)}" >
-    <div class="flex justify-between items-center">
+    <div class="flex justify-between items-center text-base">
       <span class="bg-sky-700 text-white font-bold px-3 rounded">${
         entry.Number
       }</span>
