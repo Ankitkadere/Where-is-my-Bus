@@ -48,13 +48,13 @@
 
 <body class="bg-white-900 font-sans">
     <div id="location" class="space-y-2 mb-20   mt-[16vh]">
-        <div id="loader" class="absolute inset-0 flex justify-center items-center mt-40 h-44">
-            <div class="w-20 h-20 border-4 border-green-700 border-t-transparent rounded-full animate-spin"></div>
+        <div id="loader" class="absolute inset-0 flex flex-col items-center justify-center space-y-4">
+            <div class="w-14 h-14 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+            <span class="text-gray-600 text-base font-medium tracking-wide">
+                Loading...
+            </span>
         </div>
 
-        <span class="text-4xl fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
-            Loading...
-        </span>
     </div>
 
     <style>
@@ -147,15 +147,15 @@
         <header style="background-color: rgba(26, 98, 163);" class="text-white px-4 py-3 flex flex-col sm:flex-row items-center justify-between">
            <div class="flex items-center justify-between w-full text-lg">
   <!-- Left side -->
-  <div class="flex items-center space-x-2 w-full mr-2">
+  <div class="flex items-center space-x-2 w-full mr-2 ">
     <a href="/Buslist/List.html"
-      class="w-10 h-10 flex items-center justify-center rounded-full bg-sky-800 active:scale-95 transition">
+      class="w-10 h-10 flex items-center border justify-center rounded-full bg-sky-800 active:scale-95 transition">
       <i id="location-back-btn" class="fas fa-arrow-left text-white"></i>
     </a>
 
-    <div class="bg-sky-800 flex items-center px-2 py-1 w-full rounded-md">
-      <span class="font-bold font-mono text-sky-700 px-4  bg-gray-100 rounded-md">
-        ${entry.Number}
+    <div class="bg-sky-800 flex items-center px-2 py-1 w-full border rounded-md">
+      <span class="font-bold font-mono text-white px-4rounded-md">
+        ${entry.Number} :
       </span>
       <span class="text-white font-semibold ml-1">
         ${english}/${hindi}
