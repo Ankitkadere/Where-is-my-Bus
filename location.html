@@ -121,7 +121,7 @@
                     container.innerHTML = '';
 
                     if (!Array.isArray(data) || data.length === 0) {
-                        container.innerHTML = '<p class="text-center text-gray-500">No entries found.</p>';
+                        container.innerHTML = '<p class="text-center text-gray-500">No Location found.</p>';
                         return;
                     }
                     const filtered = data.filter(entry =>
@@ -145,14 +145,31 @@
                         div.innerHTML = `
                <div class="fixed top-0 left-0 w-full z-50">
         <header style="background-color: rgba(26, 98, 163);" class="text-white px-4 py-3 flex flex-col sm:flex-row items-center justify-between">
-            <div class="flex items-center w-full sm:w-auto justify-between space-x-3">
-                <span class="text-lg font-bold flex items-left space-x-2">
-                     <a href="/Buslist/List.html"> <i id="location-back-btn" class="fas fa-arrow-left text-xl"></i> </a>
-                    <span  class="text-xl px-2 py-0 font-bold rounded font-mono">${entry.Number}</span>
-                    <span>${english + " / " + hindi}</span>
-                </span>
-                <i class="fas fa-ellipsis-v text-xl cursor-pointer"></i>
-            </div>
+           <div class="flex items-center justify-between w-full text-lg">
+  <!-- Left side -->
+  <div class="flex items-center space-x-2 w-full mr-2">
+    <a href="/Buslist/List.html"
+      class="w-10 h-10 flex items-center justify-center rounded-full bg-sky-800 active:scale-95 transition">
+      <i id="location-back-btn" class="fas fa-arrow-left text-white"></i>
+    </a>
+
+    <div class="bg-sky-800 flex items-center px-2 py-1 w-full rounded-md">
+      <span class="font-bold font-mono text-sky-700 px-4  bg-gray-100 rounded-md">
+        ${entry.Number}
+      </span>
+      <span class="text-white font-semibold ml-1">
+        ${english}/${hindi}
+      </span>
+    </div>
+  </div>
+
+  <!-- Right menu -->
+  <button
+  >  <i class="fas fa-ellipsis-v text-white"></i>
+  </button>
+
+</div>
+
             <div class="flex items-center space-x-5 mt-3 sm:mt-0 w-full sm:w-auto justify-between">
                 <button
                     class="bg-white text-blue-600 px-4 py-1 rounded-lg font-semibold hover:bg-blue-100 transition">Today</button>
@@ -202,10 +219,7 @@
                 });
         }
 
-
         window.onload = fetchData;
-
-
         /////////////////////////////////////////
         document.addEventListener("DOMContentLoaded", function () {
             const rangeInput = document.getElementById("locationRange");
