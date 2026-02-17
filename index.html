@@ -23,7 +23,7 @@
   <script src="sw.js"></script>
 </head>
 
-<body class="font-inter bg-gray-100  text-gray-900 flex flex-col text-sm  ">
+<body class="font-inter bg-gray-100 text-gray-900 flex flex-col text-sm">
 
   <!-- Loader Style -->
   <style>
@@ -201,10 +201,40 @@
         </div>
       </div>
     </div>
-    <nav class=" pt-4 flex border-b border-b-white-50 text-white text-lg font-bold">
-      <a href="#" target="_self" class="flex-1 text-center py-3 border-b-4 border-white select-none">Buses</a>
-      <a href="/Book.html" class="flex-1 text-center py-3 select-none">Booking</a>
+    <!-- Tabs -->
+    <nav class="pt-4 flex border-b border-b-white/50 text-white text-lg font-bold">
+      <a href="" onclick="showTab('buses')" id="tab-buses"
+        class="flex-1 text-center py-3 border-b-4 border-white select-none">
+        Buses
+      </a>
+
+      <a href="Booking.html" onclick="showTab('booking')" id="tab-booking" class="flex-1 text-center py-3 select-none">
+        Booking
+      </a>
     </nav>
+
+    <!-- Script -->
+    <script>
+      function showTab(tab) {
+        // hide all sections
+        document.querySelectorAll('.tab-content').forEach(el => {
+          el.classList.add('hidden');
+        });
+
+        // remove active style
+        document.querySelectorAll('[id^="tab-"]').forEach(el => {
+          el.classList.remove('border-b-4', 'border-white');
+        });
+
+        // show selected section
+        document.getElementById(tab).classList.remove('hidden');
+
+        // activate selected tab
+        document.getElementById('tab-' + tab)
+          .classList.add('border-b-4', 'border-white');
+      }
+    </script>
+
   </header>
   <!-- Mobile Side Navbar -->
   <div id="mobile-nav"
@@ -501,8 +531,8 @@
   </script>
   <span id="Eng" class="hidden"></span>
   <span id="Hi" class="hidden"></span>
-  <div class="w-full justify-center  mx-auto space-y-4 mt-0 px-1 md:flex">
 
+  <div id="buses" class="tab-content w-full justify-center  mx-auto space-y-4 mt-0 px-1 md:flex">
     <style>
       .circle-icon {
         width: 45px;
@@ -514,7 +544,7 @@
         justify-content: center;
         position: absolute;
         right: 30px;
-        top: 90px;
+        top: 95px;
         transform: rotate(90deg);
         cursor: pointer;
         transition: background-color 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
@@ -539,18 +569,20 @@
       /* Suggestion dropdown */
       .suggestions {
         position: absolute;
+        margin-top: 3%;
+        margin-left: -10%;
         background: white;
         border: 1px solid #d1d5db;
         border-radius: 0.5rem;
         max-height: 200px;
         overflow-y: auto;
-        width: 83%;
+        width: 95%;
         z-index: 20;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       }
 
       .suggestion-item {
-        padding: 0.5rem 0.5rem;
+        padding: 0.5rem 1rem;
         cursor: pointer;
         font-weight: 700;
         color: #023a6b;
@@ -560,7 +592,7 @@
 
       .suggestion-item:hover,
       .suggestion-item.active {
-        background-color: #d1fae5;
+        background-color: #e9fff4;
         color: #107407;
       }
 
@@ -582,7 +614,6 @@
         box-shadow: 0 4px 8px #1a62a3;
       }
     </style>
-
     <!-- Bus Route Search Form -->
     <form
       class="bg-white border md:w-[48%] overflow-hidden border-gray-200 rounded-2xl px-3 pb-6 shadow-md  transition-shadow relative"
@@ -629,7 +660,7 @@
       <div class="flex items-center gap-3 bg-white rounded-xl px-4 py-3  border border-gray-400 mt-3">
         <i class="fas fa-map-marker-alt text-emerald-700 text-lg"></i>
 
-        <div class="relative-suggest flex-1">
+        <div class="relative-suggest flex-1 overflow-hidden">
           <input type="text" id="Second" name="set" placeholder="To - End-Place"
             class="w-full bg-transparent focus:outline-none font-semibold text-gray-700" autocomplete="off"
             spellcheck="false" />
@@ -643,7 +674,6 @@
         Find Buses
       </button>
     </form>
-
     <!-- Direct Search Section -->
     <div class="md:w-[48%]">
       <h3 class="text-left font-bold text-emerald-800 text-sm ml-2 uppercase tracking-wide">
@@ -652,12 +682,10 @@
 
       <form class="bg-white border border-gray-200 rounded-3xl px-3 py-2 shadow-lg hover:shadow-xl transition mt-2"
         aria-label="Live spot search form" onsubmit="return false">
-
         <!-- Input Card -->
         <div class=" rounded-2xl ">
           <div class="flex items-center gap-3 bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-400">
             <i class="fas fa-bus text-emerald-700 text-lg"></i>
-
             <div class="relative-suggest flex-1">
               <input type="text" id="numberName" name="numberName" placeholder="Enter Bus Number or Name"
                 class="w-full focus:outline-none font-semibold text-gray-700" autocomplete="off" spellcheck="false" />
@@ -665,25 +693,141 @@
             </div>
           </div>
         </div>
-
         <!-- Search Button -->
         <button id="searchBtn" type="submit"
           class="mt-5 w-full bg-green-700 hover:from-emerald-800 hover:to-emerald-700 text-white py-3 rounded-xl font-semibold shadow-md transition">
           Search
         </button>
-
       </form>
     </div>
-
-
     <!-- Search History-->
-
     <div class=" md:w-[48%]">
       <h3 class="text-left font-bold text-emerald-800 text-sm ml-2 uppercase tracking-wide"> Search History</h3>
-
+      <div class="mt-2 bg-white border border-gray-200 rounded-2xl p-3 shadow-md">
+        <ul id="historyList" class="space-y-2"></ul>
+      </div>
     </div>
-  </div>
+    <!-- History Section -->
 
+    <script>
+      const fromInput = document.getElementById("First");
+      const toInput = document.getElementById("Second");
+      const findBtn = document.getElementById("findBusesBtn");
+      const historyList = document.getElementById("historyList");
+
+
+      // Load history from localStorage
+      function getHistory() {
+        return JSON.parse(localStorage.getItem("busHistory")) || [];
+      }
+
+      // Save history to localStorage
+      function saveHistory(data) {
+        localStorage.setItem("busHistory", JSON.stringify(data));
+      }
+
+      // Render history list
+      function renderHistory() {
+        const history = getHistory();
+        historyList.innerHTML = "";
+
+        history.forEach((item, index) => {
+          const li = document.createElement("li");
+          li.className =
+            " ";
+
+          li.innerHTML = ` 
+           <a class="flex justify-between items-center bg-gray-100 px-3 py-2 rounded-lg" href="Datalist.html?from=${encodeURIComponent(item.from)}&to=${encodeURIComponent(item.to)}">
+         <span> <i class="fas fa-bus text-emerald-700 text-lg"></i></span>
+        <span class="cursor-pointer text-gray-700 font-extrabold gap-4 w-72">
+          <span class="cursor-pointer text-gray-700 font-extrabold">
+          ${item.from}
+          </span>
+          <span class="cursor-pointer text-gray-700 font-extrabold">
+             → 
+          </span>
+          <span class="cursor-pointer text-gray-700 font-extrabold">
+          ${item.to}
+          </span>
+        </span>
+        <button class="text-red-500 text-sm"><i class="fas fa-chevron-right text-emerald-700 text-lg"></i>
+</button> </a>
+      `;
+
+          // Click to reuse
+          li.querySelector("span").addEventListener("click", () => {
+            fromInput.value = item.from;
+            toInput.value = item.to;
+          });
+
+          // Delete item
+          function limitHistory() {
+            let history = getHistory();
+            if (history.length > 4) {
+              history.splice(4);
+              saveHistory(history);
+            }
+          }
+          function addToHistory(from, to) {
+            let history = getHistory();
+
+            // Remove duplicate
+            history = history.filter(
+              (item) => item.from !== from || item.to !== to
+            );
+
+            // Add new item on top
+            history.unshift({ from, to });
+
+            // If more than 4, remove extras from bottom
+            if (history.length > 4) {
+              history.splice(4); // keep only first 4
+            }
+
+            saveHistory(history);
+            renderHistory();
+          }
+
+
+          historyList.appendChild(li);
+        });
+      }
+
+      // Add to history
+      function addToHistory(from, to) {
+        let history = getHistory();
+
+        // Prevent duplicates
+        history = history.filter(
+          (item) => item.from !== from || item.to !== to
+        );
+
+        history.unshift({ from, to }); // add on top
+        history = history.slice(0, 5); // keep last 5 items
+
+        saveHistory(history);
+        renderHistory();
+      }
+
+      // On Find Buses click
+      findBtn.addEventListener("click", () => {
+        const from = fromInput.value.trim();
+        const to = toInput.value.trim();
+
+        if (from && to) {
+          addToHistory(from, to);
+          // continue your bus search logic here
+        }
+      });
+
+      // Initial load
+      renderHistory();
+    </script>
+
+  </div>
+  <!-- Tab Sections -->
+  <div id="booking" class="tab-content hidden">
+  </div>
 </body>
 <script>
   document.getElementById("findBusesBtn").addEventListener("click", () => {

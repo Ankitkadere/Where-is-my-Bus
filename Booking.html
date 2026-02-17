@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ticket Check</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+</head>
+
+<body class="font-inter bg-gray-100 text-gray-900 flex flex-col text-sm">
+
+
+  <header class="bg-[#1a62a3] pt-2 ">
+    <div class="flex bottom-4 text-white items-center justify-between w-full px-4  space-x-2 ">
+      <div id="mobile-menu-button" aria-label="Toggle menu"
+        class="flex items-center gap-4 justify-between text-white hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+        <i class="fas fa-bars text-xl"></i>
+        <a href="index.html" class="flex items-center ml-2">
+          <h1 class="font-extrabold text-xl leading-none md:pt-3">
+            Where is my Bus
+          </h1>
+        </a>
+      </div>
+
+
+      <div class="  text-left">
+        <!-- Trigger -->
+        <div id="menuAppDownload" onclick="toggleMenu()" class=" text-white p-2 rounded-full hover:bg-gray-200">
+          <i class="fas fa-mobile-alt text-white text-xl"></i>
+        </div>
+
+        <!-- Menu -->
+        <div id="menu" onclick="toggleMenu()"
+          class="hidden absolute left-0 top-0 w-full h-full mt-2  bg-gray-10 border z-[150] justify-center rounded-lg shadow-lg">
+
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+          <style>
+            /* Custom animation for fade in/out */
+            .fade-in {
+              animation: fadeInScale 0.3s forwards;
+            }
+
+            .fade-out {
+              animation: fadeOutScale 0.3s forwards;
+            }
+
+            @keyframes fadeInScale {
+              0% {
+                opacity: 0;
+                transform: scale(0.95);
+              }
+
+              100% {
+                opacity: 1;
+                transform: scale(1);
+              }
+            }
+
+            @keyframes fadeOutScale {
+              0% {
+                opacity: 1;
+                transform: scale(1);
+              }
+
+              100% {
+                opacity: 0;
+                transform: scale(0.95);
+              }
+            }
+          </style>
+
+          <div class="block  fixed top-0 left-0  text-gray-700 hover:bg-gray-100">
+            <button id="PWA"
+              class="flex fixed  items-center w-full h-full  justify-center gap-2 bg-black text-white px-6 opacity-70  py-3  font-semibold hover:bg-gray-700 transition">
+              <i id="pwaInstallBtn" class="fas fa-mobile-alt text-9xl">
+                <p id="installStatusMsg" class="mt-2 text-base text-white"> Install Now</p>
+              </i>
+
+            </button>
+
+          </div>
+
+          <script>
+            const pwaBtn = document.getElementById('pwaInstallBtn');
+            const statusMsg = document.getElementById('installStatusMsg');
+            let deferredPrompt = null;
+            let appInstalled = false;
+
+            // Disable button until PWA prompt is ready
+            pwaBtn.disabled = true;
+
+            // Listen for beforeinstallprompt event
+            window.addEventListener('beforeinstallprompt', (e) => {
+              e.preventDefault(); // Prevent auto prompt
+              deferredPrompt = e;
+              pwaBtn.disabled = false;
+              statusMsg.textContent = " Install Now";
+            });
+
+            // Handle button click
+            pwaBtn.addEventListener('click', async () => {
+              if (appInstalled) {
+                statusMsg.textContent = " Already installed.";
+                return;
+              }
+
+
+              if (!deferredPrompt) {
+                statusMsg.textContent = "⚠️ Your Device Does Not Support App";
+                toggleMenu();
+                return;
+              }
+
+              // Show the PWA install prompt
+              deferredPrompt.prompt();
+              const choice = await deferredPrompt.userChoice;
+
+              if (choice.outcome === 'accepted') {
+                statusMsg.textContent = "🎉 App Installed Successfully!";
+                appInstalled = true;
+              } else {
+                statusMsg.textContent = "❌ Install Dismissed By User.";
+              }
+
+              deferredPrompt = null;
+              pwaBtn.disabled = true;
+            });
+
+            // Listen for actual app installation
+            window.addEventListener('appinstalled', () => {
+              statusMsg.textContent = "🎉 App Installed Successfully!";
+              appInstalled = true;
+              pwaBtn.disabled = true;
+            });
+          </script>
+
+          <a href="#" class="hidden  block px-4 py-2 text-gray-700 hover:bg-gray-100">
+            <i class="fas fa-share mr-2"></i> Share
+          </a>
+        </div>
+      </div>
+    </div>
+    <!-- Tabs -->
+    <nav class="pt-4 flex border-b border-b-white/50 text-white text-lg font-bold">
+      <a href="index.html" onclick="showTab('buses')" id="tab-buses" class="flex-1 text-center py-3  select-none">
+        Buses
+      </a>
+
+      <a href="Booking.html" onclick="showTab('booking')" id="tab-booking"
+        class="flex-1 border-b-4 border-white text-center py-3 select-none">
+        Booking
+      </a>
+    </nav>
+
+    <!-- Script -->
+    <script>
+      function showTab(tab) {
+        // hide all sections
+        document.querySelectorAll('.tab-content').forEach(el => {
+          el.classList.add('hidden');
+        });
+
+        // remove active style
+        document.querySelectorAll('[id^="tab-"]').forEach(el => {
+          el.classList.remove('border-b-4', 'border-white');
+        });
+
+        // show selected section
+        document.getElementById(tab).classList.remove('hidden');
+
+        // activate selected tab
+        document.getElementById('tab-' + tab)
+          .classList.add('border-b-4', 'border-white');
+      }
+    </script>
+
+  </header>
+  <!-- Mobile Side Navbar -->
+  <div id="mobile-nav"
+    class="bg-white z-[100]  fixed inset-y-0 left-0 w-80  shadow-lg transform -translate-x-full transition-transform duration-300 ease-in-out z-50 overflow-y-auto">
+    <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200">
+      <a href="index.html" class="flex items-center space-x-2 pt-2">
+        <i class="fas fa-bus fa-3x text-[#1a62a3]  "></i>
+        <h1 class="font-extrabold w-full pr-2 text-2xl leading-none">
+          Where is my Bus
+          <span class="font-normal text-gray-500 text-base sm:text-lg ">
+            Google
+          </span>
+        </h1>
+      </a>
+
+      <button id="mobile-menu-close" aria-label="Close menu"
+        class="text-gray-700 hover:text-gray-900 focus:outline-none">
+      </button>
+    </div>
+    <div class="px-1 py-1 border-b border-gray-200">
+      <div class="relative w-full">
+        <input aria-label="Search for products"
+          class="w-full  border border-gray-400 rounded-md py-2 pl-3 pr-10 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-transparent"
+          placeholder="Search For ..." type="search" />
+
+        <span class="absolute inset-y-0 right-3 flex items-center text-gray-500">
+          <i class="fas fa-search text-[#1a1a1a] text-lg"></i>
+        </span>
+      </div>
+    </div>
+
+    <nav class="bg-white flex flex-col">
+      <!-- Top Section -->
+      <div class="p-4">
+        <!-- Title -->
+        <div class="flex items-center justify-between font-semibold text-gray-800 mb-4 cursor-pointer">
+          <span>SERVICES BY BUS</span>
+          <i class="fas fa-chevron-down text-sm"></i>
+        </div>
+
+        <!-- Menu -->
+        <ul class="space-y-2 text-sm">
+          <li>
+            <a href="index.html" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
+              <i class="fas fa-home"></i> Home
+            </a>
+          </li>
+          <li>
+            <a href="Adminpenel.html" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
+              <i class="fas fa-user-shield"></i> Booking
+            </a>
+          </li>
+          <li>
+            <a href="Userchat.html" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
+              <i class="fas fa-tv"></i> Services
+            </a>
+          </li>
+          <li>
+            <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
+              <i class="fas fa-clock"></i> Change Time
+            </a>
+          </li>
+          <li>
+            <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
+              <i class="fas fa-trash"></i> Remove Something
+            </a>
+          </li>
+          <li>
+            <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
+              <i class="fas fa-map-marker-alt"></i> Add Location
+            </a>
+          </li>
+          <li>
+            <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
+              <i class="fas fa-bus"></i> Add Buses
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Bottom Bar -->
+      <div
+        class="fixed bottom-0 left-0 w-full border-t bg-white p-4 flex items-center justify-between text-sm shadow-md z-50">
+
+        <div onclick="window.location.href='Owner.html'" class="cursor-pointer">
+          <div class="font-semibold">Whereis My Bus</div>
+          <div class="text-xs text-gray-500">Whereismybus.com</div>
+        </div>
+
+        <button title="Profile" onclick="window.location.href='Orderlist.html'"
+          class="text-gray-600 hover:text-blue-600 transition">
+          <i class="fas fa-shopping-cart text-lg"></i>
+        </button>
+      </div>
+    </nav>
+  </div>
+  <!-- Overlay -->
+  <div id="overlay" class="fixed inset-0 bg-black bg-opacity-30 hidden z-[50]" aria-hidden="true"></div>
+
+  <script>
+
+    const mobileMenuButton = document.getElementById("mobile-menu-button");
+    const mobileMenuClose = document.getElementById("mobile-menu-close");
+    const mobileNav = document.getElementById("mobile-nav");
+
+
+    function openMenu() {
+      mobileNav.classList.remove("-translate-x-full");
+      overlay.classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeMenu() {
+      mobileNav.classList.add("-translate-x-full");
+      overlay.classList.add("hidden");
+      document.body.style.overflow = "";
+    }
+
+    mobileMenuButton.addEventListener("click", openMenu);
+    mobileMenuClose.addEventListener("click", closeMenu);
+    overlay.addEventListener("click", closeMenu);
+
+    // Modal
+    const openBtn = document.getElementById("openModalBtn");
+    const closeBtn = document.getElementById("closeModalBtn");
+    const closeBtnFooter = document.getElementById("closeModalBtnFooter");
+    const modalOverlay = document.getElementById("modalOverlay");
+    const modalBox = document.getElementById("modalBox");
+
+    function openModal() {
+      modalOverlay.classList.remove("opacity-0", "pointer-events-none");
+      modalOverlay.classList.add("opacity-100");
+      modalBox.classList.remove("opacity-0", "scale-95", "fade-out");
+      modalBox.classList.add("fade-in");
+    }
+
+    function closeModal() {
+      modalBox.classList.remove("fade-in");
+      modalBox.classList.add("fade-out");
+      modalOverlay.classList.remove("opacity-100");
+      modalOverlay.classList.add("opacity-0");
+
+      setTimeout(() => {
+        modalOverlay.classList.add("pointer-events-none");
+        modalBox.classList.remove("fade-out");
+        modalBox.classList.add("opacity-0", "scale-95");
+      }, 300);
+    }
+
+    openBtn.addEventListener("click", openModal);
+    closeBtn.addEventListener("click", closeModal);
+    closeBtnFooter.addEventListener("click", closeModal);
+    modalOverlay.addEventListener("click", (e) => {
+      if (e.target === modalOverlay) closeModal();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !modalOverlay.classList.contains("pointer-events-none")) {
+        closeModal();
+      }
+    });
+
+
+
+    // Show modal
+    function showModal() {
+      modalOverlay.classList.remove("opacity-0", "pointer-events-none");
+      modalBox.classList.remove("opacity-0", "scale-95");
+      modalOverlay.classList.add("opacity-100");
+      modalBox.classList.add("opacity-100", "scale-100");
+    }
+
+    // Search input
+    const firstinput = document.getElementById("firstinput");
+    const searchbtn = document.getElementById("searchbtn");
+
+    window.addEventListener("load", () => {
+      firstinput.focus();
+      firstinput.select();
+    });
+
+    function redirectToCourse() {
+      const value = firstinput.value.trim();
+      if (value !== "") {
+        window.location.href = `Courselist.html?search=${encodeURIComponent(value)}`;
+      }
+    }
+
+    firstinput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        redirectToCourse();
+      }
+    });
+    searchbtn.addEventListener("click", redirectToCourse);
+
+    // Menu toggle
+    function toggleMenu() {
+      document.getElementById("menu").classList.toggle("hidden");
+    }
+    // Simulate progress (alternative random style)
+    function simulateProgress(callback) {
+      let progress = 0;
+      const interval = setInterval(() => {
+        if (progress >= 100) {
+          clearInterval(interval);
+          progress = 100;
+          progressBar.style.width = "100%";
+          progressText.innerText = "100%";
+          statusText.innerText = "App Installed!";
+          audio.play();
+          setTimeout(() => (appDownload.style.display = "none"), 2000);
+          callback();
+        } else {
+          progress += 5 + Math.random() * 10;
+          if (progress > 100) progress = 100;
+          progressBar.style.width = `${progress}%`;
+          progressText.innerText = `${Math.floor(progress)}%`;
+        }
+      }, 200);
+    }
+
+  </script>
+  <script type="module">
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut,
+    } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
+    import {
+      getFirestore,
+      getDoc,
+      doc,
+    } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+
+    // ✅ Your Firebase config (USE YOUR OWN VALUES HERE)
+    const firebaseConfig = {
+      apiKey: "AIzaSyAKN5GR18VTFrKNgVG7FenD4aSTX3Q2PbA",
+      authDomain: "gift-zone-project.firebaseapp.com",
+      projectId: "gift-zone-project",
+      storageBucket: "gift-zone-project.appspot.com",
+      messagingSenderId: "806465456032",
+      appId: "1:806465456032:web:becf8988a6dfabe43646c5",
+      measurementId: "G-1ZLMWBP61Y",
+    };
+
+    // ✅ Initialize Firebase services
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // ✅ On Auth Change: fetch and show user data
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const loggedInUserId = localStorage.getItem("loggedInUserId");
+        if (!loggedInUserId) {
+          console.log("User ID not found in local storage.");
+          return;
+        }
+
+        const docRef = doc(db, "users", loggedInUserId);
+        getDoc(docRef)
+          .then((docSnap) => {
+            if (docSnap.exists()) {
+              const userData = docSnap.data();
+              let filt = (document.getElementById("HomeName").innerText =
+                userData.firstName || "N/A");
+              let ff = (document.getElementById("Homemails").innerText =
+                userData.email || "N/A");
+              let filts = (document.getElementById("PhoneHomeName").innerText =
+                userData.firstName || "N/A");
+              let ffd = (document.getElementById("PhoneHomemails").innerText =
+                userData.email || "N/A");
+
+              // ✅ Optional: handle missing lastName gracefully
+              const lNameElement = document.getElementById("loggedUserLName");
+              if (userData.lastName) {
+                lNameElement.innerText = userData.lastName;
+              } else {
+                lNameElement.innerText = "-";
+              }
+            } else {
+              console.log("No user document found in Firestore.");
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching user data:", error);
+          });
+      } else {
+        console.log("User not signed in.");
+      }
+    });
+  </script>
+  <span id="Eng" class="hidden"></span>
+  <span id="Hi" class="hidden"></span>
+ <section id="booking"></section>
+  <section id="buses">
+    <!-- MAIN CONTENT -->
+    <div class="w-full max-w-md mt-10 mx-auto" id="dialPadBox">
+      <h1 id="settext" class="text-lg font-bold mb-6 text-center">
+        TICKET CHECK
+      </h1>
+
+      <div class="p-4 bg-white rounded-xl shadow">
+        <input id="filterInput" type="text"
+          class="w-full text-center text-xl font-bold bg-gray-100 rounded-lg py-3 mb-4"
+          placeholder="ENTER PASSCODE / NUMBER" readonly />
+
+        <!-- Dial Pad -->
+        <div class="grid grid-cols-3 gap-2 text-xl font-semibold">
+          <button class="bg-gray-200 py-3 rounded" data-value="1">1</button>
+          <button class="bg-gray-200 py-3 rounded" data-value="2">2</button>
+          <button class="bg-gray-200 py-3 rounded" data-value="3">3</button>
+          <button class="bg-gray-200 py-3 rounded" data-value="4">4</button>
+          <button class="bg-gray-200 py-3 rounded" data-value="5">5</button>
+          <button class="bg-gray-200 py-3 rounded" data-value="6">6</button>
+          <button class="bg-gray-200 py-3 rounded" data-value="7">7</button>
+          <button class="bg-gray-200 py-3 rounded" data-value="8">8</button>
+          <button class="bg-gray-200 py-3 rounded" data-value="9">9</button>
+          <button id="clearBtn" class="bg-red-100 py-3 rounded">C</button>
+          <button class="bg-gray-200 py-3 rounded" data-value="0">0</button>
+          <button id="deleteBtn" class="bg-yellow-100 py-3 rounded">⌫</button>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Submit Button -->
+    <button id="submitBtn" class="fixed bottom-2 left-2 right-2 bg-sky-700 text-white text-xl py-3 rounded-md shadow">
+      Check Ticket
+    </button>
+
+
+    <!-- Loader -->
+    <div id="loader" class="hidden fixed inset-0 flex items-center justify-center bg-black/30">
+      <div class="w-16 h-16 border-8 border-green-600 border-t-transparent rounded-full animate-spin"></div>
+    </div>
+
+    <!-- Ticket Output -->
+    <div id="dataBody" class="w-full max-w-md mt-6 mx-auto"></div>
+
+  </section>
+  <!-- MAIN SCRIPT -->
+ <script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  // ---------- DIAL PAD ----------
+  const input = document.getElementById("filterInput");
+  const buttons = document.querySelectorAll("button[data-value]");
+  const clearBtn = document.getElementById("clearBtn");
+  const deleteBtn = document.getElementById("deleteBtn");
+  const settext = document.getElementById("settext");
+  const submitBtn = document.getElementById("submitBtn");
+  const dataBody = document.getElementById("dataBody");
+  const dialPadBox = document.getElementById("dialPadBox");
+  const loader = document.getElementById("loader");
+
+  const API_URL =
+    "https://script.google.com/macros/s/AKfycbzkdg6vHCPXYmo8LdLB6Bk6c6hWzqpGNiAzWHBORtIVntStTPPxOTHo3buy31fMhO1Z_g/exec";
+
+  // keypad input
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      if (input.value.length < 10) {
+        input.value += btn.getAttribute("data-value");
+      }
+    });
+  });
+
+  clearBtn.onclick = () => (input.value = "");
+  deleteBtn.onclick = () => {
+    input.value = input.value.slice(0, -1);
+  };
+
+  // ---------- SUBMIT ----------
+  submitBtn.onclick = () => {
+    const value = input.value.trim();
+
+    if (submitBtn.textContent === "Check Ticket") {
+      if (!value) {
+        settext.textContent = "Please enter passcode or number";
+        return;
+      }
+      fetchData(value);
+    } else {
+      location.reload();
+    }
+  };
+
+  // ---------- FETCH ----------
+  async function fetchData(value) {
+    loader.classList.remove("hidden");
+    settext.textContent = "Checking...";
+
+    try {
+      const res = await fetch(API_URL);
+      const data = await res.json();
+
+      // exact match: passcode OR mobile
+      const match = data.find(
+        (row) =>
+          String(row.Passcode).trim() === value ||
+          String(row.Usermobile).trim() === value
+      );
+
+      if (!match) {
+        settext.textContent = "No ticket found. Re-enter passcode.";
+        input.value = "";
+        return;
+      }
+
+      showTicket(match);
+
+    } catch (err) {
+      console.error(err);
+      settext.textContent = "Error fetching data.";
+    } finally {
+      loader.classList.add("hidden");
+    }
+  }
+
+  // ---------- SHOW TICKET ----------
+  function showTicket(row) {
+    dialPadBox.classList.add("hidden");
+    settext.textContent = "";
+
+    submitBtn.textContent = "Clear";
+    submitBtn.classList.remove("bg-sky-700");
+    submitBtn.classList.add("bg-red-600");
+
+    dataBody.innerHTML = `
+      <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+        <div class="bg-green-800 text-white p-4">
+          <div class="text-3xl font-bold">Seat ${row.Seat}</div>
+          <div class="text-lg">${row.TBName}</div>
+          <div class="text-sm">${row.TBNumber}</div>
+        </div>
+
+        <div class="p-4 space-y-3">
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <p class="text-xs text-gray-500">Passenger</p>
+              <p class="font-semibold">${row.Username}</p>
+            </div>
+            <div>
+              <p class="text-xs text-gray-500">Last Name</p>
+              <p class="font-semibold">${row.Userlast}</p>
+            </div>
+            <div>
+              <p class="text-xs text-gray-500">Age</p>
+              <p>${row.Age}</p>
+            </div>
+            <div>
+              <p class="text-xs text-gray-500">Gender</p>
+              <p>${row.Gender}</p>
+            </div>
+          </div>
+
+          <div class="border-t pt-3 flex justify-between">
+            <div>
+              <p class="text-xs text-gray-500">From</p>
+              <p class="font-semibold">${row.TStart}</p>
+            </div>
+            <div class="text-right">
+              <p class="text-xs text-gray-500">To</p>
+              <p class="font-semibold">${row.TEnd}</p>
+            </div>
+          </div>
+
+          <div class="border-t pt-3 flex justify-between">
+            <div>
+              <p class="text-xs text-gray-500">Class</p>
+              <p>${row.Class}</p>
+            </div>
+            <div>
+              <p class="text-xs text-gray-500">Price</p>
+              <p>₹${Number(row.Price) * Number(row.Child || 1)}</p>
+            </div>
+          </div>
+
+          <div class="text-center pt-3 border-t">
+            <p class="text-xl font-bold">${row.Passcode}</p>
+            <p class="text-green-700 font-semibold">Ticket Confirmed</p>
+          </div>
+        </div>
+      </div>`;
+  }
+
+});
+</script>
+
+</body>
+
+</html>
