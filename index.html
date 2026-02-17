@@ -803,7 +803,7 @@
         );
 
         history.unshift({ from, to }); // add on top
-        history = history.slice(0, 5); // keep last 5 items
+        history = history.slice(0, 4); // keep last 4 items
 
         saveHistory(history);
         renderHistory();
