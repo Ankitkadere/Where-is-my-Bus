@@ -472,55 +472,53 @@
   </script>
   <span id="Eng" class="hidden"></span>
   <span id="Hi" class="hidden"></span>
- <section id="booking"></section>
-  <section id="buses">
-    <!-- MAIN CONTENT -->
-    <div class="w-full max-w-md mt-10 mx-auto" id="dialPadBox">
-      <h1 id="settext" class="text-lg font-bold mb-6 text-center">
-        TICKET CHECK
-      </h1>
+  <section id="booking"></section>
+ <section id="buses">
+  <!-- MAIN CONTENT -->
+  <div class="w-full  mt-10 mx-auto" id="dialPadBox">
+    <h1 id="settext" class="text-lg font-bold mb-6 text-center">
+      TICKET CHECK
+    </h1>
 
-      <div class="p-4 bg-white rounded-xl shadow">
-        <input id="filterInput" type="text"
-          class="w-full text-center text-xl font-bold bg-gray-100 rounded-lg py-3 mb-4"
-          placeholder="ENTER PASSCODE / NUMBER" readonly />
+    <div class="p-4 bg-white rounded-xl bottom-0 fixed w-full shadow">
+      <input id="filterInput" type="text"
+        class="w-full text-center text-xl font-bold bg-gray-100 rounded-lg py-3 mb-4"
+        placeholder="ENTER PASSCODE / NUMBER" readonly />
 
-        <!-- Dial Pad -->
-        <div class="grid grid-cols-3 gap-2 text-xl font-semibold">
-          <button class="bg-gray-200 py-3 rounded" data-value="1">1</button>
-          <button class="bg-gray-200 py-3 rounded" data-value="2">2</button>
-          <button class="bg-gray-200 py-3 rounded" data-value="3">3</button>
-          <button class="bg-gray-200 py-3 rounded" data-value="4">4</button>
-          <button class="bg-gray-200 py-3 rounded" data-value="5">5</button>
-          <button class="bg-gray-200 py-3 rounded" data-value="6">6</button>
-          <button class="bg-gray-200 py-3 rounded" data-value="7">7</button>
-          <button class="bg-gray-200 py-3 rounded" data-value="8">8</button>
-          <button class="bg-gray-200 py-3 rounded" data-value="9">9</button>
-          <button id="clearBtn" class="bg-red-100 py-3 rounded">C</button>
-          <button class="bg-gray-200 py-3 rounded" data-value="0">0</button>
-          <button id="deleteBtn" class="bg-yellow-100 py-3 rounded">⌫</button>
-        </div>
+      <!-- Dial Pad -->
+      <div class="grid grid-cols-3 gap-2 text-xl font-bold">
+        <button class="bg-gray-200 py-3 rounded" data-value="1">1</button>
+        <button class="bg-gray-200 py-3 rounded" data-value="2">2</button>
+        <button class="bg-gray-200 py-3 rounded" data-value="3">3</button>
+        <button class="bg-gray-200 py-3 rounded" data-value="4">4</button>
+        <button class="bg-gray-200 py-3 rounded" data-value="5">5</button>
+        <button class="bg-gray-200 py-3 rounded" data-value="6">6</button>
+        <button class="bg-gray-200 py-3 rounded" data-value="7">7</button>
+        <button class="bg-gray-200 py-3 rounded" data-value="8">8</button>
+        <button class="bg-gray-200 py-3 rounded" data-value="9">9</button>
+        <button id="clearBtn" class="bg-red-100 py-3 rounded">C</button>
+        <button class="bg-gray-200 py-3 rounded" data-value="0">0</button>
+        <button id="deleteBtn" class="bg-yellow-100 py-3 rounded">⌫</button>
       </div>
+
+      <button type="button" id="submitBtn"
+        class="w-full bg-sky-700 text-white text-lg py-3 mt-4 rounded-md shadow">
+        Check Ticket
+      </button>
     </div>
+  </div>
 
+  <!-- Loader -->
+  <div id="loader" class="hidden fixed inset-0 flex items-center justify-center bg-black/30">
+    <div class="w-16 h-16 border-8 border-green-600 border-t-transparent rounded-full animate-spin"></div>
+  </div>
 
-    <!-- Submit Button -->
-    <button id="submitBtn" class="fixed bottom-2 left-2 right-2 bg-sky-700 text-white text-xl py-3 rounded-md shadow">
-      Check Ticket
-    </button>
+  <!-- Ticket Output -->
+  <div id="dataBody" class="w-full max-w-md mt-6 mx-auto"></div>
+</section>
 
-
-    <!-- Loader -->
-    <div id="loader" class="hidden fixed inset-0 flex items-center justify-center bg-black/30">
-      <div class="w-16 h-16 border-8 border-green-600 border-t-transparent rounded-full animate-spin"></div>
-    </div>
-
-    <!-- Ticket Output -->
-    <div id="dataBody" class="w-full max-w-md mt-6 mx-auto"></div>
-
-  </section>
-  <!-- MAIN SCRIPT -->
- <script>
+<!-- MAIN SCRIPT -->
+<script>
 document.addEventListener("DOMContentLoaded", () => {
 
   // ---------- DIAL PAD ----------
@@ -552,10 +550,12 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // ---------- SUBMIT ----------
-  submitBtn.onclick = () => {
+  submitBtn.onclick = (e) => {
+    e.preventDefault(); // prevent page reload
+
     const value = input.value.trim();
 
-    if (submitBtn.textContent === "Check Ticket") {
+    if (submitBtn.textContent == "Check Ticket") {
       if (!value) {
         settext.textContent = "Please enter passcode or number";
         return;
@@ -575,14 +575,15 @@ document.addEventListener("DOMContentLoaded", () => {
       const res = await fetch(API_URL);
       const data = await res.json();
 
-      // exact match: passcode OR mobile
-      const match = data.find(
-        (row) =>
-          String(row.Passcode).trim() === value ||
-          String(row.Usermobile).trim() === value
-      );
+      const match = data.find((row) => {
+        const pass = String(row.Passcode || "").trim();
+        const mobile = String(row.Usermobile || "").trim();
+        const inputVal = String(value).trim();
+        return pass === inputVal || mobile === inputVal;
+      });
 
       if (!match) {
+        loader.classList.add("hidden");
         settext.textContent = "No ticket found. Re-enter passcode.";
         input.value = "";
         return;
@@ -667,6 +668,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 </script>
+
 
 </body>
 
