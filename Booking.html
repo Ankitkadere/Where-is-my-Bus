@@ -4,14 +4,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ticket Check</title>
+  <title>Ticket Checker</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 </head>
 
-<body class="font-inter bg-gray-100 text-gray-900 flex flex-col text-sm">
-
-
+<body class="bg-gray-100  items-center justify-center">
+  <!-- Header -->
   <header class="bg-[#1a62a3] pt-2 ">
     <div class="flex bottom-4 text-white items-center justify-between w-full px-4  space-x-2 ">
       <div id="mobile-menu-button" aria-label="Toggle menu"
@@ -144,12 +143,12 @@
     </div>
     <!-- Tabs -->
     <nav class="pt-4 flex border-b border-b-white/50 text-white text-lg font-bold">
-      <a href="index.html" onclick="showTab('buses')" id="tab-buses" class="flex-1 text-center py-3  select-none">
+      <a href="index.html" onclick="showTab('buses')" id="tab-buses"
+        class="flex-1 text-center py-3 border-white select-none">
         Buses
       </a>
 
-      <a href="Booking.html" onclick="showTab('booking')" id="tab-booking"
-        class="flex-1 border-b-4 border-white text-center py-3 select-none">
+      <a href="Booking.html" onclick="showTab('booking')" id="tab-booking" class="flex-1  border-b-4 border-white text-center py-3 select-none">
         Booking
       </a>
     </nav>
@@ -398,278 +397,275 @@
     }
 
   </script>
-  <script type="module">
+  <!-- Loader -->
+  <div id="loader" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+    <div class="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+  </div>
 
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-    import {
-      getAuth,
-      onAuthStateChanged,
-      signOut,
-    } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
-    import {
-      getFirestore,
-      getDoc,
-      doc,
-    } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+  <!-- Main Box (Dial Pad) -->
+  <div id="mainBox" class="w-full mx-auto fixed bottom-0  overflow-hidden">
 
-    // ✅ Your Firebase config (USE YOUR OWN VALUES HERE)
-    const firebaseConfig = {
-      apiKey: "AIzaSyAKN5GR18VTFrKNgVG7FenD4aSTX3Q2PbA",
-      authDomain: "gift-zone-project.firebaseapp.com",
-      projectId: "gift-zone-project",
-      storageBucket: "gift-zone-project.appspot.com",
-      messagingSenderId: "806465456032",
-      appId: "1:806465456032:web:becf8988a6dfabe43646c5",
-      measurementId: "G-1ZLMWBP61Y",
-    };
+    <!-- Header -->
+    <div class="p-4 text-center">
+      <h1 class="text-lg font-bold">Ticket Checker</h1>
+      <p class="text-xs text-gray-500">Enter Passcode or Mobile</p>
+    </div>
 
-    // ✅ Initialize Firebase services
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+    <div class="p-3  bg-white ">
 
-    // ✅ On Auth Change: fetch and show user data
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const loggedInUserId = localStorage.getItem("loggedInUserId");
-        if (!loggedInUserId) {
-          console.log("User ID not found in local storage.");
-          return;
-        }
+      <!-- Input -->
+      <input id="filterInput" type="text" placeholder="••••••••••"
+        class="w-full bg-gray-100 rounded-lg p-3 text-center text-lg font-bold mb-4 tracking-widest shadow-inner"
+        readonly />
 
-        const docRef = doc(db, "users", loggedInUserId);
-        getDoc(docRef)
-          .then((docSnap) => {
-            if (docSnap.exists()) {
-              const userData = docSnap.data();
-              let filt = (document.getElementById("HomeName").innerText =
-                userData.firstName || "N/A");
-              let ff = (document.getElementById("Homemails").innerText =
-                userData.email || "N/A");
-              let filts = (document.getElementById("PhoneHomeName").innerText =
-                userData.firstName || "N/A");
-              let ffd = (document.getElementById("PhoneHomemails").innerText =
-                userData.email || "N/A");
+      <!-- Keypad -->
+      <div class="grid grid-cols-3 gap-3 text-lg font-bold">
+        <button class="key bg-gray-100 py-3 rounded-lg shadow active:scale-95">1</button>
+        <button class="key bg-gray-100 py-3 rounded-lg shadow active:scale-95">2</button>
+        <button class="key bg-gray-100 py-3 rounded-lg shadow active:scale-95">3</button>
+        <button class="key bg-gray-100 py-3 rounded-lg shadow active:scale-95">4</button>
+        <button class="key bg-gray-100 py-3 rounded-lg shadow active:scale-95">5</button>
+        <button class="key bg-gray-100 py-3 rounded-lg shadow active:scale-95">6</button>
+        <button class="key bg-gray-100 py-3 rounded-lg shadow active:scale-95">7</button>
+        <button class="key bg-gray-100 py-3 rounded-lg shadow active:scale-95">8</button>
+        <button class="key bg-gray-100 py-3 rounded-lg shadow active:scale-95">9</button>
 
-              // ✅ Optional: handle missing lastName gracefully
-              const lNameElement = document.getElementById("loggedUserLName");
-              if (userData.lastName) {
-                lNameElement.innerText = userData.lastName;
-              } else {
-                lNameElement.innerText = "-";
-              }
-            } else {
-              console.log("No user document found in Firestore.");
-            }
-          })
-          .catch((error) => {
-            console.error("Error fetching user data:", error);
-          });
-      } else {
-        console.log("User not signed in.");
-      }
-    });
-  </script>
-  <span id="Eng" class="hidden"></span>
-  <span id="Hi" class="hidden"></span>
-  <section id="booking"></section>
- <section id="buses">
-  <!-- MAIN CONTENT -->
-  <div class="w-full  mt-10 mx-auto" id="dialPadBox">
-    <h1 id="settext" class="text-lg font-bold mb-6 text-center">
-      TICKET CHECK
-    </h1>
+        <button id="clearBtn" class="bg-red-100 text-red-600 py-3 rounded-lg shadow active:scale-95">
+          C
+        </button>
 
-    <div class="p-4 bg-white rounded-xl bottom-0 fixed w-full shadow">
-      <input id="filterInput" type="text"
-        class="w-full text-center text-xl font-bold bg-gray-100 rounded-lg py-3 mb-4"
-        placeholder="ENTER PASSCODE / NUMBER" readonly />
+        <button class="key bg-gray-100 py-3 rounded-lg shadow active:scale-95">0</button>
 
-      <!-- Dial Pad -->
-      <div class="grid grid-cols-3 gap-2 text-xl font-bold">
-        <button class="bg-gray-200 py-3 rounded" data-value="1">1</button>
-        <button class="bg-gray-200 py-3 rounded" data-value="2">2</button>
-        <button class="bg-gray-200 py-3 rounded" data-value="3">3</button>
-        <button class="bg-gray-200 py-3 rounded" data-value="4">4</button>
-        <button class="bg-gray-200 py-3 rounded" data-value="5">5</button>
-        <button class="bg-gray-200 py-3 rounded" data-value="6">6</button>
-        <button class="bg-gray-200 py-3 rounded" data-value="7">7</button>
-        <button class="bg-gray-200 py-3 rounded" data-value="8">8</button>
-        <button class="bg-gray-200 py-3 rounded" data-value="9">9</button>
-        <button id="clearBtn" class="bg-red-100 py-3 rounded">C</button>
-        <button class="bg-gray-200 py-3 rounded" data-value="0">0</button>
-        <button id="deleteBtn" class="bg-yellow-100 py-3 rounded">⌫</button>
+        <button id="deleteBtn" class="bg-yellow-100 text-yellow-700 py-3 rounded-lg shadow active:scale-95">
+          ⌫
+        </button>
       </div>
 
-      <button type="button" id="submitBtn"
-        class="w-full bg-sky-700 text-white text-lg py-3 mt-4 rounded-md shadow">
+      <!-- Check Button -->
+      <button id="checkBtn"
+        class="w-full mt-4 bg-[#1a62a3] text-white py-3 rounded-lg font-bold text-base shadow-lg transition">
         Check Ticket
       </button>
+
     </div>
   </div>
 
-  <!-- Loader -->
-  <div id="loader" class="hidden fixed inset-0 flex items-center justify-center bg-black/30">
-    <div class="w-16 h-16 border-8 border-green-600 border-t-transparent rounded-full animate-spin"></div>
+
+  <!-- Ticket Result -->
+  <div id="result" class="hidden w-full max-w-sm"></div>
+
+  <script>
+    const API_URL =
+      "https://script.google.com/macros/s/AKfycbzkdg6vHCPXYmo8LdLB6Bk6c6hWzqpGNiAzWHBORtIVntStTPPxOTHo3buy31fMhO1Z_g/exec";
+
+    const input = document.getElementById("filterInput");
+    const keys = document.querySelectorAll(".key");
+    const clearBtn = document.getElementById("clearBtn");
+    const deleteBtn = document.getElementById("deleteBtn");
+    const checkBtn = document.getElementById("checkBtn");
+    const loader = document.getElementById("loader");
+    const result = document.getElementById("result");
+    const mainBox = document.getElementById("mainBox");
+
+    // Keypad input
+    keys.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        if (input.value.length < 15) {
+          input.value += btn.textContent;
+        }
+      });
+    });
+
+    // Clear input
+    clearBtn.addEventListener("click", () => {
+      input.value = "";
+    });
+
+    // Delete last digit
+    deleteBtn.addEventListener("click", () => {
+      input.value = input.value.slice(0, -1);
+    });
+
+    // Check ticket
+    checkBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      fetchData();
+    });
+
+    async function fetchData() {
+      const value = input.value.trim();
+      if (!value) {
+        alert("Enter passcode or mobile number");
+        return;
+      }
+
+      loader.classList.remove("hidden");
+
+      try {
+        const res = await fetch(API_URL);
+        const json = await res.json();
+
+        const data = Array.isArray(json) ? json : json.data;
+
+        const match = data.find((row) => {
+          const pass = String(row.Passcode || "").trim();
+          const mobile = String(row.Usermobile || "").trim();
+          return pass === value || mobile === value;
+        });
+
+        loader.classList.add("hidden");
+
+        if (match) {
+          showTicket(match);
+        } else {
+          alert("Ticket not found");
+        }
+      } catch (err) {
+        loader.classList.add("hidden");
+        alert("Error loading data");
+        console.error(err);
+      }
+    }
+
+    function showTicket(match) {
+      mainBox.classList.add("hidden");
+
+      result.innerHTML = `
+  <div class="bg-white  shadow-xl overflow-hidden">
+    
+    <!-- Header -->
+    <div class="bg-emerald-600 text-white p-4 text-center relative">
+      
+      <!-- Seat Badge -->
+     <div class="absolute top-3 left-3 
+            w-12 h-12 
+            bg-white text-emerald-700 
+            font-bold text-lg
+            rounded-full shadow 
+            flex items-center justify-center">
+  ${match.Seat || "-"}
+</div>
+
+
+      <h2 class="text-lg font-bold">${match.TBName || "-"}</h2>
+      <p class="text-sm ">${match.TBNumber || "-"}</p>
+    </div>
+
+    <!-- Route -->
+    <div class="p-4 text-center border-b">
+  <div class="flex justify-between text-xs text-gray-500 mb-1">
+    <span>From</span>
+    <span>To</span>
   </div>
 
-  <!-- Ticket Output -->
-  <div id="dataBody" class="w-full max-w-md mt-6 mx-auto"></div>
-</section>
+  <div class="text-lg font-bold flex items-center justify-between gap-2">
+    <span>${match.TStart || "-"}</span>
+    <i class="fas fa-arrow-right text-emerald-600"></i>
+    <span>${match.TEnd || "-"}</span>
+  </div>
+ 
+</div>
 
-<!-- MAIN SCRIPT -->
-<script>
-document.addEventListener("DOMContentLoaded", () => {
 
-  // ---------- DIAL PAD ----------
-  const input = document.getElementById("filterInput");
-  const buttons = document.querySelectorAll("button[data-value]");
-  const clearBtn = document.getElementById("clearBtn");
-  const deleteBtn = document.getElementById("deleteBtn");
-  const settext = document.getElementById("settext");
-  const submitBtn = document.getElementById("submitBtn");
-  const dataBody = document.getElementById("dataBody");
-  const dialPadBox = document.getElementById("dialPadBox");
-  const loader = document.getElementById("loader");
+ 
+    <!-- Passenger Info -->
+    <div class="p-4 grid grid-cols-2 gap-3 text-sm border-b">
+      <div>
+        <p class="text-gray-500">Passenger</p>
+        <p class="font-semibold">
+          ${match.Username || ""} ${match.Userlast || ""}
+        </p>
+      </div>
+      <div>
+        <p class="text-gray-500">Mobile</p>
+        <p class="font-semibold">${match.Usermobile || "-"}</p>
+      </div>
+      <div>
+        <p class="text-gray-500">Age</p>
+        <p class="font-semibold">${match.Age || "-"}</p>
+      </div>
+      <div>
+        <p class="text-gray-500">Gender</p>
+        <p class="font-semibold">${match.Gender || "-"}</p>
+      </div>   <div>
+        <p class="text-gray-500">Date</p>
+        <p class="font-semibold">${match.Date || "-"}</p>
+      </div>
+      <div>
+        <p class="text-gray-500">Time</p>
+        <p class="font-semibold">${match.Time || "-"}</p>
+      </div> </div>
 
-  const API_URL =
-    "https://script.google.com/macros/s/AKfycbzkdg6vHCPXYmo8LdLB6Bk6c6hWzqpGNiAzWHBORtIVntStTPPxOTHo3buy31fMhO1Z_g/exec";
+  <div class="p-2 grid grid-cols-3 text-sm border-b divide-x">
+  <div class="text-left ">
+    <p class="text-gray-500">Child</p>
+    <p class="font-semibold">${match.Child || "0"}</p>
+  </div>
 
-  // keypad input
-  buttons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      if (input.value.length < 10) {
-        input.value += btn.getAttribute("data-value");
-      }
-    });
-  });
+  <div class="text-center px-2">
+    <p class="text-gray-500">Class</p>
+    <p class="font-semibold">${match.Class || "-"}</p>
+  </div>
 
-  clearBtn.onclick = () => (input.value = "");
-  deleteBtn.onclick = () => {
-    input.value = input.value.slice(0, -1);
-  };
+  <div class="text-right ">
+    <p class="text-gray-500">Price</p>
+    <p class="font-semibold">₹${match.Price || "-"}</p>
+  </div>
+</div>
+ 
 
-  // ---------- SUBMIT ----------
-  submitBtn.onclick = (e) => {
-    e.preventDefault(); // prevent page reload
+    <!-- Passcode -->
+ <div class="p-2 border-b flex items-center justify-between">
+  
+  <div id="qrcode" class="w-16 h-16"></div>
 
-    const value = input.value.trim();
+  <div class="text-right">
+    <p class="text-gray-500 text-xs">Passcode</p>
+    <p class="font-bold text-xl tracking-widest">
+      ${match.Passcode || "-"}
+    </p>
+  </div>
 
-    if (submitBtn.textContent == "Check Ticket") {
-      if (!value) {
-        settext.textContent = "Please enter passcode or number";
-        return;
-      }
-      fetchData(value);
-    } else {
-      location.reload();
-    }
-  };
+</div>
 
-  // ---------- FETCH ----------
-  async function fetchData(value) {
-    loader.classList.remove("hidden");
-    settext.textContent = "Checking...";
+ 
+    <!-- Footer -->
+    <div class="p-4 text-center">
+      <button
+        id="backBtn"
+        class="w-full bg-[#1a62a3] text-white py-3 rounded-lg font-bold"
+      >
+        Check Another Ticket
+      </button>
+    </div>
+  </div>
+`;
 
-    try {
-      const res = await fetch(API_URL);
-      const data = await res.json();
+      result.classList.remove("hidden");
 
-      const match = data.find((row) => {
-        const pass = String(row.Passcode || "").trim();
-        const mobile = String(row.Usermobile || "").trim();
-        const inputVal = String(value).trim();
-        return pass === inputVal || mobile === inputVal;
+      // Generate QR
+      const qrText = `
+Passcode: ${match.Passcode}
+Name: ${match.Username} ${match.Userlast}
+Seat: ${match.Seat}
+From: ${match.TStart}
+To: ${match.TEnd}
+      `;
+
+      new QRCode(document.getElementById("qrcode"), {
+        text: qrText,
+        width: 120,
+        height: 120,
       });
 
-      if (!match) {
-        loader.classList.add("hidden");
-        settext.textContent = "No ticket found. Re-enter passcode.";
+      // Back button
+      document.getElementById("backBtn").onclick = () => {
+        result.classList.add("hidden");
+        mainBox.classList.remove("hidden");
         input.value = "";
-        return;
-      }
-
-      showTicket(match);
-
-    } catch (err) {
-      console.error(err);
-      settext.textContent = "Error fetching data.";
-    } finally {
-      loader.classList.add("hidden");
+      };
     }
-  }
-
-  // ---------- SHOW TICKET ----------
-  function showTicket(row) {
-    dialPadBox.classList.add("hidden");
-    settext.textContent = "";
-
-    submitBtn.textContent = "Clear";
-    submitBtn.classList.remove("bg-sky-700");
-    submitBtn.classList.add("bg-red-600");
-
-    dataBody.innerHTML = `
-      <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-        <div class="bg-green-800 text-white p-4">
-          <div class="text-3xl font-bold">Seat ${row.Seat}</div>
-          <div class="text-lg">${row.TBName}</div>
-          <div class="text-sm">${row.TBNumber}</div>
-        </div>
-
-        <div class="p-4 space-y-3">
-          <div class="grid grid-cols-2 gap-3">
-            <div>
-              <p class="text-xs text-gray-500">Passenger</p>
-              <p class="font-semibold">${row.Username}</p>
-            </div>
-            <div>
-              <p class="text-xs text-gray-500">Last Name</p>
-              <p class="font-semibold">${row.Userlast}</p>
-            </div>
-            <div>
-              <p class="text-xs text-gray-500">Age</p>
-              <p>${row.Age}</p>
-            </div>
-            <div>
-              <p class="text-xs text-gray-500">Gender</p>
-              <p>${row.Gender}</p>
-            </div>
-          </div>
-
-          <div class="border-t pt-3 flex justify-between">
-            <div>
-              <p class="text-xs text-gray-500">From</p>
-              <p class="font-semibold">${row.TStart}</p>
-            </div>
-            <div class="text-right">
-              <p class="text-xs text-gray-500">To</p>
-              <p class="font-semibold">${row.TEnd}</p>
-            </div>
-          </div>
-
-          <div class="border-t pt-3 flex justify-between">
-            <div>
-              <p class="text-xs text-gray-500">Class</p>
-              <p>${row.Class}</p>
-            </div>
-            <div>
-              <p class="text-xs text-gray-500">Price</p>
-              <p>₹${Number(row.Price) * Number(row.Child || 1)}</p>
-            </div>
-          </div>
-
-          <div class="text-center pt-3 border-t">
-            <p class="text-xl font-bold">${row.Passcode}</p>
-            <p class="text-green-700 font-semibold">Ticket Confirmed</p>
-          </div>
-        </div>
-      </div>`;
-  }
-
-});
-</script>
-
-
+  </script>
 </body>
 
 </html>

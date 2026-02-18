@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ticket Check</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+</head>
+
+<body class="font-inter bg-gray-100 text-gray-900 flex flex-col text-sm">
+
+  <!-- Header -->
+  <header class="bg-[#1a62a3] pt-2 ">
+    <div class="flex text-white items-center justify-between w-full px-4">
+      <div id="mobile-menu-button"
+        class="flex items-center gap-4 text-white cursor-pointer">
+        <i class="fas fa-bars text-xl"></i>
+        <a href="index.html" class="flex items-center ml-2">
+          <h1 class="font-extrabold text-xl">Where is my Bus</h1>
+        </a>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <nav class="pt-4 flex border-b border-b-white/50 text-white text-lg font-bold">
+      <a href="index.html" class="flex-1 text-center py-3">Buses</a>
+      <a href="Booking.html"
+        class="flex-1 border-b-4 border-white text-center py-3">Booking</a>
+    </nav>
+  </header>
+
+  <!-- Mobile Nav -->
+  <div id="mobile-nav"
+    class="bg-white fixed inset-y-0 left-0 w-80 shadow-lg transform -translate-x-full transition duration-300 z-50">
+    <div class="flex items-center justify-between px-4 py-3 border-b">
+      <h1 class="font-bold text-xl">Menu</h1>
+      <button id="mobile-menu-close">✕</button>
+    </div>
+  </div>
+
+  <!-- Overlay -->
+  <div id="overlay"
+    class="fixed inset-0 bg-black bg-opacity-30 hidden z-40"></div>
+
+  <!-- Ticket Section -->
+  <section id="buses">
+    <div class="w-full mt-10 mx-auto" id="dialPadBox">
+      <h1 id="settext" class="text-lg font-bold mb-6 text-center">
+        TICKET CHECK
+      </h1>
+
+      <div class="p-4 bg-white rounded-xl bottom-0 fixed w-full shadow">
+        <input id="filterInput" type="text"
+          class="w-full text-center text-xl font-bold bg-gray-100 rounded-lg py-3 mb-4"
+          placeholder="ENTER PASSCODE / NUMBER" readonly />
+
+        <!-- Dial Pad -->
+        <div class="grid grid-cols-3 gap-2 text-xl font-bold">
+          <button class="bg-gray-200 py-3 rounded" data-value="1">1</button>
+          <button class="bg-gray-200 py-3 rounded" data-value="2">2</button>
+          <button class="bg-gray-200 py-3 rounded" data-value="3">3</button>
+          <button class="bg-gray-200 py-3 rounded" data-value="4">4</button>
+          <button class="bg-gray-200 py-3 rounded" data-value="5">5</button>
+          <button class="bg-gray-200 py-3 rounded" data-value="6">6</button>
+          <button class="bg-gray-200 py-3 rounded" data-value="7">7</button>
+          <button class="bg-gray-200 py-3 rounded" data-value="8">8</button>
+          <button class="bg-gray-200 py-3 rounded" data-value="9">9</button>
+          <button id="clearBtn" class="bg-red-100 py-3 rounded">C</button>
+          <button class="bg-gray-200 py-3 rounded" data-value="0">0</button>
+          <button id="deleteBtn" class="bg-yellow-100 py-3 rounded">⌫</button>
+        </div>
+
+        <button id="submitBtn"
+          class="w-full bg-sky-700 text-white text-lg py-3 mt-4 rounded-md shadow">
+          Check Ticket
+        </button>
+      </div>
+    </div>
+
+    <!-- Loader -->
+    <div id="loader"
+      class="hidden fixed inset-0 flex items-center justify-center bg-black/30">
+      <div
+        class="w-16 h-16 border-8 border-green-600 border-t-transparent rounded-full animate-spin"></div>
+    </div>
+
+    <!-- Ticket Output -->
+    <div id="dataBody" class="w-full max-w-md mt-6 mx-auto"></div>
+  </section>
+
+  <!-- Scripts -->
+  <script>
+    // Mobile menu
+    const mobileMenuButton = document.getElementById("mobile-menu-button");
+    const mobileMenuClose = document.getElementById("mobile-menu-close");
+    const mobileNav = document.getElementById("mobile-nav");
+    const overlay = document.getElementById("overlay");
+
+    function openMenu() {
+      mobileNav.classList.remove("-translate-x-full");
+      overlay.classList.remove("hidden");
+    }
+
+    function closeMenu() {
+      mobileNav.classList.add("-translate-x-full");
+      overlay.classList.add("hidden");
+    }
+
+    if (mobileMenuButton) mobileMenuButton.onclick = openMenu;
+    if (mobileMenuClose) mobileMenuClose.onclick = closeMenu;
+    if (overlay) overlay.onclick = closeMenu;
+  </script>
+
+  <!-- Ticket Script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const input = document.getElementById("filterInput");
+      const buttons = document.querySelectorAll("button[data-value]");
+      const clearBtn = document.getElementById("clearBtn");
+      const deleteBtn = document.getElementById("deleteBtn");
+      const settext = document.getElementById("settext");
+      const submitBtn = document.getElementById("submitBtn");
+      const dataBody = document.getElementById("dataBody");
+      const dialPadBox = document.getElementById("dialPadBox");
+      const loader = document.getElementById("loader");
+
+      const API_URL =
+        "https://script.google.com/macros/s/AKfycbzkdg6vHCPXYmo8LdLB6Bk6c6hWzqpGNiAzWHBORtIVntStTPPxOTHo3buy31fMhO1Z_g/exec";
+
+      // keypad input
+      buttons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          if (input.value.length < 15) {
+            input.value += btn.getAttribute("data-value");
+          }
+        });
+      });
+
+      clearBtn.onclick = () => (input.value = "");
+      deleteBtn.onclick = () => {
+        input.value = input.value.slice(0, -1);
+      };
+
+      submitBtn.onclick = (e) => {
+        e.preventDefault();
+        const value = input.value.trim();
+
+        if (submitBtn.textContent === "Check Ticket") {
+          if (!value) {
+            settext.textContent = "Please enter passcode or number";
+            return;
+          }
+          fetchData(value);
+        } else {
+          location.reload();
+        }
+      };
+
+      async function fetchData(value) {
+        loader.classList.remove("hidden");
+        settext.textContent = "Checking...";
+
+        try {
+          const res = await fetch(API_URL);
+          const json = await res.json();
+          const data = Array.isArray(json) ? json : json.data || [];
+
+          const match = data.find((row) => {
+            const pass = String(row.Passcode || "").trim();
+            const mobile = String(row.Usermobile || "").trim();
+            return pass === value || mobile === value;
+          });
+
+          if (!match) {
+            settext.textContent = "No ticket found. Re-enter passcode.";
+            input.value = "";
+            return;
+          }
+
+          showTicket(match);
+        } catch (err) {
+          console.error(err);
+          settext.textContent = "Error fetching data.";
+        } finally {
+          loader.classList.add("hidden");
+        }
+      }
+
+      function showTicket(row) {
+        dialPadBox.classList.add("hidden");
+        submitBtn.textContent = "Clear";
+        submitBtn.classList.replace("bg-sky-700", "bg-red-600");
+
+        dataBody.innerHTML = `
+          <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+            <div class="bg-green-800 text-white p-4">
+              <div class="text-3xl font-bold">Seat ${row.Seat || "-"}</div>
+              <div class="text-lg">${row.TBName || "-"}</div>
+              <div class="text-sm">${row.TBNumber || "-"}</div>
+            </div>
+            <div class="p-4 text-center">
+              <p class="text-xl font-bold">${row.Passcode || "-"}</p>
+              <p class="text-green-700 font-semibold">Ticket Confirmed</p>
+            </div>
+          </div>`;
+      }
+    });
+  </script>
+
+</body>
+</html>
