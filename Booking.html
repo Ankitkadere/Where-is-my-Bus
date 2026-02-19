@@ -7,6 +7,7 @@
   <title>Ticket Checker</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <script src="Blocked.js"></script>
 </head>
 
 <body class="bg-gray-100  items-center justify-center">
@@ -148,7 +149,8 @@
         Buses
       </a>
 
-      <a href="Booking.html" onclick="showTab('booking')" id="tab-booking" class="flex-1  border-b-4 border-white text-center py-3 select-none">
+      <a href="Booking.html" onclick="showTab('booking')" id="tab-booking"
+        class="flex-1  border-b-4 border-white text-center py-3 select-none">
         Booking
       </a>
     </nav>
@@ -415,7 +417,7 @@
 
       <!-- Input -->
       <input id="filterInput" type="text" placeholder="••••••••••"
-        class="w-full bg-gray-100 rounded-lg p-3 text-center text-lg font-bold mb-4 tracking-widest shadow-inner"
+        class="w-full bg-gray-100 rounded-lg p-3 text-center focus:outline-none text-lg font-bold mb-4 tracking-widest shadow-inner"
         readonly />
 
       <!-- Keypad -->
@@ -452,7 +454,7 @@
 
 
   <!-- Ticket Result -->
-  <div id="result" class="hidden w-full max-w-sm"></div>
+  <div id="result" class="hidden w-full "></div>
 
   <script>
     const API_URL =
@@ -531,114 +533,104 @@
       mainBox.classList.add("hidden");
 
       result.innerHTML = `
-  <div class="bg-white  shadow-xl overflow-hidden">
-    
-    <!-- Header -->
-    <div class="bg-emerald-600 text-white p-4 text-center relative">
-      
-      <!-- Seat Badge -->
-     <div class="absolute top-3 left-3 
+ <div class="fixed inset-0 bg-black/50 flex items-center justify-center">
+<div class="bg-white m-2 shadow-xl overflow-hidden">
+  <!-- Header -->
+  <div class="bg-green-700 flex text-white p-3 relative">
+    <!-- Seat Badge -->
+    <div class=" top-3 left-3 
             w-12 h-12 
             bg-white text-emerald-700 
             font-bold text-lg
             rounded-full shadow 
             flex items-center justify-center">
-  ${match.Seat || "-"}
-</div>
-
-
-      <h2 class="text-lg font-bold">${match.TBName || "-"}</h2>
-      <p class="text-sm ">${match.TBNumber || "-"}</p>
+      ${match.Seat || "-"}
     </div>
-
-    <!-- Route -->
-    <div class="p-4 text-center border-b">
-  <div class="flex justify-between text-xs text-gray-500 mb-1">
-    <span>From</span>
-    <span>To</span>
-  </div>
-
-  <div class="text-lg font-bold flex items-center justify-between gap-2">
-    <span>${match.TStart || "-"}</span>
-    <i class="fas fa-arrow-right text-emerald-600"></i>
-    <span>${match.TEnd || "-"}</span>
-  </div>
- 
-</div>
-
-
- 
-    <!-- Passenger Info -->
-    <div class="p-4 grid grid-cols-2 gap-3 text-sm border-b">
-      <div>
-        <p class="text-gray-500">Passenger</p>
-        <p class="font-semibold">
-          ${match.Username || ""} ${match.Userlast || ""}
-        </p>
-      </div>
-      <div>
-        <p class="text-gray-500">Mobile</p>
-        <p class="font-semibold">${match.Usermobile || "-"}</p>
-      </div>
-      <div>
-        <p class="text-gray-500">Age</p>
-        <p class="font-semibold">${match.Age || "-"}</p>
-      </div>
-      <div>
-        <p class="text-gray-500">Gender</p>
-        <p class="font-semibold">${match.Gender || "-"}</p>
-      </div>   <div>
-        <p class="text-gray-500">Date</p>
-        <p class="font-semibold">${match.Date || "-"}</p>
-      </div>
-      <div>
-        <p class="text-gray-500">Time</p>
-        <p class="font-semibold">${match.Time || "-"}</p>
-      </div> </div>
-
-  <div class="p-2 grid grid-cols-3 text-sm border-b divide-x">
-  <div class="text-left ">
-    <p class="text-gray-500">Child</p>
-    <p class="font-semibold">${match.Child || "0"}</p>
-  </div>
-
-  <div class="text-center px-2">
-    <p class="text-gray-500">Class</p>
-    <p class="font-semibold">${match.Class || "-"}</p>
-  </div>
-
-  <div class="text-right ">
-    <p class="text-gray-500">Price</p>
-    <p class="font-semibold">₹${match.Price || "-"}</p>
-  </div>
-</div>
- 
-
-    <!-- Passcode -->
- <div class="p-2 border-b flex items-center justify-between">
-  
-  <div id="qrcode" class="w-16 h-16"></div>
-
-  <div class="text-right">
-    <p class="text-gray-500 text-xs">Passcode</p>
-    <p class="font-bold text-xl tracking-widest">
-      ${match.Passcode || "-"}
-    </p>
-  </div>
-
-</div>
-
- 
-    <!-- Footer -->
-    <div class="p-4 text-center">
-      <button
-        id="backBtn"
-        class="w-full bg-[#1a62a3] text-white py-3 rounded-lg font-bold"
-      >
-        Check Another Ticket
-      </button>
+    <div class="mx-2">
+    <h2 class="text-lg font-bold">${match.TBName || "-"}</h2>
+    <p class="text-sm ">${match.TBNumber || "-"}</p> 
     </div>
   </div>
+  <!-- Route -->
+  <div class="p-4 text-center border-b">
+    <div class="flex justify-between text-xs text-gray-500 mb-1">
+      <span>From</span>
+      <span>To</span>
+    </div>
+
+    <div class="text-lg font-bold flex items-center justify-between gap-2">
+      <span>${match.TStart || "-"}</span>
+      <i class="fas fa-arrow-right text-emerald-600"></i>
+      <span>${match.TEnd || "-"}</span>
+    </div>
+
+  </div>
+
+  <!-- Passenger Info -->
+  <div class="p-4 grid grid-cols-2 gap-3 text-sm border-b">
+    <div>
+      <p class="text-gray-500">Passenger</p>
+      <p class="font-semibold">
+        ${match.Username || ""} ${match.Userlast || ""}
+      </p>
+    </div>
+    <div>
+      <p class="text-gray-500">Mobile</p>
+      <p class="font-semibold">${match.Usermobile || "-"}</p>
+    </div>
+    <div>
+      <p class="text-gray-500">Age</p>
+      <p class="font-semibold">${match.Age || "-"}</p>
+    </div>
+    <div>
+      <p class="text-gray-500">Gender</p>
+      <p class="font-semibold">${match.Gender || "-"}</p>
+    </div>
+    <div>
+      <p class="text-gray-500">Date</p>
+      <p class="font-semibold">${match.Date || "-"}</p>
+    </div>
+    <div>
+      <p class="text-gray-500">Time</p>
+      <p class="font-semibold">${match.Time || "-"}</p>
+    </div>
+  </div>
+
+  <div class="p-3 grid grid-cols-3 text-sm border-b divide-x">
+    <div class="text-left ">
+      <p class="text-gray-500">Child</p>
+      <p class="font-semibold">${match.Child || "0"}</p>
+    </div>
+
+    <div class="text-center px-2">
+      <p class="text-gray-500">Class</p>
+      <p class="font-semibold">${match.Class || "-"}</p>
+    </div>
+
+    <div class="text-right ">
+      <p class="text-gray-500">Price</p>
+      <p class="font-semibold">₹${match.Price || "-"}</p>
+    </div>
+  </div>
+  <!-- Passcode -->
+  <div class="p-2 border-b flex items-center justify-between">
+
+    <div id="qrcode" class="w-12 h-12"></div>
+
+    <div class="text-right">
+      <p class="text-gray-500 text-xs">Passcode</p>
+      <p class="font-bold text-xl tracking-widest">
+        ${match.Passcode || "-"}
+      </p>
+    </div>
+  </div>
+  <!-- Footer -->
+  <button id="backBtn"
+    class="w-full mt-4 bg-[#1a62a3] text-white py-3 rounded-lg font-bold text-base shadow-lg transition">
+    Check Another Ticket
+  </button>
+</div>
+</div>
 `;
 
       result.classList.remove("hidden");
