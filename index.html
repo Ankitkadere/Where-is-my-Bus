@@ -74,26 +74,26 @@
   <header class="bg-[#1a62a3] pt-2 ">
     <div class="flex bottom-4 text-white items-center justify-between w-full px-4  space-x-2 ">
       <div id="mobile-menu-button" aria-label="Toggle menu"
-        class="flex items-center justify-center gap-2 text-white hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-        <i class="fas fa-bus text-lg"></i>
-        <a href="index.html" class="flex items-center">
-          <h1 class="font-bold text-xl leading-none md:pt-3">
+        class="flex items-center gap-4 justify-between text-white hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+        <i class="fas fa-bars text-xl"></i>
+        <a href="index.html" class="flex items-center ml-2">
+          <h1 class="font-extrabold text-xl leading-none md:pt-3">
             Where is my Bus
           </h1>
         </a>
       </div>
 
 
-
       <div class=" flex gap-2 text-left">
         <!-- Trigger -->
-
-        <div id="menuAppDownload" onclick="toggleMenu()" class=" text-white p-2 rounded-full">
-          <i class="fas fa-mobile-alt  text-xl"></i>
+        <div id="menuAppDownload" onclick="toggleMenu()" class=" text-white p-2 rounded-full ">
+          <i class="fas fa-mobile-alt text-white text-xl"></i>
         </div>
+
         <!-- Menu -->
         <div id="menu" onclick="toggleMenu()"
-          class="hidden fixed left-0 top-0 w-full h-full mt-2 bg-gray-10 border z-[150] justify-center rounded-lg shadow-lg">
+          class="hidden fixed left-0 top-0 w-full h-full mt-2  bg-gray-10 border z-[150] justify-center rounded-lg shadow-lg">
+
           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
           <style>
             /* Custom animation for fade in/out */
@@ -136,8 +136,11 @@
               <i id="pwaInstallBtn" class="fas fa-mobile-alt text-9xl">
                 <p id="installStatusMsg" class="mt-2 text-base text-white"> Install Now</p>
               </i>
+
             </button>
+
           </div>
+
           <script>
             const pwaBtn = document.getElementById('pwaInstallBtn');
             const statusMsg = document.getElementById('installStatusMsg');
@@ -191,6 +194,7 @@
               pwaBtn.disabled = true;
             });
           </script>
+
           <a href="#" class="hidden  block px-4 py-2 text-gray-700 hover:bg-gray-100">
             <i class="fas fa-share mr-2"></i> Share
           </a>
@@ -199,7 +203,6 @@
         <div onclick="toggleSetting()" class="text-white p-2 rounded-full cursor-pointer  z-50">
           <i class="fas fa-cog text-white text-xl"></i>
         </div>
-
         <!-- Overlay + Panel -->
         <div id="menuOverlay" class="fixed inset-0 bg-black/50 hidden z-40 flex justify-center items-start pt-20">
 
@@ -284,6 +287,7 @@
             if (e.target.id === "menuOverlay") toggleSetting();
           });
         </script>
+
       </div>
     </div>
     <!-- Tabs -->
@@ -297,6 +301,7 @@
         Booking
       </a>
     </nav>
+
     <!-- Script -->
     <script>
       function showTab(tab) {
@@ -318,8 +323,229 @@
           .classList.add('border-b-4', 'border-white');
       }
     </script>
-  </header>
 
+  </header>
+  <!-- Mobile Side Navbar -->
+  <div id="mobile-nav"
+    class="bg-white z-[100]  fixed inset-y-0 left-0 w-80  shadow-lg transform -translate-x-full transition-transform duration-300 ease-in-out z-50 overflow-y-auto">
+    <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200">
+      <a href="index.html" class="flex items-center space-x-2 pt-2">
+        <i class="fas fa-bus fa-3x text-[#1a62a3]  "></i>
+        <h1 class="font-extrabold w-full pr-2 text-2xl leading-none">
+          Where is my Bus
+          <span class="font-normal text-gray-500 text-base sm:text-lg ">
+            Google
+          </span>
+        </h1>
+      </a>
+
+      <button id="mobile-menu-close" aria-label="Close menu"
+        class="text-gray-700 hover:text-gray-900 focus:outline-none">
+      </button>
+    </div>
+    <div class="px-1 py-1 border-b border-gray-200">
+      <div class="relative w-full">
+        <input aria-label="Search for products"
+          class="w-full  border border-gray-400 rounded-md py-2 pl-3 pr-10 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-transparent"
+          placeholder="Search For ..." type="search" />
+
+        <span class="absolute inset-y-0 right-3 flex items-center text-gray-500">
+          <i class="fas fa-search text-[#1a1a1a] text-lg"></i>
+        </span>
+      </div>
+    </div>
+
+    <nav class="bg-white flex flex-col">
+      <!-- Top Section -->
+      <div class="p-4">
+        <!-- Title -->
+        <div class="flex items-center justify-between font-semibold text-gray-800 mb-4 cursor-pointer">
+          <span>SERVICES BY BUS</span>
+          <i class="fas fa-chevron-down text-sm"></i>
+        </div>
+
+        <!-- Menu -->
+        <ul class="space-y-2 text-sm">
+          <li>
+            <a href="index.html" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
+              <i class="fas fa-home"></i> Home
+            </a>
+          </li>
+          <li>
+            <a href="Adminpenel.html" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
+              <i class="fas fa-user-shield"></i> Booking
+            </a>
+          </li>
+          <li>
+            <a href="Userchat.html" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
+              <i class="fas fa-tv"></i> Services
+            </a>
+          </li>
+          <li>
+            <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
+              <i class="fas fa-clock"></i> Change Time
+            </a>
+          </li>
+          <li>
+            <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
+              <i class="fas fa-trash"></i> Remove Something
+            </a>
+          </li>
+          <li>
+            <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
+              <i class="fas fa-map-marker-alt"></i> Add Location
+            </a>
+          </li>
+          <li>
+            <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100">
+              <i class="fas fa-bus"></i> Add Buses
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Bottom Bar -->
+      <div
+        class="fixed bottom-0 left-0 w-full border-t bg-white p-4 flex items-center justify-between text-sm shadow-md z-50">
+
+        <div onclick="window.location.href='Owner.html'" class="cursor-pointer">
+          <div class="font-semibold">Whereis My Bus</div>
+          <div class="text-xs text-gray-500">Whereismybus.com</div>
+        </div>
+
+        <button title="Profile" onclick="window.location.href='Orderlist.html'"
+          class="text-gray-600 hover:text-blue-600 transition">
+          <i class="fas fa-shopping-cart text-lg"></i>
+        </button>
+      </div>
+    </nav>
+  </div>
+  <!-- Overlay -->
+  <div id="overlay" class="fixed inset-0 bg-black bg-opacity-30 hidden z-[50]" aria-hidden="true"></div>
+
+  <script>
+
+    const mobileMenuButton = document.getElementById("mobile-menu-button");
+    const mobileMenuClose = document.getElementById("mobile-menu-close");
+    const mobileNav = document.getElementById("mobile-nav");
+
+
+    function openMenu() {
+      mobileNav.classList.remove("-translate-x-full");
+      overlay.classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeMenu() {
+      mobileNav.classList.add("-translate-x-full");
+      overlay.classList.add("hidden");
+      document.body.style.overflow = "";
+    }
+
+    mobileMenuButton.addEventListener("click", openMenu);
+    mobileMenuClose.addEventListener("click", closeMenu);
+    overlay.addEventListener("click", closeMenu);
+
+    // Modal
+    const openBtn = document.getElementById("openModalBtn");
+    const closeBtn = document.getElementById("closeModalBtn");
+    const closeBtnFooter = document.getElementById("closeModalBtnFooter");
+    const modalOverlay = document.getElementById("modalOverlay");
+    const modalBox = document.getElementById("modalBox");
+
+    function openModal() {
+      modalOverlay.classList.remove("opacity-0", "pointer-events-none");
+      modalOverlay.classList.add("opacity-100");
+      modalBox.classList.remove("opacity-0", "scale-95", "fade-out");
+      modalBox.classList.add("fade-in");
+    }
+
+    function closeModal() {
+      modalBox.classList.remove("fade-in");
+      modalBox.classList.add("fade-out");
+      modalOverlay.classList.remove("opacity-100");
+      modalOverlay.classList.add("opacity-0");
+
+      setTimeout(() => {
+        modalOverlay.classList.add("pointer-events-none");
+        modalBox.classList.remove("fade-out");
+        modalBox.classList.add("opacity-0", "scale-95");
+      }, 300);
+    }
+
+    openBtn.addEventListener("click", openModal);
+    closeBtn.addEventListener("click", closeModal);
+    closeBtnFooter.addEventListener("click", closeModal);
+    modalOverlay.addEventListener("click", (e) => {
+      if (e.target === modalOverlay) closeModal();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !modalOverlay.classList.contains("pointer-events-none")) {
+        closeModal();
+      }
+    });
+
+
+
+    // Show modal
+    function showModal() {
+      modalOverlay.classList.remove("opacity-0", "pointer-events-none");
+      modalBox.classList.remove("opacity-0", "scale-95");
+      modalOverlay.classList.add("opacity-100");
+      modalBox.classList.add("opacity-100", "scale-100");
+    }
+
+    // Search input
+    const firstinput = document.getElementById("firstinput");
+    const searchbtn = document.getElementById("searchbtn");
+
+    window.addEventListener("load", () => {
+      firstinput.focus();
+      firstinput.select();
+    });
+
+    function redirectToCourse() {
+      const value = firstinput.value.trim();
+      if (value !== "") {
+        window.location.href = `Courselist.html?search=${encodeURIComponent(value)}`;
+      }
+    }
+
+    firstinput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        redirectToCourse();
+      }
+    });
+    searchbtn.addEventListener("click", redirectToCourse);
+
+    // Menu toggle
+    function toggleMenu() {
+      document.getElementById("menu").classList.toggle("hidden");
+    }
+    // Simulate progress (alternative random style)
+    function simulateProgress(callback) {
+      let progress = 0;
+      const interval = setInterval(() => {
+        if (progress >= 100) {
+          clearInterval(interval);
+          progress = 100;
+          progressBar.style.width = "100%";
+          progressText.innerText = "100%";
+          statusText.innerText = "App Installed!";
+          audio.play();
+          setTimeout(() => (appDownload.style.display = "none"), 2000);
+          callback();
+        } else {
+          progress += 5 + Math.random() * 10;
+          if (progress > 100) progress = 100;
+          progressBar.style.width = `${progress}%`;
+          progressText.innerText = `${Math.floor(progress)}%`;
+        }
+      }, 200);
+    }
+
+  </script>
   <script type="module">
 
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
