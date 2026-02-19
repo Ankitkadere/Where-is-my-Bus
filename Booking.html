@@ -534,7 +534,7 @@
 
       result.innerHTML = `
  <div class="fixed inset-0 bg-black/50 flex items-center justify-center">
-<div class="bg-white m-2 shadow-xl overflow-hidden">
+<div class="bg-white m-2 fixed top-0 rounded-md shadow-xl overflow-hidden">
   <!-- Header -->
   <div class="bg-green-700 flex text-white p-3 relative">
     <!-- Seat Badge -->
@@ -548,7 +548,7 @@
     </div>
     <div class="mx-2">
     <h2 class="text-lg font-bold">${match.TBName || "-"}</h2>
-    <p class="text-sm ">${match.TBNumber || "-"}</p> 
+    <p class="text-sm  font-bold">${match.TBNumber || "-"}</p> 
     </div>
   </div>
   <!-- Route -->
