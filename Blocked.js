@@ -30,7 +30,7 @@ document.addEventListener(
 
     // Disable Ctrl/Cmd + Mouse wheel usually handled in wheel listener below
   },
-  { capture: true }
+  { capture: true },
 );
 
 // ---------- Mouse / wheel zoom block ----------
@@ -44,7 +44,7 @@ window.addEventListener(
       return false;
     }
   },
-  { passive: false, capture: true }
+  { passive: false, capture: true },
 );
 
 // ---------- Touch/pinch zoom detection & prevention ----------
@@ -70,7 +70,7 @@ document.addEventListener(
     e.preventDefault();
     e.stopPropagation();
   },
-  { passive: false, capture: true }
+  { passive: false, capture: true },
 );
 
 // For pointer events (some browsers)
@@ -85,21 +85,21 @@ window.addEventListener(
       e.stopPropagation();
     }
   },
-  { passive: false, capture: true }
+  { passive: false, capture: true },
 );
 window.addEventListener(
   "pointerup",
   (e) => {
     activePointers.delete(e.pointerId);
   },
-  { passive: true, capture: true }
+  { passive: true, capture: true },
 );
 window.addEventListener(
   "pointercancel",
   (e) => {
     activePointers.delete(e.pointerId);
   },
-  { passive: true, capture: true }
+  { passive: true, capture: true },
 );
 
 // ---------- DevTools detection (monitor + redirect) ----------
@@ -149,5 +149,32 @@ document.addEventListener(
     }
     lastTouch = now;
   },
-  { passive: false, capture: true }
+  { passive: false, capture: true },
 );
+
+document.addEventListener("keyup", function (e) {
+  if (e.key === "PrintScreen") {
+    document.body.style.display = "none";
+    alert("Screenshot is disabled on this page.");
+  }
+});
+
+document.addEventListener("keydown", function (e) {
+  if (e.key === "PrintScreen") {
+    document.body.classList.add("blur");
+    setTimeout(() => {
+      document.body.classList.remove("blur");
+    }, 1000);
+  }
+});
+
+document.addEventListener("keydown", function (e) {
+  if (
+    e.key === "PrintScreen" ||
+    (e.ctrlKey && e.key === "p") ||
+    (e.ctrlKey && e.shiftKey && e.key === "s")
+  ) {
+    e.preventDefault();
+    alert("Screenshot not allowed.");
+  }
+});

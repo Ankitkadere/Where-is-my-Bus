@@ -9,6 +9,11 @@
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
   <script src="Blocked.js"></script>
 </head>
+<style>
+  .blur {
+    filter: blur(10px);
+  }
+</style>
 
 <body class="bg-gray-100  items-center justify-center">
   <!-- Header -->
@@ -531,7 +536,6 @@
 
     function showTicket(match) {
       mainBox.classList.add("hidden");
-
       result.innerHTML = `
  <div class="fixed inset-0 bg-black/50 flex items-center justify-center">
 <div class="bg-white m-2 fixed top-0 rounded-md shadow-xl overflow-hidden">
