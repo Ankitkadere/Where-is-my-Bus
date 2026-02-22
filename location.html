@@ -12,7 +12,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="#062540" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="msapplication-navbutton-color" content="#082742" />
+    <meta name="msapplication-navbutton-color" content="#062540" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
@@ -106,31 +106,30 @@
             width: 300vw;
         }
 
+
         #trackRange::-webkit-slider-thumb {
             -webkit-appearance: none;
             width: 26px;
             height: 26px;
+            margin-top: -20px;
             border: none;
             border-radius: 50%;
             background: url("logo.jpg") center no-repeat;
-            background-size: 140%;
+            background-size: 120%;
             /* 🔥 increase icon size */
-            background-position: center;
             padding: 1%;
-            /* 🔥 increase icon size */
             transform: rotate(-90deg);
         }
 
         #trackRange::-moz-range-thumb {
             width: 26px;
-            height: 26px;
+            height: 26px;   margin-top: -20px;
             border-radius: 50%;
             border: none;
             background: url("logo.jpg") center no-repeat;
-            background-size: 140%;
+            background-size: 120%;
             /* 🔥 increase icon size */
             padding: 1%;
-            background-position: center;
             transform: rotate(-90deg);
         }
     </style>
@@ -235,7 +234,7 @@
     </div> 
    
     <div class="flex items-center ">
-        <div class="w-1/4 text-left text-gray-700 font-semibold text-sm">
+        <div class="w-1/4 text-left text-green-700 font-semibold text-sm">
             <span>${entry.Arrival}</span>
         </div>
   
@@ -246,7 +245,7 @@
                 <span class="font-semibold text-base">${entry.Bus}</span>
             </div>
         </div>
-        <div class="w-1/4 text-right text-red-600 font-semibold text-sm">
+        <div class="w-1/4 text-right text-red-600 font-semibold text-sm mr-1">
             <span>${entry.Departure}</span>
         </div>
     </div> 
