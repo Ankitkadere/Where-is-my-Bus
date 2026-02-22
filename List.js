@@ -88,7 +88,7 @@ function fetchData() {
       }
       const filtered = data.filter(
         (entry) =>
-          entry.From?.trim() == from?.trim() && entry.To?.trim() == to?.trim()
+          entry.From?.trim() == from?.trim() && entry.To?.trim() == to?.trim(),
       );
 
       if (filtered.length === 0) {
@@ -109,62 +109,62 @@ function fetchData() {
   `;
         return;
       }
-        filtered.forEach((entry) => {
-          const bookButton =
-            entry.Book === "No"
-              ? `<button class="cursor-not-allowed text-top bg-gray-200 px-2 text-black rounded font-bold">
+      filtered.forEach((entry) => {
+        const bookButton =
+          entry.Book === "No"
+            ? `<button class="cursor-not-allowed text-top bg-gray-200 px-2 text-black rounded font-bold">
             ${entry.Password} .Rs
           </button>`
-              : `<button href="/Booking/Form.html?number=${encodeURIComponent(
-                  entry.Number
-                )}&english=${encodeURIComponent(
-                  entry.English
-                )}&hindi=${encodeURIComponent(
-                  entry.Hindi
-                )}&from=${encodeURIComponent(entry.From)}&to=${encodeURIComponent(
-                  entry.To
-                )}&start=${encodeURIComponent(
-                  entry.Start
-                )}&end=${encodeURIComponent(
-                  entry.End
-                )}&password=${encodeURIComponent(entry.Password)}"
+            : `<button href="/Booking/Form.html?number=${encodeURIComponent(
+                entry.Number,
+              )}&english=${encodeURIComponent(
+                entry.English,
+              )}&hindi=${encodeURIComponent(
+                entry.Hindi,
+              )}&from=${encodeURIComponent(entry.From)}&to=${encodeURIComponent(
+                entry.To,
+              )}&start=${encodeURIComponent(
+                entry.Start,
+              )}&end=${encodeURIComponent(
+                entry.End,
+              )}&password=${encodeURIComponent(entry.Password)}"
             class=" px-2 rounded text-white bg-green-700 transition font-bold inline-block ">
             ${entry.Password} .Rs
           </button>`;
 
-          // Status color logic
-          const color =
-            entry.Status === "ARRIVED"
-              ? "green"
-              : entry.Status === "DEPARTED"
+        // Status color logic
+        const color =
+          entry.Status === "ARRIVED"
+            ? "green"
+            : entry.Status === "DEPARTED"
               ? "red"
               : "gray";
-          const statusClass =
-            color === "green"
-              ? "bg-green-600"
-              : color === "red"
+        const statusClass =
+          color === "green"
+            ? "bg-green-600"
+            : color === "red"
               ? "bg-red-600"
               : "bg-green-700";
 
-          const div = document.createElement("div");
-          div.className =
-            "px-3 py-3 bg-gray-50 border-b border-gray-600 transition ";
+        const div = document.createElement("div");
+        div.className =
+          "px-3 py-3 bg-gray-50 border-b border-gray-600 transition ";
 
-          div.innerHTML = `
+        div.innerHTML = `
               <a href="location.html?number=${encodeURIComponent(
-                entry.Number
+                entry.Number,
               )}&start=${encodeURIComponent(
-            entry.Start
-          )}&end=${encodeURIComponent(entry.End)}&english=${encodeURIComponent(
-            entry.English
-          )}&hindi=${encodeURIComponent(entry.Hindi)}" >
+                entry.Start,
+              )}&end=${encodeURIComponent(entry.End)}&english=${encodeURIComponent(
+                entry.English,
+              )}&hindi=${encodeURIComponent(entry.Hindi)}" >
       <div class="flex justify-between items-center text-base">
         <span class="bg-sky-700 text-white font-bold px-3 rounded">${
           entry.Number
         }</span>
         <div class="text-right flex gap-4 ">
-          <p class="text-gray-800 font-bold">${entry.Start}</p>
-          <p class="text-red-600 font-bold">${entry.End}</p>
+          <p class="text-gray-800 font-extrabold">${entry.Start}</p>
+          <p class="text-red-600 font-extrabold">${entry.End}</p>
         </div>
       </div class="pt-2">
           <div class="flex pt-2 justify-between text-center">
@@ -208,8 +208,8 @@ function fetchData() {
       </a>
     `;
 
-          container.appendChild(div);
-        });
+        container.appendChild(div);
+      });
     })
     .catch((err) => {
       console.error("Fetch error:", err);
