@@ -109,104 +109,107 @@ function fetchData() {
   `;
         return;
       }
-      filtered.forEach((entry) => {
-        const bookButton =
-          entry.Book === "No"
-            ? `<button class="cursor-not-allowed text-center text-black rounded font-bold">
-          ${entry.Password} .Rs
-        </button>`
-            : `<button href="/Booking/Form.html?number=${encodeURIComponent(
+        filtered.forEach((entry) => {
+          const bookButton =
+            entry.Book === "No"
+              ? `<button class="cursor-not-allowed text-top bg-gray-200 px-2 text-black rounded font-bold">
+            ${entry.Password} .Rs
+          </button>`
+              : `<button href="/Booking/Form.html?number=${encodeURIComponent(
+                  entry.Number
+                )}&english=${encodeURIComponent(
+                  entry.English
+                )}&hindi=${encodeURIComponent(
+                  entry.Hindi
+                )}&from=${encodeURIComponent(entry.From)}&to=${encodeURIComponent(
+                  entry.To
+                )}&start=${encodeURIComponent(
+                  entry.Start
+                )}&end=${encodeURIComponent(
+                  entry.End
+                )}&password=${encodeURIComponent(entry.Password)}"
+            class=" px-2 rounded text-white bg-green-700 transition font-bold inline-block ">
+            ${entry.Password} .Rs
+          </button>`;
+
+          // Status color logic
+          const color =
+            entry.Status === "ARRIVED"
+              ? "green"
+              : entry.Status === "DEPARTED"
+              ? "red"
+              : "gray";
+          const statusClass =
+            color === "green"
+              ? "bg-green-600"
+              : color === "red"
+              ? "bg-red-600"
+              : "bg-green-700";
+
+          const div = document.createElement("div");
+          div.className =
+            "px-3 py-3 bg-gray-50 border-b border-gray-600 transition ";
+
+          div.innerHTML = `
+              <a href="location.html?number=${encodeURIComponent(
                 entry.Number
-              )}&english=${encodeURIComponent(
-                entry.English
-              )}&hindi=${encodeURIComponent(
-                entry.Hindi
-              )}&from=${encodeURIComponent(entry.From)}&to=${encodeURIComponent(
-                entry.To
               )}&start=${encodeURIComponent(
-                entry.Start
-              )}&end=${encodeURIComponent(
-                entry.End
-              )}&password=${encodeURIComponent(entry.Password)}"
-          class=" text-black rounded hover:bg-green-700 transition font-bold inline-block text-center">
-          ${entry.Password} .Rs
-        </button>`;
+            entry.Start
+          )}&end=${encodeURIComponent(entry.End)}&english=${encodeURIComponent(
+            entry.English
+          )}&hindi=${encodeURIComponent(entry.Hindi)}" >
+      <div class="flex justify-between items-center text-base">
+        <span class="bg-sky-700 text-white font-bold px-3 rounded">${
+          entry.Number
+        }</span>
+        <div class="text-right flex gap-4 ">
+          <p class="text-gray-800 font-bold">${entry.Start}</p>
+          <p class="text-red-600 font-bold">${entry.End}</p>
+        </div>
+      </div class="pt-2">
+          <div class="flex pt-2 justify-between text-center">
+          <p class="text-black font-bold">
+          ${entry.English || "—"} /
+            <span class="font-bold">${entry.Hindi || "—"}</span>
+          </p>
 
-        // Status color logic
-        const color =
-          entry.Status === "ARRIVED"
-            ? "green"
-            : entry.Status === "DEPARTED"
-            ? "red"
-            : "gray";
-        const statusClass =
-          color === "green"
-            ? "bg-green-600"
-            : color === "red"
-            ? "bg-red-600"
-            : "bg-gray-400";
-
-        const div = document.createElement("div");
-        div.className =
-          "px-3 py-3 bg-gray-50 border-b border-gray-600 transition ";
-
-        div.innerHTML = `
-            <a href="location.html?number=${encodeURIComponent(
-              entry.Number
-            )}&start=${encodeURIComponent(
-          entry.Start
-        )}&end=${encodeURIComponent(entry.End)}&english=${encodeURIComponent(
-          entry.English
-        )}&hindi=${encodeURIComponent(entry.Hindi)}" >
-    <div class="flex justify-between items-center text-base">
-      <span class="bg-sky-700 text-white font-bold px-3 rounded">${
-        entry.Number
-      }</span>
-      <div class="text-right flex gap-4 ">
-        <p class="text-gray-800 font-extrabold">${entry.Start}</p>
-        <p class="text-red-600 font-extrabold">${entry.End}</p>
-      </div>
-    </div class="pt-2">
-         <div class="flex pt-2 justify-between text-center">
-         <p class="text-black font-bold">
-         ${entry.English || "—"} /
-           <span class="font-bold">${entry.Hindi || "—"}</span>
+      <p class="text-black font-bold">
+      ${entry.Arrival || "- -"}
         </p>
-
-     <p class="text-red-600 font-bold">
-    ${entry.Arrival || "- -"}
-       </p>
-    </div>
-
-
-    <div class="flex justify-between items-start mt-2 ">
-      <div class="flex items-start space-x-3">
-        <div class="flex flex-col items-center mt-2">
-          <div class="w-2 h-2 bg-green-600 rounded-full"></div>
-          <div class="h-5 border-l border-gray-400"></div>
-          <div class="w-2 h-2 bg-red-600 rounded-full"></div>
-        </div>
-        <div>
-          <p class="text-black  pb-[0.20rem]">${entry.From}</p>
-          <p class="text-black  ">${entry.To}</p>
-        </div>
       </div>
 
-    <div class="text-right text-sm text-center">
-  <span class="pb-3 block">${bookButton || "- -"}</span>
-  <span class="${statusClass || 'bg-green-500'} text-white px-3 text-center rounded text-sm font-semibold">
-    ${entry.Status || "RUNNING"}
+
+      <div class="flex justify-between items-start mt-2 ">
+        <div class="flex items-start space-x-3">
+          <div class="flex flex-col items-center mt-2">
+            <div class="w-2 h-2 bg-green-600 rounded-full"></div>
+            <div class="h-5 border-l border-gray-400"></div>
+            <div class="w-2 h-2 bg-red-600 rounded-full"></div>
+          </div>
+          <div>
+            <p class="text-black  pb-[0.20rem]">${entry.From}</p>
+            <p class="text-black  ">${entry.To}</p>
+          </div>
+        </div>
+
+   <div class="flex flex-col items-center justify-end ">
+  <span class="text-sky-700 ">
+  Daily..
+  </span>
+
+  <span class="pt-2 block">
+    ${bookButton || "- -"}
   </span>
 </div>
 
 
-    </div>
- 
-    </a>
-  `;
+      </div>
+  
+      </a>
+    `;
 
-        container.appendChild(div);
-      });
+          container.appendChild(div);
+        });
     })
     .catch((err) => {
       console.error("Fetch error:", err);

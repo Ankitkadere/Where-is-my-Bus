@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Where is My Bus - Live Route Map</title>
+  <meta name="description" content="Find buses, live locations, and routes." />
+  <meta name="theme-color" content="#1a62a3" />
+  <link rel="icon" href="logo.jpg" />
+  <link rel="apple-touch-icon" href="logo.jpg" />
+  <link rel="manifest" href="manifest.json" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+  <script type="module" src="firebase.js"></script>
+  <script src="Blocked.js" defer></script>
+  <script src="sw.js"></script>
+  <style>
+    #map {
+      z-index: -10px;
+      height: 68vh;
+      width: 100%;
+    }
+
+    .animate-spin {
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100 font-[Inter]">
+  <!-- Header -->
+  <div id="location" class="fixed top-0 left-0 w-full z-50">
+    <header style="background-color: rgba(26, 98, 163);"
+      class="text-white px-4 py-3 flex flex-col sm:flex-row items-center justify-between">
+      <div class="flex items-center w-full sm:w-auto justify-between space-x-3">
+        <span class="text-lg font-bold flex items-left space-x-2">
+          <a href="/Buslist/List.html"><i id="location-back-btn" class="fas fa-arrow-left text-xl"></i></a>
+          <span class="text-xl px-2 py-0 font-bold rounded font-mono">00000</span>
+          <span>Where is My Bus</span>
+        </span>
+        <i class="fas fa-ellipsis-v text-xl cursor-pointer"></i>
+      </div>
+      <div class="flex items-center space-x-5 mt-3 sm:mt-0 w-full sm:w-auto justify-between">
+        <button
+          class="bg-white text-blue-600 px-4 py-1 rounded-lg font-semibold hover:bg-blue-100 transition">Today</button>
+        <i class="fas fa-bell text-xl cursor-pointer hover:text-blue-300 transition"></i>
+        <i class="fas fa-bu 
+        
+        
+        
+        s text-xl cursor-pointer hover:text-blue-300 transition"></i>
+        <i class="fas fa-share-alt text-xl cursor-pointer hover:text-blue-300 transition"></i>
+      </div>
+    </header>
+
+    <div class="bg-gray-800 text-white flex justify-between px-6 py-2 text-base font-semibold tracking-wide">
+      <span>Arrival</span>
+      <span>Departure</span>
+    </div>
+  </div>
+
+  <!-- Map -->
+  <main class="pt-[8.5rem]">
+    <div id="map" class="shadow-lg"></div>
+  </main>
+  <!-- Footer -->
+  <footer id="footerPanel"
+    class="fixed bottom-0 z-50 left-0 w-full bg-gradient-to-r from-blue-900 to-blue-500 py-2 rounded-t-3xl px-5 text-blue-900 flex flex-col items-center gap-3 border-t border-blue-200 shadow-xl transition-all duration-500 ease-in-out cursor-pointer select-none backdrop-blur-md">
+
+    <!-- Drag Handle -->
+    <div class="w-14 h-1.5 bg-white/70 rounded-full mb-1"></div>
+
+    <!-- Bus Times -->
+    <div class="flex justify-around w-full max-w-md text-base font-semibold text-white">
+      <span class="flex items-center gap-2">
+        <i class="fas fa-bus text-white"></i> Arrival:
+        <span id="arrivalTime" class="text-green-300">10:15 AM</span>
+      </span>
+      <span class="flex items-center gap-2">
+        <i class="fas fa-clock text-white"></i> Reached:
+        <span id="departureTime" class="text-yellow-200">10:30 AM</span>
+      </span>
+    </div>
+
+    <!-- Live Tracking Section -->
+    <div
+      class="relative flex items-center justify-between bg-white w-full max-w-md text-blue-700 py-2 px-4 rounded-full shadow-md hover:bg-blue-50 ">
+      <div class="flex items-center gap-2">
+        <!-- Live Green Ping -->
+        <span class="relative flex items-center justify-center">
+          <span class="animate-ping absolute inline-flex h-4 w-4 rounded-full bg-green-500 opacity-75"></span>
+          <span class="relative inline-flex h-3 w-3 rounded-full bg-green-600"></span>
+        </span>
+        <span class="font-semibold">Live Tracking</span>
+      </div>
+
+      <!-- Refresh Button -->
+      <button id="refreshBtn"
+        class="bg-blue-600 text-white w-10 h-10 flex items-center justify-center rounded-full shadow-md hover:bg-blue-700 transition transform hover:rotate-180">
+        <i class="fas fa-sync-alt text-md"></i>
+      </button>
+    </div>
+  </footer>
+
+  <script>
+    const footer = document.getElementById("footerPanel");
+    const refreshBtn = document.getElementById("refreshBtn");
+
+    // 🔄 Refresh reload + bus focus
+    refreshBtn.onclick = (e) => {
+      e.stopPropagation(); // prevent footer toggle
+      const iconEl = refreshBtn.querySelector("i");
+      iconEl.classList.add("animate-spin");
+
+      // If map & busMarker exist, refocus on the bus
+      if (typeof map !== "undefined" && typeof busMarker !== "undefined") {
+        map.flyTo(busMarker.getLatLng(), 15, { animate: true, duration: 1.5 });
+      }
+
+      // Reload after a short delay
+      setTimeout(() => {
+        iconEl.classList.remove("animate-spin");
+      }, 1500);
+    };
+
+  </script>
+
+
+  <script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbyhf7gsy7_zxqucs-PYBbCvnQDy-66RF10OrSLNhxTBMtrLQoAhdQstYZtNiGaI-iDr/exec';
+    const params = new URLSearchParams(window.location.search);
+    const from = params.get("from");
+    const name = params.get("name");
+    const to = params.get("to");
+    const number = params.get("number");
+    const start = params.get("start");
+    const end = params.get("end");
+    const english = params.get("english");
+    const hindi = params.get("hindi");
+
+    function fetchData() {
+      fetch(scriptURL)
+        .then(res => res.json())
+        .then(data => {
+          const container = document.getElementById('location');
+          container.innerHTML = '';
+
+          if (!Array.isArray(data) || data.length === 0) {
+            container.innerHTML = '<p class="text-center text-gray-500">No entries found.</p>';
+            return;
+          }
+
+          const filtered = data.filter(entry => entry.Number.trim() == number.trim());
+
+          if (filtered.length === 0) {
+            container.innerHTML = '<p class="text-center text-gray-500">No matching results found.</p>';
+            return;
+          }
+
+          filtered.forEach(entry => {
+            const div = document.createElement('div');
+            div.className = 'p-2';
+            div.innerHTML = `
+              <div class="fixed top-0 left-0 w-full z-50">
+                <header style="background-color: rgba(26, 98, 163);" class="text-white px-4 py-3 flex flex-col sm:flex-row items-center justify-between">
+                  <div class="flex items-center w-full sm:w-auto justify-between space-x-3">
+                    <span class="text-lg font-bold flex items-left space-x-2">
+                      <a href="/Buslist/List.html"><i id="location-back-btn" class="fas fa-arrow-left text-xl"></i></a>
+                      <span class="text-xl px-2 py-0 font-bold rounded font-mono">${entry.Number}</span>
+                      <span>${english || name} ${" "} ${hindi || " "}</span>
+                    </span>
+                    <i class="fas fa-ellipsis-v text-xl cursor-pointer"></i>
+                  </div>
+                  <div class="flex items-center space-x-5 mt-3 sm:mt-0 w-full sm:w-auto justify-between">
+                    <button class="bg-white text-blue-600 px-4 py-1 rounded-lg font-semibold hover:bg-blue-100 transition">Today</button>
+                    <i class="fas fa-bell text-xl cursor-pointer hover:text-blue-300 transition"></i>
+                    <i class="fas fa-bus text-xl cursor-pointer hover:text-blue-300 transition"></i>
+                    <i class="fas fa-share-alt text-xl cursor-pointer hover:text-blue-300 transition"></i>
+                  </div>
+                </header>
+
+                <div class="bg-gray-800 text-base text-white flex justify-between px-6 py-2 text-sm font-semibold tracking-wide">
+             <!-- Arrival -->
+                  <span class="flex items-center gap-2 text-base">
+                    <span class="relative flex items-center justify-center">
+                      <span class="animate-ping absolute inline-flex h-4 w-4 rounded-full bg-green-500 opacity-75"></span>
+                      <span class="relative inline-flex h-3 w-3 rounded-full bg-green-600"></span>
+                    </span>
+                    Arrival
+                  </span>
+
+                  <!-- Departure -->
+                  <span class="flex items-center gap-2 text-base">
+                    <span class="relative flex items-center justify-center">
+                      <span class="animate-ping absolute inline-flex h-4 w-4 rounded-full bg-red-500 opacity-75"></span>
+                      <span class="relative inline-flex h-3 w-3 rounded-full bg-red-600"></span>
+                    </span>
+                    Departure
+                  </span>
+
+                </div>
+
+
+              </div>`;
+            container.appendChild(div);
+          });
+        })
+        .catch(err => {
+          console.error('Fetch error:', err);
+          document.getElementById('location').innerHTML = '<p class="text-red-500 text-center">Failed to load data.</p>';
+        });
+    }
+
+    // Map Setup
+    const startCoords = [23.1815, 79.9864]; // Jabalpur
+    const endCoords = [23.2599, 77.4126];   // Bhopal
+    const map = L.map("map").setView(startCoords, 15);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
+
+    const icon = (url, size = [40, 40]) => L.icon({ iconUrl: url, iconSize: size, iconAnchor: [20, 40] });
+
+    L.marker(startCoords, { icon: icon("https://www.iconpacks.net/icons/2/free-location-icon-2955-thumb.png") })
+      .addTo(map)
+      .bindPopup("🟢 Start: Jabalpur");
+
+    L.marker(endCoords, { icon: icon("https://cdn-icons-png.flaticon.com/512/1483/1483336.png") })
+      .addTo(map)
+      .bindPopup("🔴 Destination: Bhopal");
+
+    // 🚌 Create bus marker safely
+    let busLat = 23.1815, busLon = 79.9864;
+    const busMarker = L.marker([busLat, busLon], {
+      icon: L.icon({
+        iconUrl: "https://png.pngtree.com/png-clipart/20220918/original/pngtree-blue-bus-icon-cartoon-vector-png-image_8622915.png",
+        iconSize: [70, 70],
+        iconAnchor: [35, 35] // center the icon properly
+      })
+    }).addTo(map).bindPopup("🚌 Bus");
+
+
+    // Draw route
+    // ✅ Enable full map interactivity
+    map.dragging.enable();          // Allow dragging the map by hand
+    map.scrollWheelZoom.enable();   // Allow zooming in/out with mouse wheel
+    map.doubleClickZoom.enable();   // Allow zooming by double-click
+    map.touchZoom.enable();         // Allow pinch zoom on touch devices
+    map.boxZoom.enable();           // Enable box zoom selection
+    map.keyboard.enable();          // Enable arrow-key map navigation
+
+    // ✅ Routing control with all advanced options
+    L.Routing.control({
+      waypoints: [L.latLng(startCoords), L.latLng(endCoords)],
+      routeWhileDragging: false,     // Don't reroute while dragging marker
+      addWaypoints: true,            // Allow adding new waypoints
+      draggableWaypoints: true,      // Drag existing waypoints
+      fitSelectedRoute: true,        // Zoom to fit route
+      showAlternatives: true,        // Display alternate routes
+      autoRoute: true,               // Auto recompute on waypoint change
+      useZoomParameter: true,        // Pass zoom level to router
+      collapsible: true,             // Collapse route panel
+      show: true,                    // Show route control by default
+      zIndexOffset: 1000,            // Bring route above other layers
+      lineOptions: {
+        styles: [{ color: "blue", opacity: 1, weight: 7 }]
+      },
+      createMarker: () => null,      // Hide routing markers
+    }).addTo(map);
+
+
+    // Smooth movement
+    function smoothMove(marker, newLat, newLng, steps = 10, delay = 50) {
+      const start = marker.getLatLng();
+      const dLat = (newLat - start.lat) / steps;
+      const dLng = (newLng - start.lng) / steps;
+      let i = 0;
+      const timer = setInterval(() => {
+        if (i++ >= steps) return clearInterval(timer);
+        marker.setLatLng([start.lat + dLat * i, start.lng + dLng * i]);
+      }, delay);
+    }
+
+    // Simulate live movement
+    setInterval(() => {
+      const newLat = busLat + (Math.random() - 0.5) * 0.01;
+      const newLon = busLon + (Math.random() - 0.5) * 0.01;
+      smoothMove(busMarker, newLat, newLon);
+      busLat = newLat;
+      busLon = newLon;
+    }, 5000);
+
+    // Show user location
+    if (navigator.geolocation) {
+      navigator.geolocation.watchPosition(pos => {
+        L.marker([pos.coords.latitude, pos.coords.longitude],
+          { icon: icon("https://static.vecteezy.com/system/resources/previews/032/176/191/non_2x/business-avatar-profile-black-icon-man-of-user-symbol-in-trendy-flat-style-isolated-on-male-profile-people-diverse-face-for-social-network-or-web-vector.jpg", [30, 30]) })
+          .addTo(map)
+          .bindPopup("📍 You are here");
+      });
+    }
+
+    window.onload = fetchData;
+
+  </script>
+</body>
+
+</html>

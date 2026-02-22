@@ -47,15 +47,16 @@
 </style>
 
 <body class="bg-white-900 font-sans">
-
     <div id="location" class="space-y-2 mb-20   mt-[16vh]">
-        <div id="loader" class="fixed z-index-50 inset-0 flex flex-col items-center justify-center space-y-4">
+        <div id="loader" class="absolute inset-0 flex flex-col items-center justify-center space-y-4">
             <div class="w-14 h-14 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
             <span class="text-gray-600 text-base font-medium tracking-wide">
                 Loading...
             </span>
         </div>
+
     </div>
+
     <style>
         .container {
             margin-top: -10px;
@@ -96,37 +97,13 @@
             background: transparent;
         }
     </style>
-    <style>
-        #trackRange {
-            -webkit-appearance: none;
-            border-radius: 999px;
-            background: linear-gradient(to right, #1d4ed8 0%, #56a2ff 0%);
-            outline: none;
-            cursor: pointer;
-        }
-
-        /* Slider Thumb */
-        #trackRange::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            background: #1d4ed8;
-            border-radius: 50%;
-            border: 3px solid white;
-            box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-        }
-
-        /* Firefox Support */
-        #trackRange::-moz-range-thumb {
-            background: #1d4ed8;
-            border-radius: 50%;
-            border: 3px solid white;
-            cursor: pointer;
-        }
-    </style>
 
     <script>
         ////////////////////////////////////////////////////////
+
+
         const scriptURL = 'https://script.google.com/macros/s/AKfycbyhf7gsy7_zxqucs-PYBbCvnQDy-66RF10OrSLNhxTBMtrLQoAhdQstYZtNiGaI-iDr/exec';
+
         const params = new URLSearchParams(window.location.search);
         const from = params.get("from");
         const to = params.get("to");
@@ -160,22 +137,7 @@
                         container.innerHTML = '';
                         return;
                     }
-                    // ===== Div 2 (Outside Loop) =====
-                    const div2 = document.createElement("div");
-                    div2.innerHTML = `
-   <div id="rangebox"
-     class=" w-20  absolute left-[30%] justify-center z-40  rotate-90 items-center">
-    <div class="w-full h-32 text-tranperent">. </div>
-     <input type="range"
-        id="trackRange"
-        min="0"
-        max="100"
-        value="50"
-        class="w-full h-full">
-    </div>
-`;
 
-                    container.appendChild(div2);
                     filtered.forEach(entry => {
                         // Conditionally hide "Book Now" button if Book = "No"
                         const div = document.createElement('div');
@@ -227,12 +189,12 @@
         <div class="w-1/4 text-left text-gray-700 font-semibold text-sm">
             <span>${entry.Arrival}</span>
         </div>
-        <span cladd=" w-4 "> </span>
         <div class="flex items-center w-1/2">
             <div class="w-1 bg-transparent h-[80px] mr-3"></div>
             <div class="flex flex-col ml-2">
                 <span class="font-semibold text-base">${entry.Place}</span>
-                <span class="font-semibold text-base">${entry.Bus}</span>
+                  <span class="font-semibold text-base">${entry.Bus}</span>
+                 
             </div>
         </div>
         <div class="w-1/4 text-right text-red-600 font-semibold text-sm">
@@ -241,35 +203,14 @@
     </div> 
 
         <footer
-        class="z-50 fixed bottom-0 left-0 w-full bg-blue-200 text-blue-700 text-center py-3 text-sm font-semibold tracking-wide">
+        class="fixed bottom-0 left-0 w-full bg-blue-200 text-blue-700 text-center py-3 text-sm font-semibold tracking-wide">
        
         <span class="text-gray-600 font-normal">Updated Based On Time </span><span id="time"
             class="font-semibold text-lg"></span>
     </footer>
           `;
+
                         container.appendChild(div);
-                        setTimeout(() => {
-                            document
-                                .getElementById("trackRange")
-                                .dispatchEvent(new Event("input"));
-                        }, 1000);
-                        const range = document.getElementById("trackRange");
-                        const rangeBox = document.getElementById("rangebox");
-                        function setRangeBoxHeight(value) {
-                            range.style.width = (value * 97.5) + "px";
-                        }
-                        range.addEventListener("input", function () {
-                            const value = this.value;
-                            // Slider fill gradient
-                            this.style.background =
-                                `linear-gradient(to right,
-                        #1d4ed8 0%,
-                        #1d4ed8 ${value}%,
-                        #bfdbfe ${value}%,
-                        #bfdbfe 100%)`;
-                            // Change rangebox height (value × 70 px)
-                            setRangeBoxHeight(filtered.length);
-                        });
                     });
                 })
                 .catch(err => {
@@ -364,39 +305,6 @@
 
         document.getElementById("location-back-btn").addEventListener("click", function () {
             history.back(); // or history.go(-1);
-        });
-        // ✅ Single line radio for tracking location
-        const trackLine = document.createElement("div");
-        trackLine.className = "flex items-center gap-2 px-4 py-2 text-sm";
-
-        trackLine.innerHTML = `
-  <label class="flex items-center gap-2 cursor-pointer">
-    <input type="radio" name="trackLocation"
-      value="${entry.Latitude},${entry.Longitude}"
-      data-place="${entry.Place}"
-      class="accent-blue-600">
-    <span>Track ${entry.Place}</span>
-  </label>
-`;
-
-        div.appendChild(trackLine);
-
-        // ✅ Radio click event
-        trackLine.querySelector("input").addEventListener("change", function () {
-
-            const lat = parseFloat(entry.Latitude);
-            const lng = parseFloat(entry.Longitude);
-
-            if (!isNaN(lat) && !isNaN(lng)) {
-
-                map.setView([lat, lng], 16);
-
-                L.marker([lat, lng])
-                    .addTo(map)
-                    .bindPopup(`<b>${entry.Place}</b>`)
-                    .openPopup();
-            }
-
         });
     </script>
 </body>

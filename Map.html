@@ -109,7 +109,7 @@
       </div>
 
       <!-- Refresh Button -->
-      <button id="refreshBtn"
+      <button id="refreshBtn" title="Refresh"
         class="bg-blue-600 text-white w-10 h-10 flex items-center justify-center rounded-full shadow-md hover:bg-blue-700 transition transform hover:rotate-180">
         <i class="fas fa-sync-alt text-md"></i>
       </button>
@@ -140,181 +140,327 @@
   </script>
 
 
-  <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbyhf7gsy7_zxqucs-PYBbCvnQDy-66RF10OrSLNhxTBMtrLQoAhdQstYZtNiGaI-iDr/exec';
-    const params = new URLSearchParams(window.location.search);
-    const from = params.get("from");
-    const name = params.get("name");
-    const to = params.get("to");
-    const number = params.get("number");
-    const start = params.get("start");
-    const end = params.get("end");
-    const english = params.get("english");
-    const hindi = params.get("hindi");
+    <script>
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbyhf7gsy7_zxqucs-PYBbCvnQDy-66RF10OrSLNhxTBMtrLQoAhdQstYZtNiGaI-iDr/exec';
+      const params = new URLSearchParams(window.location.search);
+      const from = params.get("from");
+      const name = params.get("name");
+      const to = params.get("to");
+      const number = params.get("number");
+      const start = params.get("start");
+      const end = params.get("end");
+      const english = params.get("english");
+      const hindi = params.get("hindi");
 
-    function fetchData() {
-      fetch(scriptURL)
-        .then(res => res.json())
-        .then(data => {
-          const container = document.getElementById('location');
-          container.innerHTML = '';
+      function fetchData() {
+        fetch(scriptURL)
+          .then(res => res.json())
+          .then(data => {
+            const container = document.getElementById('location');
+            container.innerHTML = '';
 
-          if (!Array.isArray(data) || data.length === 0) {
-            container.innerHTML = '<p class="text-center text-gray-500">No entries found.</p>';
-            return;
-          }
+            if (!Array.isArray(data) || data.length === 0) {
+              container.innerHTML = '<p class="text-center text-gray-500">No entries found.</p>';
+              return;
+            }
 
-          const filtered = data.filter(entry => entry.Number.trim() == number.trim());
+            const filtered = data.filter(entry => entry.Number.trim() == number.trim());
 
-          if (filtered.length === 0) {
-            container.innerHTML = '<p class="text-center text-gray-500">No matching results found.</p>';
-            return;
-          }
+            if (filtered.length === 0) {
+              container.innerHTML = '<p class="text-center text-gray-500">No matching results found.</p>';
+              return;
+            }
 
-          filtered.forEach(entry => {
-            const div = document.createElement('div');
-            div.className = 'p-2';
-            div.innerHTML = `
-              <div class="fixed top-0 left-0 w-full z-50">
-                <header style="background-color: rgba(26, 98, 163);" class="text-white px-4 py-3 flex flex-col sm:flex-row items-center justify-between">
-                  <div class="flex items-center w-full sm:w-auto justify-between space-x-3">
-                    <span class="text-lg font-bold flex items-left space-x-2">
-                      <a href="/Buslist/List.html"><i id="location-back-btn" class="fas fa-arrow-left text-xl"></i></a>
-                      <span class="text-xl px-2 py-0 font-bold rounded font-mono">${entry.Number}</span>
-                      <span>${english || name} ${" "} ${hindi || " "}</span>
+            filtered.forEach(entry => {
+              const div = document.createElement('div');
+              div.className = 'p-2';
+              div.innerHTML = `
+                <div class="fixed top-0 left-0 w-full z-50">
+                  <header style="background-color: rgba(26, 98, 163);" class="text-white px-4 py-3 flex flex-col sm:flex-row items-center justify-between">
+                    <div class="flex items-center w-full sm:w-auto justify-between space-x-3">
+                      <span class="text-lg font-bold flex items-left space-x-2">
+                        <a href="/Buslist/List.html"><i id="location-back-btn" class="fas fa-arrow-left text-xl"></i></a>
+                        <span class="text-xl px-2 py-0 font-bold rounded font-mono">${entry.Number}</span>
+                        <span>${english || name} ${" "} ${hindi || " "}</span>
+                      </span>
+                      <i class="fas fa-ellipsis-v text-xl cursor-pointer"></i>
+                    </div>
+                    <div class="flex items-center space-x-5 mt-3 sm:mt-0 w-full sm:w-auto justify-between">
+                      <button class="bg-white text-blue-600 px-4 py-1 rounded-lg font-semibold hover:bg-blue-100 transition">Today</button>
+                      <i class="fas fa-bell text-xl cursor-pointer hover:text-blue-300 transition"></i>
+                      <i class="fas fa-bus text-xl cursor-pointer hover:text-blue-300 transition"></i>
+                      <i class="fas fa-share-alt text-xl cursor-pointer hover:text-blue-300 transition"></i>
+                    </div>
+                  </header>
+
+                  <div class="bg-gray-800 text-base text-white flex justify-between px-6 py-2 text-sm font-semibold tracking-wide">
+              <!-- Arrival -->
+                    <span class="flex items-center gap-2 text-base">
+                      <span class="relative flex items-center justify-center">
+                        <span class="animate-ping absolute inline-flex h-4 w-4 rounded-full bg-green-500 opacity-75"></span>
+                        <span class="relative inline-flex h-3 w-3 rounded-full bg-green-600"></span>
+                      </span>
+                      Arrival
                     </span>
-                    <i class="fas fa-ellipsis-v text-xl cursor-pointer"></i>
+
+                    <!-- Departure -->
+                    <span class="flex items-center gap-2 text-base">
+                      <span class="relative flex items-center justify-center">
+                        <span class="animate-ping absolute inline-flex h-4 w-4 rounded-full bg-red-500 opacity-75"></span>
+                        <span class="relative inline-flex h-3 w-3 rounded-full bg-red-600"></span>
+                      </span>
+                      Departure
+                    </span>
                   </div>
-                  <div class="flex items-center space-x-5 mt-3 sm:mt-0 w-full sm:w-auto justify-between">
-                    <button class="bg-white text-blue-600 px-4 py-1 rounded-lg font-semibold hover:bg-blue-100 transition">Today</button>
-                    <i class="fas fa-bell text-xl cursor-pointer hover:text-blue-300 transition"></i>
-                    <i class="fas fa-bus text-xl cursor-pointer hover:text-blue-300 transition"></i>
-                    <i class="fas fa-share-alt text-xl cursor-pointer hover:text-blue-300 transition"></i>
-                  </div>
-                </header>
+                </div>`;
+              container.appendChild(div);
+              // ✅ Add stop dot from sheet data
+    // ✅ Add stop dot from sheet data
+  if (
+    entry.Latitude &&
+    entry.Longitude &&
+    !isNaN(entry.Latitude) &&
+    !isNaN(entry.Longitude)
+  ) {
 
-                <div class="bg-gray-800 text-base text-white flex justify-between px-6 py-2 text-sm font-semibold tracking-wide">
-             <!-- Arrival -->
-                  <span class="flex items-center gap-2 text-base">
-                    <span class="relative flex items-center justify-center">
-                      <span class="animate-ping absolute inline-flex h-4 w-4 rounded-full bg-green-500 opacity-75"></span>
-                      <span class="relative inline-flex h-3 w-3 rounded-full bg-green-600"></span>
-                    </span>
-                    Arrival
-                  </span>
+    const lat = parseFloat(entry.Latitude);
+    const lng = parseFloat(entry.Longitude);
 
-                  <!-- Departure -->
-                  <span class="flex items-center gap-2 text-base">
-                    <span class="relative flex items-center justify-center">
-                      <span class="animate-ping absolute inline-flex h-4 w-4 rounded-full bg-red-500 opacity-75"></span>
-                      <span class="relative inline-flex h-3 w-3 rounded-full bg-red-600"></span>
-                    </span>
-                    Departure
-                  </span>
+    L.circleMarker([lat, lng], {
+      radius: 6,
+      color: "#ffffff",
+      weight: 2,
+      fillColor: "#2563eb",
+      fillOpacity: 1
+    })
+    .addTo(map)
+    .bindPopup(`<b>${entry.Place || "Stop"}</b>`);
 
-                </div>
+  }
 
 
-              </div>`;
-            container.appendChild(div);
+            });
+          })
+          .catch(err => {
+            console.error('Fetch error:', err);
+            document.getElementById('location').innerHTML = '<p class="text-red-500 text-center">Failed to load data.</p>';
           });
+      }
+
+      // Map Setup
+      const startCoords = [23.1815, 79.9864]; // Jabalpur
+      const endCoords = [23.2599, 77.4126];   // Bhopal
+      const map = L.map("map").setView(startCoords, 15);
+
+      const icon = (url, size = [40, 40]) => L.icon({ iconUrl: url, iconSize: size, iconAnchor: [20, 40] });
+      L.marker(startCoords, { icon: icon("https://www.iconpacks.net/icons/2/free-location-icon-2955-thumb.png") })
+        .addTo(map)
+        .bindPopup("🟢 Start:  Jabalpur");
+
+      L.marker(endCoords, { icon: icon("https://cdn-icons-png.flaticon.com/512/1483/1483336.png") })
+        .addTo(map)
+        .bindPopup("🔴 Destination: Bhopal");
+
+      // 🚌 Create bus marker safely
+      let busLat = 23.1815, busLon = 79.9864;
+      const busMarker = L.marker([busLat, busLon], {
+        icon: L.icon({
+          iconUrl: "https://png.pngtree.com/png-clipart/20220918/original/pngtree-blue-bus-icon-cartoon-vector-png-image_8622915.png",
+          iconSize: [70, 70],
+          iconAnchor: [35, 35] // center the icon properly
         })
-        .catch(err => {
-          console.error('Fetch error:', err);
-          document.getElementById('location').innerHTML = '<p class="text-red-500 text-center">Failed to load data.</p>';
+      }).addTo(map).bindPopup("🚌 Bus");
+
+      // Draw route
+      // ✅ Enable full map interactivity
+      map.dragging.enable();          // Allow dragging the map by hand
+      map.scrollWheelZoom.enable();   // Allow zooming in/out with mouse wheel
+      map.doubleClickZoom.enable();   // Allow zooming by double-click
+      map.touchZoom.enable();         // Allow pinch zoom on touch devices
+      map.boxZoom.enable();           // Enable box zoom selection
+      map.keyboard.enable();          // Enable arrow-key map navigation
+
+      // ✅ Routing control with all advanced options
+      L.Routing.control({
+        waypoints: [L.latLng(startCoords), L.latLng(endCoords)],
+        routeWhileDragging: false,     // Don't reroute while dragging marker
+        addWaypoints: true,            // Allow adding new waypoints
+        draggableWaypoints: true,      // Drag existing waypoints
+        fitSelectedRoute: true,        // Zoom to fit route
+        showAlternatives: true,        // Display alternate routes
+        autoRoute: true,               // Auto recompute on waypoint change
+        useZoomParameter: true,        // Pass zoom level to router
+        collapsible: true,             // Collapse route panel
+        show: true,                    // Show route control by default
+        zIndexOffset: 1000,            // Bring route above other layers
+        lineOptions: {
+          styles: [{ color: "blue", opacity: 1, weight: 7 }]
+        },
+        createMarker: () => null,      // Hide routing markers
+      }).addTo(map);
+
+
+      // Smooth movement
+      function smoothMove(marker, newLat, newLng, steps = 10, delay = 50) {
+        const start = marker.getLatLng();
+        const dLat = (newLat - start.lat) / steps;
+        const dLng = (newLng - start.lng) / steps;
+        let i = 0;
+        const timer = setInterval(() => {
+          if (i++ >= steps) return clearInterval(timer);
+          marker.setLatLng([start.lat + dLat * i, start.lng + dLng * i]);
+        }, delay);
+      }
+
+      // Simulate live movement
+      setInterval(() => {
+        const newLat = busLat + (Math.random() - 0.5) * 0.01;
+        const newLon = busLon + (Math.random() - 0.5) * 0.01;
+        smoothMove(busMarker, newLat, newLon);
+        busLat = newLat;
+        busLon = newLon;
+      }, 5000);
+
+      // Show user location
+      if (navigator.geolocation) {
+        navigator.geolocation.watchPosition(pos => {
+          L.marker([pos.coords.latitude, pos.coords.longitude],
+            { icon: icon("https://static.vecteezy.com/system/resources/previews/032/176/191/non_2x/business-avatar-profile-black-icon-man-of-user-symbol-in-trendy-flat-style-isolated-on-male-profile-people-diverse-face-for-social-network-or-web-vector.jpg", [30, 30]) })
+            .addTo(map)
+            .bindPopup("📍 You are here");
         });
-    }
+      }
+// Clear old stop markers (optional improvement)
+if (window.stopLayer) {
+  map.removeLayer(window.stopLayer);
+}
+window.stopLayer = L.layerGroup().addTo(map);
+      window.onload = fetchData;
 
-    // Map Setup
-    const startCoords = [23.1815, 79.9864]; // Jabalpur
-    const endCoords = [23.2599, 77.4126];   // Bhopal
-    const map = L.map("map").setView(startCoords, 15);
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
-
-    const icon = (url, size = [40, 40]) => L.icon({ iconUrl: url, iconSize: size, iconAnchor: [20, 40] });
-
-    L.marker(startCoords, { icon: icon("https://www.iconpacks.net/icons/2/free-location-icon-2955-thumb.png") })
-      .addTo(map)
-      .bindPopup("🟢 Start: Jabalpur");
-
-    L.marker(endCoords, { icon: icon("https://cdn-icons-png.flaticon.com/512/1483/1483336.png") })
-      .addTo(map)
-      .bindPopup("🔴 Destination: Bhopal");
-
-    // 🚌 Create bus marker safely
-    let busLat = 23.1815, busLon = 79.9864;
-    const busMarker = L.marker([busLat, busLon], {
-      icon: L.icon({
-        iconUrl: "https://png.pngtree.com/png-clipart/20220918/original/pngtree-blue-bus-icon-cartoon-vector-png-image_8622915.png",
-        iconSize: [70, 70],
-        iconAnchor: [35, 35] // center the icon properly
-      })
-    }).addTo(map).bindPopup("🚌 Bus");
-
-
-    // Draw route
-    // ✅ Enable full map interactivity
-    map.dragging.enable();          // Allow dragging the map by hand
-    map.scrollWheelZoom.enable();   // Allow zooming in/out with mouse wheel
-    map.doubleClickZoom.enable();   // Allow zooming by double-click
-    map.touchZoom.enable();         // Allow pinch zoom on touch devices
-    map.boxZoom.enable();           // Enable box zoom selection
-    map.keyboard.enable();          // Enable arrow-key map navigation
-
-    // ✅ Routing control with all advanced options
-    L.Routing.control({
-      waypoints: [L.latLng(startCoords), L.latLng(endCoords)],
-      routeWhileDragging: false,     // Don't reroute while dragging marker
-      addWaypoints: true,            // Allow adding new waypoints
-      draggableWaypoints: true,      // Drag existing waypoints
-      fitSelectedRoute: true,        // Zoom to fit route
-      showAlternatives: true,        // Display alternate routes
-      autoRoute: true,               // Auto recompute on waypoint change
-      useZoomParameter: true,        // Pass zoom level to router
-      collapsible: true,             // Collapse route panel
-      show: true,                    // Show route control by default
-      zIndexOffset: 1000,            // Bring route above other layers
-      lineOptions: {
-        styles: [{ color: "blue", opacity: 1, weight: 7 }]
-      },
-      createMarker: () => null,      // Hide routing markers
-    }).addTo(map);
-
-
-    // Smooth movement
-    function smoothMove(marker, newLat, newLng, steps = 10, delay = 50) {
-      const start = marker.getLatLng();
-      const dLat = (newLat - start.lat) / steps;
-      const dLng = (newLng - start.lng) / steps;
-      let i = 0;
-      const timer = setInterval(() => {
-        if (i++ >= steps) return clearInterval(timer);
-        marker.setLatLng([start.lat + dLat * i, start.lng + dLng * i]);
-      }, delay);
-    }
-
-    // Simulate live movement
-    setInterval(() => {
-      const newLat = busLat + (Math.random() - 0.5) * 0.01;
-      const newLon = busLon + (Math.random() - 0.5) * 0.01;
-      smoothMove(busMarker, newLat, newLon);
-      busLat = newLat;
-      busLon = newLon;
-    }, 5000);
-
-    // Show user location
-    if (navigator.geolocation) {
-      navigator.geolocation.watchPosition(pos => {
-        L.marker([pos.coords.latitude, pos.coords.longitude],
-          { icon: icon("https://static.vecteezy.com/system/resources/previews/032/176/191/non_2x/business-avatar-profile-black-icon-man-of-user-symbol-in-trendy-flat-style-isolated-on-male-profile-people-diverse-face-for-social-network-or-web-vector.jpg", [30, 30]) })
-          .addTo(map)
-          .bindPopup("📍 You are here");
-      });
-    }
-
-    window.onload = fetchData;
-
-  </script>
+    </script>
 </body>
+<script>
+  /* =========================
+     🌍 ALL MAP TYPES SWITCHER
+  ========================= */
+
+  // 🌍 Define All Map Layers
+  const normalLayer = L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    { maxZoom: 19, attribution: "© OpenStreetMap" }
+  );
+
+  const satelliteLayer = L.tileLayer(
+    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+    { maxZoom: 19, attribution: "© Esri" }
+  );
+
+  const hybridLayer = L.layerGroup([
+    L.tileLayer(
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+      { maxZoom: 19 }
+    ),
+    L.tileLayer(
+      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      { maxZoom: 19, opacity: 0.4 }
+    )
+  ]);
+
+  const darkLayer = L.tileLayer(
+    "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+    { maxZoom: 19, attribution: "© CartoDB" }
+  );
+
+  const terrainLayer = L.tileLayer(
+    "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
+    { maxZoom: 17, attribution: "© OpenTopoMap" }
+  );
+
+  // Remove existing default tile layers
+  map.eachLayer(function (layer) {
+    if (layer instanceof L.TileLayer || layer instanceof L.LayerGroup) {
+      map.removeLayer(layer);
+    }
+  });
+
+  // Default Map
+  let activeLayer = normalLayer;
+  activeLayer.addTo(map);
+
+  /* Map Type Button */
+  const mapBtn = L.control({ position: "topright" });
+
+  mapBtn.onAdd = function () {
+    const div = L.DomUtil.create("div");
+    div.innerHTML = `
+    <button id="mapToggleBtn"
+      style="background:white;padding:8px 12px;border-radius:8px;
+      box-shadow:0 2px 6px rgba(0,0,0,0.3);font-weight:600;">
+      🗺 Map Type
+    </button>
+  `;
+    return div;
+  };
+
+  mapBtn.addTo(map);
+
+  /* Popup */
+  const mapPopup = L.popup();
+
+  document.addEventListener("click", function (e) {
+    if (e.target && e.target.id === "mapToggleBtn") {
+
+      mapPopup
+        .setLatLng(map.getCenter())
+        .setContent(`
+        <div style="text-align:center;">
+          <button onclick="setMapType('normal')" 
+            style="margin:4px;padding:6px 12px;background:#2563eb;color:white;border-radius:6px;">Normal</button><br/>
+          
+          <button onclick="setMapType('satellite')" 
+            style="margin:4px;padding:6px 12px;background:#111827;color:white;border-radius:6px;">Satellite</button><br/>
+          
+          <button onclick="setMapType('hybrid')" 
+            style="margin:4px;padding:6px 12px;background:#059669;color:white;border-radius:6px;">Hybrid</button><br/>
+          
+          <button onclick="setMapType('dark')" 
+            style="margin:4px;padding:6px 12px;background:#000;color:white;border-radius:6px;">Dark</button><br/>
+          
+          <button onclick="setMapType('terrain')" 
+            style="margin:4px;padding:6px 12px;background:#92400e;color:white;border-radius:6px;">Terrain</button>
+        </div>
+      `)
+        .openOn(map);
+    }
+  });
+
+  /* Switch Function */
+  function setMapType(type) {
+
+    if (map.hasLayer(activeLayer)) {
+      map.removeLayer(activeLayer);
+    }
+
+    switch (type) {
+      case "satellite":
+        activeLayer = satelliteLayer;
+        break;
+      case "hybrid":
+        activeLayer = hybridLayer;
+        break;
+      case "dark":
+        activeLayer = darkLayer;
+        break;
+      case "terrain":
+        activeLayer = terrainLayer;
+        break;
+      default:
+        activeLayer = normalLayer;
+    }
+
+    activeLayer.addTo(map);
+    map.closePopup();
+  }
+</script>
 
 </html>
