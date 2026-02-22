@@ -105,28 +105,29 @@
             cursor: pointer;
         }
 
-        #trackRange::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 50px;
-            height: 50px;
-            margin-top: -10px;
-            border: none;
-            background: url("logo.jpg") center/contain no-repeat;
-            background-size: cover;
-            rotate: -90deg;
-            border-radius: 50%;
-        }
+     #trackRange::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 26px;
+    height: 26px;
+    margin-top: -10px;
+    border: none;
+    border-radius: 50%;
+    background: url("logo.jpg") center no-repeat;
+    background-size: 120%;   /* 🔥 increase icon size */
+    padding: 1%; 
+    transform: rotate(-90deg);
+}
 
-        /* Firefox */
-        #trackRange::-moz-range-thumb {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: none;
-            background: url("logo.jpg") center/contain no-repeat;
-            background-size: cover;
-            rotate: -90deg;
-        }
+#trackRange::-moz-range-thumb {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: none;
+    background: url("logo.jpg") center no-repeat;
+    background-size: 120%;   /* 🔥 increase icon size */
+    padding: 1%;
+    transform: rotate(-90deg);
+}
     </style>
 
     <script>
