@@ -198,29 +198,29 @@
            <div class="flex items-center justify-between w-full text-lg">
   <!-- Left side -->
   <div class="flex items-center space-x-2 w-full mr-2 ">
-    <a href="/Buslist/List.html"
-      class="w-10 h-10 flex items-center border justify-center rounded-full bg-sky-800 active:scale-95 transition">
+    <a href="List.html"
+      class="w-10 h-10 flex items-center justify-center rounded-full active:scale-95 transition">
       <i id="location-back-btn" class="fas fa-arrow-left text-white"></i>
     </a>
 
-    <div class="bg-sky-800 flex items-center px-2 py-1 w-full border rounded-md">
+    <div class="bg-sky-800 flex items-center px-2 py-2 w-full border rounded-md">
       <span class="font-bold font-mono text-white px-4rounded-md">
         ${entry.Number} :
       </span>
-      <span class="text-white font-semibold ml-1">
-        ${english}/${hindi}
+      <span class="text-white font-bold ml-1">
+        ${english} / ${hindi}
       </span>
     </div>
   </div>
 
   <!-- Right menu -->
   <button
-  >  <i class="fas fa-ellipsis-v text-white"></i>
+  >  <i class="fas fa-ellipsis-v text-white px-1"></i>
   </button>
 
 </div>
 
-            <div class="flex items-center space-x-5 mt-3 sm:mt-0 w-full sm:w-auto justify-between">
+            <div class="flex items-center space-x-5 mt-4 sm:mt-0 w-full sm:w-auto justify-between">
                 <button
                     class="bg-white text-blue-600 px-4 py-1 rounded-lg font-semibold hover:bg-blue-100 transition">Today</button>
                 <i class="fas fa-bell text-xl cursor-pointer hover:text-blue-300 transition"></i>
@@ -229,7 +229,7 @@
             </div>
         </header>
         
-        <div class="bg-gray-800 text-white flex justify-between px-6 py-2 text-sm font-semibold tracking-wide">
+        <div class="bg-gray-800 text-white flex justify-between px-6 py-2 text-sm font-bold tracking-wide">
             <span>Arrival</span>
             <span>Departure</span>
         </div>
@@ -239,7 +239,7 @@
         <div class="w-1/4 text-left text-green-700 font-bold text-sm">
             <span>${entry.Arrival}</span>
         </div>
-         <div class="items-center ml-[-7px] justify-center z-50">
+         <div class="items-center ml-[-3%] justify-center z-50">
              <div class="w-2 h-2 bg-black rounded-full"></div>
         </div>
         <div class="flex items-center w-1/2">
