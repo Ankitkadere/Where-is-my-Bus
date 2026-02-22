@@ -9,7 +9,7 @@
     <link rel="apple-touch-icon" href="logo.jpg" />
     <link rel="manifest" href="manifest.json" />
     <meta name="theme-color" content="#1a62a3" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="#082742" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="#062540" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="msapplication-navbutton-color" content="#082742" />
@@ -63,7 +63,7 @@
             width: 8px;
             height: 1440px;
             position: relative;
-            background: transparent;
+            background: tranperent;
             border-radius: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
@@ -103,31 +103,36 @@
             background: linear-gradient(to right, #1a62a3 0%, #85a7d1 0%);
             outline: none;
             cursor: pointer;
+            width: 300vw;
         }
 
-     #trackRange::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 26px;
-    height: 26px;
-    margin-top: -10px;
-    border: none;
-    border-radius: 50%;
-    background: url("logo.jpg") center no-repeat;
-    background-size: 120%;   /* 🔥 increase icon size */
-    padding: 1%;  /* 🔥 increase icon size */
-    transform: rotate(-90deg);
-}
+        #trackRange::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 26px;
+            height: 26px;
+            border: none;
+            border-radius: 50%;
+            background: url("logo.jpg") center no-repeat;
+            background-size: 140%;
+            /* 🔥 increase icon size */
+            background-position: center;
+            padding: 1%;
+            /* 🔥 increase icon size */
+            transform: rotate(-90deg);
+        }
 
-#trackRange::-moz-range-thumb {
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    border: none;
-    background: url("logo.jpg") center no-repeat;
-    background-size: 120%;   /* 🔥 increase icon size */
-    padding: 1%;
-    transform: rotate(-90deg);
-}
+        #trackRange::-moz-range-thumb {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: none;
+            background: url("logo.jpg") center no-repeat;
+            background-size: 140%;
+            /* 🔥 increase icon size */
+            padding: 1%;
+            background-position: center;
+            transform: rotate(-90deg);
+        }
     </style>
 
     <script>
@@ -177,7 +182,7 @@
         min="0"
         max="100"
         value="50"  disabled
-        class="w-full pointer-events-none bg-[#1a62a3]">
+        class="w-full pointer-events-none bg-[#1a62a3] ">
     </div>
 `;
 
