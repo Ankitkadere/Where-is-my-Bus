@@ -100,29 +100,33 @@
         #trackRange {
             -webkit-appearance: none;
             border-radius: 999px;
-            background: linear-gradient(to right, #1a62a3 0%, #56a2ff 0%);
+            background: linear-gradient(to right, #1a62a3 0%, #85a7d1 0%);
             outline: none;
             cursor: pointer;
         }
 
-        /* Slider Thumb
         #trackRange::-webkit-slider-thumb {
             -webkit-appearance: none;
-            background: #1d4ed8;
+            width: 50px;
+            height: 50px;
+            margin-top: -10px;
+            border: none;
+            background: url("logo.jpg") center/contain no-repeat;
+            background-size: cover;
+            rotate: -90deg;
             border-radius: 50%;
-            border: 3px solid white;
-            box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
         }
 
-        /* Firefox Support */
-        /* #trackRange::-moz-range-thumb {
-            background: #1d4ed8;
+        /* Firefox */
+        #trackRange::-moz-range-thumb {
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            border: 3px solid white;
-            cursor: pointer;
-        } */
-        */
+            border: none;
+            background: url("logo.jpg") center/contain no-repeat;
+            background-size: cover;
+            rotate: -90deg;
+        }
     </style>
 
     <script>
@@ -172,7 +176,7 @@
         min="0"
         max="100"
         value="50"  disabled
-        class="w-full pointer-events-none m-2 bg-[#1a62a3]">
+        class="w-full pointer-events-none bg-[#1a62a3]">
     </div>
 `;
 
