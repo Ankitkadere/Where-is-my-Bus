@@ -1,6 +1,6 @@
 const API_URL =
   "https://script.google.com/macros/s/AKfycbwFXKcF2Th70pa-08CdWnKNOhnvXJ9dunIYgYApLbppe5K9S1hhPqyX5vhtHLliPRvO/exec";
- 
+
 let currentLat = null;
 let currentLng = null;
 
@@ -23,6 +23,9 @@ self.addEventListener("message", (event) => {
 });
 
 async function sendData() {
+  if (currentLat == null && currentLng == null) {
+    return;
+  }
 
   try {
     await fetch(API_URL, {
@@ -34,8 +37,8 @@ async function sendData() {
         Latitudes: currentLat,
         Date: new Date().toLocaleDateString("en-IN"),
         Time: new Date().toLocaleTimeString("en-IN"),
-        Status: "RUNNING"
-      })
+        Status: "Active",
+      }),
     });
 
     console.log("Sent to Sheet");
@@ -44,4 +47,4 @@ async function sendData() {
   }
 }
 
-setInterval(sendData, 5000);
+setInterval(sendData, 1000);
