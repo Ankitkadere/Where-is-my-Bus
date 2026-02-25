@@ -22,6 +22,26 @@
   <script type="module" src="firebase.js"></script>
   <script src="Blocked.js" defer></script>
   <script src="sw.js"></script>
+
+  <style>
+
+    #map {
+      z-index: -10px;
+      height: 68vh;
+      width: 100%;
+    }
+
+    .animate-spin {
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
 <script>
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("sw.js").then(() => {
@@ -55,25 +75,6 @@
 
   startLocation();
 </script>
-  <style>
-    #map {
-      z-index: -10px;
-      height: 68vh;
-      width: 100%;
-    }
-
-    .animate-spin {
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-      100% {
-        transform: rotate(360deg);
-      }
-    }
-  </style>
-</head>
-
 <body class="bg-gray-100 font-[Inter]">
   <!-- Header -->
   <div id="location" class="fixed top-0 left-0 w-full z-50">

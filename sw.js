@@ -32,6 +32,7 @@ async function sendData() {
       method: "POST",
       body: new URLSearchParams({
         action: "update",
+        Id:"1234",
         Member: "Bus-01",
         Longitude: currentLng,
         Latitudes: currentLat,
