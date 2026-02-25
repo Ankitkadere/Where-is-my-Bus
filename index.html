@@ -23,37 +23,41 @@
   <script src="sw.js"></script>
 </head>
 <script>
+  // Register Service Worker
   if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("sw.js").then(() => {
-      console.log("SW Registered");
-     
-    });
+    navigator.serviceWorker.register("sw.js");
   }
 
-  function startLocation() {
+  // Start tracking
+  function startTracking() {
+
+    const savedId = localStorage.getItem("busId");
+    if (!savedId) return;
+
+    if (!navigator.geolocation) return;
+
     navigator.geolocation.watchPosition((position) => {
 
       const lat = position.coords.latitude;
       const lng = position.coords.longitude;
 
-      console.log("Page Location:", lat, lng);
-
       if (navigator.serviceWorker.controller) {
         navigator.serviceWorker.controller.postMessage({
           type: "LOCATION_UPDATE",
           lat: lat,
-          lng: lng
+          lng: lng,
+          id: savedId
         });
       }
 
-    }, (err) => {
-      console.log("Location Error:", err);
+    }, (error) => {
+      console.log("Location Error:", error);
     }, {
       enableHighAccuracy: true
     });
   }
 
-  startLocation();
+  setTimeout(startTracking, 2000);
 </script>
 
 <body class="font-inter bg-gray-100 text-gray-900 flex flex-col text-sm overflow-x-hidden">
@@ -286,12 +290,12 @@
 
                 <!-- Bottom Bar -->
                 <div class="border-t mt-4 pt-4 flex items-center justify-between text-sm">
-                  <div onclick="window.location.href='Owner.html'" class="cursor-pointer">
+                  <div onclick="window.location.href='Login/login.html'" class="cursor-pointer">
                     <div class="font-semibold text-gray-900">Where is My Bus</div>
                     <div class="text-xs text-gray-500">Whereismybus.com</div>
                   </div>
 
-                  <button title="Profile" onclick="window.location.href='Orderlist.html'"
+                  <button title="Profile" onclick="window.location.href='Login/login.html'"
                     class="text-gray-600 hover:text-blue-600 transition">
                     <i class="fas fa-user text-lg"></i>
                   </button>
@@ -431,13 +435,13 @@
         <div class="bg-green-700 w-full flex items-center justify-between px-4 py-2 rounded">
 
           <!-- Left Side -->
-          <div onclick="window.location.href='Owner.html'" class="cursor-pointer">
+          <div onclick="window.location.href='Login/login.html'" class="cursor-pointer">
             <div class="font-semibold">Whereis My Bus</div>
             <div class="text-xs text-gray-200">Whereismybus.com</div>
           </div>
 
           <!-- Right Side -->
-          <button title="Profile" onclick="window.location.href='Orderlist.html'"
+          <button title="Profile" onclick="window.location.href='Login/login.html'"
             class="hover:text-gray-200 transition">
             <i class="fas fa-user text-lg"></i>
           </button>

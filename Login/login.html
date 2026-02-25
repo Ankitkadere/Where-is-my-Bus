@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Bus Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+</head>
+<script>
+    // Register Service Worker
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("sw.js");
+    }
+
+    // Start tracking
+    function startTracking() {
+
+        const savedId = localStorage.getItem("busId");
+        if (!savedId) return;
+
+        if (!navigator.geolocation) return;
+
+        navigator.geolocation.watchPosition((position) => {
+
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+
+            if (navigator.serviceWorker.controller) {
+                navigator.serviceWorker.controller.postMessage({
+                    type: "LOCATION_UPDATE",
+                    lat: lat,
+                    lng: lng,
+                    id: savedId
+                });
+            }
+
+        }, (error) => {
+            console.log("Location Error:", error);
+        }, {
+            enableHighAccuracy: true
+        });
+    }
+
+    setTimeout(startTracking, 2000);
+</script>
+
+<body>
+    <div id="mainBox" class="w-full mx-auto fixed bottom-0  overflow-hidden">
+
+        <!-- Header -->
+        <div class="p-4 text-center">
+            <h1 class="text-lg font-bold">Login</h1>
+            <p class="text-xs text-gray-500">Enter Passcode or Mobile</p>
+        </div>
+
+        <div class="p-3  bg-white ">
+
+            <!-- Input -->
+            <input id="filterInput" type="text" placeholder="••••••••••"
+                class="w-full bg-gray-100 rounded-lg p-3 text-center focus:outline-none text-lg font-bold mb-4 tracking-widest shadow-inner"
+                readonly />
+
+            <!-- Keypad -->
+            <div class="grid grid-cols-3 gap-3 text-lg font-bold">
+                <button class="key bg-gray-100 py-3 rounded-lg shadow active:scale-95">1</button>
+                <button class="key bg-gray-100 py-3 rounded-lg shadow active:scale-95">2</button>
+                <button class="key bg-gray-100 py-3 rounded-lg shadow active:scale-95">3</button>
+                <button class="key bg-gray-100 py-3 rounded-lg shadow active:scale-95">4</button>
+                <button class="key bg-gray-100 py-3 rounded-lg shadow active:scale-95">5</button>
+                <button class="key bg-gray-100 py-3 rounded-lg shadow active:scale-95">6</button>
+                <button class="key bg-gray-100 py-3 rounded-lg shadow active:scale-95">7</button>
+                <button class="key bg-gray-100 py-3 rounded-lg shadow active:scale-95">8</button>
+                <button class="key bg-gray-100 py-3 rounded-lg shadow active:scale-95">9</button>
+
+                <button id="clearBtn" class="bg-red-100 text-red-600 py-3 rounded-lg shadow active:scale-95">
+                    C
+                </button>
+
+                <button class="key bg-gray-100 py-3 rounded-lg shadow active:scale-95">0</button>
+
+                <button id="deleteBtn" class="bg-yellow-100 text-yellow-700 py-3 rounded-lg shadow active:scale-95">
+                    ⌫
+                </button>
+            </div>
+
+            <!-- Check Button -->
+            <button id="checkBtn"
+                class="w-full mt-4 bg-[#1a62a3] text-white py-3 rounded-lg font-bold text-base shadow-lg transition">
+                Login
+            </button>
+
+            <button id="removeSaved" class="w-full mt-2 bg-red-500 text-white py-2 rounded-lg font-bold">
+                Log Out
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const input = document.getElementById("filterInput");
+        const keys = document.querySelectorAll(".key");
+        const clearBtn = document.getElementById("clearBtn");
+        const deleteBtn = document.getElementById("deleteBtn");
+        const checkBtn = document.getElementById("checkBtn");
+        const removeSaved = document.getElementById("removeSaved");
+
+        window.onload = function () {
+            const saved = localStorage.getItem("busId");
+            if (saved) input.value = saved;
+        };
+
+        keys.forEach(key => {
+            key.addEventListener("click", () => {
+                if (input.value.length < 12) {
+                    input.value += key.textContent;
+                }
+            });
+        });
+
+        clearBtn.onclick = () => input.value = "";
+        deleteBtn.onclick = () => input.value = input.value.slice(0, -1);
+
+        checkBtn.onclick = () => {
+            if (input.value.length < 4) {
+                alert("Enter valid number");
+                return;
+            }
+            localStorage.setItem("busId", input.value);
+            alert("Saved & Tracking Started");
+        };
+
+        removeSaved.onclick = () => {
+            localStorage.removeItem("busId");
+            input.value = "";
+            alert("Deleted");
+        };
+    </script>
+</body>
+
+</html>

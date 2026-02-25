@@ -3,6 +3,7 @@ const API_URL =
 
 let currentLat = null;
 let currentLng = null;
+let currentId = null;
 
 self.addEventListener("install", (e) => {
   self.skipWaiting();
@@ -18,21 +19,19 @@ self.addEventListener("message", (event) => {
   if (event.data.type === "LOCATION_UPDATE") {
     currentLat = event.data.lat;
     currentLng = event.data.lng;
-    console.log("SW Got Location:", currentLat, currentLng);
+    currentId = event.data.id;
   }
 });
 
 async function sendData() {
-  if (currentLat == null && currentLng == null) {
-    return;
-  }
+  if (!currentLat && !currentLng  && !currentId) return;
 
   try {
     await fetch(API_URL, {
       method: "POST",
       body: new URLSearchParams({
         action: "update",
-        Id:"1234",
+        Id: currentId,
         Member: "Bus-01",
         Longitude: currentLng,
         Latitudes: currentLat,
@@ -42,10 +41,11 @@ async function sendData() {
       }),
     });
 
-    console.log("Sent to Sheet");
+    console.log("Sent:", currentId);
   } catch (err) {
     console.log("Send Error:", err);
   }
 }
 
+// Every 1 second
 setInterval(sendData, 1000);

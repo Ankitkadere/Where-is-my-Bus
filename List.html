@@ -26,37 +26,41 @@
    <script src="sw.js"></script>
 </head>
 <script>
+  // Register Service Worker
   if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("sw.js").then(() => {
-      console.log("SW Registered");
-     
-    });
+    navigator.serviceWorker.register("sw.js");
   }
 
-  function startLocation() {
+  // Start tracking
+  function startTracking() {
+
+    const savedId = localStorage.getItem("busId");
+    if (!savedId) return;
+
+    if (!navigator.geolocation) return;
+
     navigator.geolocation.watchPosition((position) => {
 
       const lat = position.coords.latitude;
       const lng = position.coords.longitude;
 
-      console.log("Page Location:", lat, lng);
-
       if (navigator.serviceWorker.controller) {
         navigator.serviceWorker.controller.postMessage({
           type: "LOCATION_UPDATE",
           lat: lat,
-          lng: lng
+          lng: lng,
+          id: savedId
         });
       }
 
-    }, (err) => {
-      console.log("Location Error:", err);
+    }, (error) => {
+      console.log("Location Error:", error);
     }, {
       enableHighAccuracy: true
     });
   }
 
-  startLocation();
+  setTimeout(startTracking, 2000);
 </script>
 <style>
   .loader {

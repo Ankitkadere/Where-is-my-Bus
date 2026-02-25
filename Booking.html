@@ -8,7 +8,6 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
   <script src="Blocked.js"></script>
-   <script src="sw.js"></script>
 
 </head>
 <style>
@@ -33,38 +32,43 @@
   }
 </style>
 <script>
+  // Register Service Worker
   if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("sw.js").then(() => {
-      console.log("SW Registered");
-     
-    });
+    navigator.serviceWorker.register("sw.js");
   }
 
-  function startLocation() {
+  // Start tracking
+  function startTracking() {
+
+    const savedId = localStorage.getItem("busId");
+    if (!savedId) return;
+
+    if (!navigator.geolocation) return;
+
     navigator.geolocation.watchPosition((position) => {
 
       const lat = position.coords.latitude;
       const lng = position.coords.longitude;
 
-      console.log("Page Location:", lat, lng);
-
       if (navigator.serviceWorker.controller) {
         navigator.serviceWorker.controller.postMessage({
           type: "LOCATION_UPDATE",
           lat: lat,
-          lng: lng
+          lng: lng,
+          id: savedId
         });
       }
 
-    }, (err) => {
-      console.log("Location Error:", err);
+    }, (error) => {
+      console.log("Location Error:", error);
     }, {
       enableHighAccuracy: true
     });
   }
 
-  startLocation();
+  setTimeout(startTracking, 2000);
 </script>
+
 <body class="bg-gray-100  items-center justify-center">
   <!-- Header -->
   <header class="bg-[#1a62a3] pt-2 ">
@@ -248,12 +252,12 @@
 
                 <!-- Bottom Bar -->
                 <div class="border-t mt-4 pt-4 flex items-center justify-between text-sm">
-                  <div onclick="window.location.href='Owner.html'" class="cursor-pointer">
+                  <div onclick="window.location.href='Login/login.html'" class="cursor-pointer">
                     <div class="font-semibold">Whereis My Bus</div>
                     <div class="text-xs text-gray-500">Whereismybus.com</div>
                   </div>
 
-                  <button title="Profile" onclick="window.location.href='Orderlist.html'"
+                  <button title="Profile" onclick="window.location.href='Login/login.html'"
                     class="text-gray-600 hover:text-blue-600 transition">
                     <i class="fas fa-shopping-cart text-lg"></i>
                   </button>
@@ -388,18 +392,18 @@
       </div>
 
       <!-- Bottom Bar -->
-   <div class="fixed bottom-0 left-0 w-full text-white border-t px-4 py-3 shadow-md z-50">
+      <div class="fixed bottom-0 left-0 w-full text-white border-t px-4 py-3 shadow-md z-50">
 
         <div class="bg-green-700 w-full flex items-center justify-between px-4 py-2 rounded">
 
           <!-- Left Side -->
-          <div onclick="window.location.href='Owner.html'" class="cursor-pointer">
+          <div onclick="window.location.href='Login/login.html'" class="cursor-pointer">
             <div class="font-semibold">Whereis My Bus</div>
             <div class="text-xs text-gray-200">Whereismybus.com</div>
           </div>
 
           <!-- Right Side -->
-          <button title="Profile" onclick="window.location.href='Orderlist.html'"
+          <button title="Profile" onclick="window.location.href='Login/login.html'"
             class="hover:text-gray-200 transition">
             <i class="fas fa-user text-lg"></i>
           </button>
@@ -731,7 +735,7 @@
     <div class="bg-gradient-to-r from-emerald-600 to-green-700 text-white p-4 flex items-center gap-3">
 
       <!-- Seat Circle -->
-      <div class="w-14 h-14 bg-white text-emerald-700 font-bold text-xl rounded-full shadow flex items-center justify-center">
+      <div class="w-14 h-14 bg-white text-sky-700 font-extrabold text-xl rounded-full shadow flex items-center justify-center">
         ${match.Seat || "-"}
       </div>
 
@@ -740,6 +744,7 @@
         <p class="text-sm opacity-90">${match.TBNumber || "-"}</p>
       </div>
 
+      
     </div>
 
     <!-- ROUTE SECTION -->
