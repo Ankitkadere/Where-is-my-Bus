@@ -1,5 +1,5 @@
 const API_URL =
-  "https://script.google.com/macros/s/AKfycbwOin6VhgVwerqqvDhEWiGe5tcYJlZdxGit6Nf2k0LPThjjmhhZX3RHSvysKDMpYbyr/exec";
+  "https://script.google.com/macros/s/AKfycbwFXKcF2Th70pa-08CdWnKNOhnvXJ9dunIYgYApLbppe5K9S1hhPqyX5vhtHLliPRvO/exec";
  
 let currentLat = null;
 let currentLng = null;
