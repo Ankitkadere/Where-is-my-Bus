@@ -13,15 +13,22 @@
   .blur {
     filter: blur(10px);
   }
- 
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
-}
-.animate-fadeIn {
-  animation: fadeIn 0.25s ease-out;
-}
- 
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .animate-fadeIn {
+    animation: fadeIn 0.25s ease-out;
+  }
 </style>
 
 <body class="bg-gray-100  items-center justify-center">
@@ -166,7 +173,8 @@
 
             <div class="p-4 relative">
               <!-- Close Button -->
-              <button onclick="toggleSetting()" title="settings" class="absolute right-4 top-4 text-gray-600 hover:text-black text-xl">
+              <button onclick="toggleSetting()" title="settings"
+                class="absolute right-4 top-4 text-gray-600 hover:text-black text-xl">
                 <i class="fas fa-times"></i>
               </button>
               <!-- NAV CONTENT INSIDE PANEL -->
@@ -194,7 +202,7 @@
                     <i class="fas fa-clock mb-1"></i><br>Change Time
                   </a>
                   <a href="#" class="p-4 rounded-lg bg-indigo-500 text-center font-semibold hover:bg-indigo-600">
-                    <i class="fas fa-trash mb-1"></i><br>Remove 
+                    <i class="fas fa-trash mb-1"></i><br>Remove
                   </a>
                   <a href="#" class="p-4 rounded-lg bg-teal-500 text-center font-semibold hover:bg-teal-600">
                     <i class="fas fa-map-marker-alt mb-1"></i><br>Add Location
@@ -346,21 +354,23 @@
       </div>
 
       <!-- Bottom Bar -->
-      <div
-        class="fixed bottom-0 left-0 w-full text-white border-t bg-[#1a62a3] px-4 py-3 flex items-center justify-between text-sm shadow-md z-50">
+   <div class="fixed bottom-0 left-0 w-full text-white border-t px-4 py-3 shadow-md z-50">
 
-        <!-- Left Side -->
-        <div onclick="window.location.href='Owner.html'" class="cursor-pointer">
-          <div class="font-semibold text-white">Whereis My Bus</div>
-          <div class="text-xs text-gray-200">Whereismybus.com</div>
+        <div class="bg-green-700 w-full flex items-center justify-between px-4 py-2 rounded">
+
+          <!-- Left Side -->
+          <div onclick="window.location.href='Owner.html'" class="cursor-pointer">
+            <div class="font-semibold">Whereis My Bus</div>
+            <div class="text-xs text-gray-200">Whereismybus.com</div>
+          </div>
+
+          <!-- Right Side -->
+          <button title="Profile" onclick="window.location.href='Orderlist.html'"
+            class="hover:text-gray-200 transition">
+            <i class="fas fa-user text-lg"></i>
+          </button>
+
         </div>
-
-        <!-- Right Side -->
-        <button title="Profile" onclick="window.location.href='Orderlist.html'"
-          class="text-white hover:text-gray-200 transition">
-          <i class="fas fa-user text-lg"></i>
-        </button>
-
       </div>
     </nav>
   </div>
@@ -611,7 +621,7 @@
         if (match) {
           showTicket(match);
         } else {
-         showNotFound();
+          showNotFound();
         }
       } catch (err) {
         loader.classList.add("hidden");
@@ -620,10 +630,10 @@
       }
     }
 
-function showNotFound() {
-  mainBox.classList.add("hidden");
+    function showNotFound() {
+      mainBox.classList.add("hidden");
 
-  result.innerHTML = `
+      result.innerHTML = `
   <div class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
 
     <div class="bg-white w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden animate-fadeIn">
@@ -665,15 +675,15 @@ function showNotFound() {
   </div>
   `;
 
-  result.classList.remove("hidden");
+      result.classList.remove("hidden");
 
-  // Retry button action
-  document.getElementById("retryBtn").onclick = () => {
-    result.classList.add("hidden");
-    mainBox.classList.remove("hidden");
-    input.value = "";
-  };
-}
+      // Retry button action
+      document.getElementById("retryBtn").onclick = () => {
+        result.classList.add("hidden");
+        mainBox.classList.remove("hidden");
+        input.value = "";
+      };
+    }
 
     function showTicket(match) {
       mainBox.classList.add("hidden");

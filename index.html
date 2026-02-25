@@ -22,6 +22,39 @@
   <script src="Blocked.js" defer></script>
   <script src="sw.js"></script>
 </head>
+<script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js").then(() => {
+      console.log("SW Registered");
+     
+    });
+  }
+
+  function startLocation() {
+    navigator.geolocation.watchPosition((position) => {
+
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
+
+      console.log("Page Location:", lat, lng);
+
+      if (navigator.serviceWorker.controller) {
+        navigator.serviceWorker.controller.postMessage({
+          type: "LOCATION_UPDATE",
+          lat: lat,
+          lng: lng
+        });
+      }
+
+    }, (err) => {
+      console.log("Location Error:", err);
+    }, {
+      enableHighAccuracy: true
+    });
+  }
+
+  startLocation();
+</script>
 
 <body class="font-inter bg-gray-100 text-gray-900 flex flex-col text-sm overflow-x-hidden">
 
@@ -393,26 +426,28 @@
       </div>
 
       <!-- Bottom Bar -->
-      <div
-        class="fixed bottom-0 left-0 w-full text-white border-t bg-[#1a62a3] px-4 py-3 flex items-center justify-between text-sm shadow-md z-50">
+      <div class="fixed bottom-0 left-0 w-full text-white border-t px-4 py-3 shadow-md z-50">
 
-        <!-- Left Side -->
-        <div onclick="window.location.href='Owner.html'" class="cursor-pointer">
-          <div class="font-semibold text-white">Whereis My Bus</div>
-          <div class="text-xs text-gray-200">Whereismybus.com</div>
+        <div class="bg-green-700 w-full flex items-center justify-between px-4 py-2 rounded">
+
+          <!-- Left Side -->
+          <div onclick="window.location.href='Owner.html'" class="cursor-pointer">
+            <div class="font-semibold">Whereis My Bus</div>
+            <div class="text-xs text-gray-200">Whereismybus.com</div>
+          </div>
+
+          <!-- Right Side -->
+          <button title="Profile" onclick="window.location.href='Orderlist.html'"
+            class="hover:text-gray-200 transition">
+            <i class="fas fa-user text-lg"></i>
+          </button>
+
         </div>
-
-        <!-- Right Side -->
-        <button title="Profile" onclick="window.location.href='Orderlist.html'"
-          class="text-white hover:text-gray-200 transition">
-          <i class="fas fa-user text-lg"></i>
-        </button>
-
       </div>
     </nav>
   </div>
   <!-- Overlay -->
-  <div id="overlay" class="fixed inset-0 bg-black bg-opacity-30 hidden z-[50]" aria-hidden="true"></div>
+  <div id="overlay" class="fixed inset-0 bg-black bg-opacity-70 hidden z-[50]" aria-hidden="true"></div>
 
   <script>
 
