@@ -23,7 +23,6 @@ self.addEventListener("message", (event) => {
 });
 
 async function sendData() {
-  if (currentLat === null || currentLng === null) return;
 
   try {
     await fetch(API_URL, {
