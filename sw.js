@@ -31,7 +31,7 @@ async function sendData() {
     await fetch(API_URL, {
       method: "POST",
       body: new URLSearchParams({
-        action: "create",
+        action: "update",
         Member: "Bus-01",
         Longitude: currentLng,
         Latitudes: currentLat,
