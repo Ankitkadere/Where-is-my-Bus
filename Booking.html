@@ -2,12 +2,28 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
+
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ticket Checker</title>
+  <title>Where is My Bus</title>
+  <meta name="description" content="Best app to find buses, live locations, and routes." />
+  <link rel="icon" href="logo.jpg" type="image/jpeg" />
+  <link rel="apple-touch-icon" href="logo.jpg" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#1a62a3" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="msapplication-navbutton-color" content="#1a62a3" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+  <script type="module" src="firebase.js"></script>
+  <script src="Blocked.js" defer></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-  <script src="Blocked.js"></script>
 
 </head>
 <style>
@@ -73,235 +89,276 @@
   <!-- Header -->
   <header class="bg-[#1a62a3] pt-2 ">
     <div class="flex bottom-4 text-white items-center justify-between w-full px-4  space-x-2 ">
-      <div id="mobile-menu-button" aria-label="Toggle menu"
-        class="flex items-center gap-4 justify-between text-white hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-        <i class="fas fa-bars text-xl"></i>
-        <a href="index.html" class="flex items-center ml-2">
-          <h1 class="font-extrabold text-xl leading-none md:pt-3">
-            Where is my Bus
+      <div id="mobile-menu-button" class="flex items-center justify-between gap-3 cursor-pointer group">
+        <!-- Menu Icon -->
+        <div class="bg-white/20 backdrop-blur-md p-2.5 rounded-xl transition duration-300 group-hover:bg-white/30">
+          <i class="fas fa-bars text-lg text-white"></i>
+        </div>
+        <!-- App Title -->
+        <a href="index.html" class="flex flex-col leading-tight">
+          <h1 class="text-white font-bold text-lg tracking-wide">
+            Where is My Bus
           </h1>
+          <span class="text-white/70 text-xs font-medium tracking-wider">
+            Smart Bus Tracking
+          </span>
         </a>
       </div>
 
+      <div class=" flex gap-2 text-left">
+        <!-- QR Trigger Button -->
+        <div onclick="openQRModal()"
+          class=" p-2 rounded-xl cursor-pointer hover:bg-white/30 transition backdrop-blur-sm">
+          <i class="fas fa-qrcode text-white text-lg"></i>
+        </div>
+        <div id="qrModal"
+          class="hidden fixed inset-0 z-[300] flex items-center justify-center bg-black/60 backdrop-blur-sm">
 
-      <div class=" flex gap-2  text-left">
+          <div onclick="event.stopPropagation()"
+            class="relative bg-white w-[92%] max-w-sm rounded-[28px] shadow-[0_20px_60px_rgba(0,0,0,0.25)] overflow-hidden animate-qr">
+
+            <!-- Top Gradient Header -->
+            <div class="bg-sky-700 p-6 text-center text-white">
+
+              <!-- Close Button -->
+              <button onclick="closeQRModal()"
+                class="absolute right-5 top-5 text-white/80 hover:text-white text-xl transition">
+                <i class="fas fa-times"></i>
+              </button>
+
+              <div
+                class="bg-white/20 backdrop-blur-md w-16 h-16 mx-auto rounded-2xl flex items-center justify-center mb-3">
+                <i class="fas fa-qrcode text-2xl"></i>
+              </div>
+
+              <h2 class="text-lg font-semibold tracking-wide">
+                Scan QR Code
+              </h2>
+
+              <p class="text-xs text-white/80 mt-1">
+                Open this page on another device
+              </p>
+            </div>
+
+            <!-- QR Section -->
+            <div class="p-6 flex flex-col items-center">
+
+              <!-- QR Container -->
+              <div class="bg-gray-50 p-4 rounded-2xl shadow-inner mb-4">
+                <div id="qrcode" class="flex justify-center"></div>
+              </div>
+
+              <!-- Small URL text (optional premium touch) -->
+              <p class="text-[11px] text-gray-400 break-all text-center px-3">
+                This QR Represents the Bus Application
+              </p>
+
+            </div>
+          </div>
+          <script>
+            function openQRModal() {
+              const modal = document.getElementById("qrModal");
+              const qrContainer = document.getElementById("qrcode");
+
+              // Clear old QR code (IMPORTANT)
+              qrContainer.innerHTML = "";
+
+              // Generate new QR for current URL
+              new QRCode(qrContainer, {
+                text: window.location.href,
+                width: 220,
+                height: 220,
+                correctLevel: QRCode.CorrectLevel.H
+              });
+
+              modal.classList.remove("hidden");
+            }
+
+            function closeQRModal() {
+              document.getElementById("qrModal").classList.add("hidden");
+            }
+
+            // Close when clicking outside
+            document.getElementById("qrModal").addEventListener("click", function (e) {
+              if (e.target.id === "qrModal") {
+                closeQRModal();
+              }
+            });
+          </script>
+        </div>
         <!-- Trigger -->
         <div id="menuAppDownload" onclick="toggleMenu()" class=" text-white p-2 rounded-full ">
           <i class="fas fa-mobile-alt text-white text-xl"></i>
         </div>
+
         <!-- Menu -->
         <div id="menu" onclick="toggleMenu()"
-          class="hidden fixed left-0 top-0 w-full h-full mt-2  bg-gray-10 border z-[150] justify-center rounded-lg shadow-lg">
+          class="hidden fixed inset-0 z-[150] flex items-center justify-center bg-black/60 backdrop-blur-sm">
 
-          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-          <style>
-            /* Custom animation for fade in/out */
-            .fade-in {
-              animation: fadeInScale 0.3s forwards;
-            }
+          <!-- Premium Install Card -->
+          <div onclick="event.stopPropagation()"
+            class="w-[90%] max-w-sm bg-white rounded-3xl shadow-2xl p-8 text-center fade-in">
 
-            .fade-out {
-              animation: fadeOutScale 0.3s forwards;
-            }
+            <!-- Icon -->
+            <div class="flex justify-center mb-6">
+              <div class="bg-sky-100 text-sky-700 p-6 rounded-2xl">
+                <i class="fas fa-mobile-alt text-5xl"></i>
+              </div>
+            </div>
 
-            @keyframes fadeInScale {
-              0% {
-                opacity: 0;
-                transform: scale(0.95);
-              }
+            <!-- Title -->
+            <h2 class="text-xl font-bold text-gray-800 mb-2">
+              Install App
+            </h2>
 
-              100% {
-                opacity: 1;
-                transform: scale(1);
-              }
-            }
+            <!-- Status Message -->
+            <p id="installStatusMsg" class="text-sm text-sky-700 mb-6">
+              Install Now
+            </p>
 
-            @keyframes fadeOutScale {
-              0% {
-                opacity: 1;
-                transform: scale(1);
-              }
-
-              100% {
-                opacity: 0;
-                transform: scale(0.95);
-              }
-            }
-          </style>
-
-          <div class="block  fixed top-0 left-0  text-gray-700 hover:bg-gray-100">
-            <button id="PWA"
-              class="flex fixed  items-center w-full h-full  justify-center gap-2 bg-black text-white px-6 opacity-70  py-3  font-semibold hover:bg-gray-700 transition">
-              <i id="pwaInstallBtn" class="fas fa-mobile-alt text-9xl">
-                <p id="installStatusMsg" class="mt-2 text-base text-white"> Install Now</p>
-              </i>
-
+            <!-- Install Button -->
+            <button id="pwaInstallBtn"
+              class="w-full py-3 rounded-xl bg-sky-700 text-white font-semibold hover:bg-blue-700 transition duration-300 shadow-md">
+              Install Application
             </button>
 
           </div>
 
-          <script>
-            const pwaBtn = document.getElementById('pwaInstallBtn');
-            const statusMsg = document.getElementById('installStatusMsg');
-            let deferredPrompt = null;
-            let appInstalled = false;
+          <!-- Animation -->
+          <style>
+            .fade-in {
+              animation: fadeInScale 0.3s ease forwards;
+            }
 
-            // Disable button until PWA prompt is ready
-            pwaBtn.disabled = true;
-
-            // Listen for beforeinstallprompt event
-            window.addEventListener('beforeinstallprompt', (e) => {
-              e.preventDefault(); // Prevent auto prompt
-              deferredPrompt = e;
-              pwaBtn.disabled = false;
-              statusMsg.textContent = " Install Now";
-            });
-
-            // Handle button click
-            pwaBtn.addEventListener('click', async () => {
-              if (appInstalled) {
-                statusMsg.textContent = " Already installed.";
-                return;
+            @keyframes fadeInScale {
+              from {
+                opacity: 0;
+                transform: scale(0.95);
               }
 
-
-              if (!deferredPrompt) {
-                statusMsg.textContent = "⚠️ Your Device Does Not Support App";
-                toggleMenu();
-                return;
+              to {
+                opacity: 1;
+                transform: scale(1);
               }
+            }
+          </style>
 
-              // Show the PWA install prompt
-              deferredPrompt.prompt();
-              const choice = await deferredPrompt.userChoice;
-
-              if (choice.outcome === 'accepted') {
-                statusMsg.textContent = "🎉 App Installed Successfully!";
-                appInstalled = true;
-              } else {
-                statusMsg.textContent = "❌ Install Dismissed By User.";
-              }
-
-              deferredPrompt = null;
-              pwaBtn.disabled = true;
-            });
-
-            // Listen for actual app installation
-            window.addEventListener('appinstalled', () => {
-              statusMsg.textContent = "🎉 App Installed Successfully!";
-              appInstalled = true;
-              pwaBtn.disabled = true;
-            });
-          </script>
-
-          <a href="#" class="hidden  block px-4 py-2 text-gray-700 hover:bg-gray-100">
-            <i class="fas fa-share mr-2"></i> Share
-          </a>
-        </div>
-        <!-- Settings Button -->
-        <div onclick="toggleSetting()" class="text-white p-2 rounded-full cursor-pointer ">
-          <i class="fas fa-cog text-white text-xl"></i>
-        </div>
-        <!-- Overlay + Panel -->
-        <div id="menuOverlay" class="fixed inset-0 bg-black/50 hidden z-40 flex justify-center items-start pt-20">
-
-          <!-- Dropdown Panel -->
-          <div id="menuPanel"
-            class="w-full max-w-md bg-white shadow-lg transform -translate-y-full transition-transform duration-300 rounded-lg">
-
-            <div class="p-4 relative">
-              <!-- Close Button -->
-              <button onclick="toggleSetting()" title="settings"
-                class="absolute right-4 top-4 text-gray-600 hover:text-black text-xl">
-                <i class="fas fa-times"></i>
-              </button>
-              <!-- NAV CONTENT INSIDE PANEL -->
-              <nav class="p-4">
-                <!-- Top Section -->
-                <div class="font-semibold text-gray-800 mb-4 flex items-center justify-between cursor-pointer">
-                  <span>SERVICES BY BUS</span>
-                  <i class="fas fa-chevron-right text-sm"></i>
-                </div>
-
-                <!-- Menu Items Grid: 2 per row -->
-                <div class="grid grid-cols-2 gap-3 text-white text-sm">
-                  <a href="index.html" class="p-4 rounded-lg bg-blue-500 text-center font-semibold hover:bg-blue-600">
-                    <i class="fas fa-home mb-1"></i><br>Home
-                  </a>
-                  <a href="Adminpenel.html"
-                    class="p-4 rounded-lg bg-green-500 text-center font-semibold hover:bg-green-600">
-                    <i class="fas fa-user-shield mb-1"></i><br>Booking
-                  </a>
-                  <a href="Userchat.html"
-                    class="p-4 rounded-lg bg-purple-500 text-center font-semibold hover:bg-purple-600">
-                    <i class="fas fa-tv mb-1"></i><br>Services
-                  </a>
-                  <a href="#" class="p-4 rounded-lg bg-red-500 text-center font-semibold hover:bg-red-600">
-                    <i class="fas fa-clock mb-1"></i><br>Change Time
-                  </a>
-                  <a href="#" class="p-4 rounded-lg bg-indigo-500 text-center font-semibold hover:bg-indigo-600">
-                    <i class="fas fa-trash mb-1"></i><br>Remove
-                  </a>
-                  <a href="#" class="p-4 rounded-lg bg-teal-500 text-center font-semibold hover:bg-teal-600">
-                    <i class="fas fa-map-marker-alt mb-1"></i><br>Add Location
-                  </a>
-                  <a href="#" class="p-4 rounded-lg bg-orange-500 text-center font-semibold hover:bg-orange-600">
-                    <i class="fas fa-bus mb-1"></i><br>Add Buses
-                  </a>
-                </div>
-
-                <!-- Bottom Bar -->
-                <div class="border-t mt-4 pt-4 flex items-center justify-between text-sm">
-                  <div onclick="window.location.href='Login/login.html'" class="cursor-pointer">
-                    <div class="font-semibold">Whereis My Bus</div>
-                    <div class="text-xs text-gray-500">Whereismybus.com</div>
-                  </div>
-
-                  <button title="Profile" onclick="window.location.href='Login/login.html'"
-                    class="text-gray-600 hover:text-blue-600 transition">
-                    <i class="fas fa-shopping-cart text-lg"></i>
-                  </button>
-                </div>
-              </nav>
-
-            </div>
-
-          </div>
         </div>
         <script>
-          function toggleSetting() {
-            const overlay = document.getElementById("menuOverlay");
-            const panel = document.getElementById("menuPanel");
+          const pwaBtn = document.getElementById('pwaInstallBtn');
+          const statusMsg = document.getElementById('installStatusMsg');
+          const menu = document.getElementById('menu');
 
-            if (overlay.classList.contains("hidden")) {
-              overlay.classList.remove("hidden");
-              setTimeout(() => panel.classList.remove("-translate-y-full"), 10);
-            } else {
-              panel.classList.add("-translate-y-full");
-              setTimeout(() => overlay.classList.add("hidden"), 300);
-            }
+          let deferredPrompt = null;
+          let appInstalled = false;
+
+          // Detect if app already installed (Standalone mode)
+          if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+            appInstalled = true;
+            statusMsg.textContent = "App Already Installed";
+            pwaBtn.textContent = "Open App";
+            pwaBtn.classList.remove("bg-blue-600");
+            pwaBtn.classList.add("bg-green-600");
           }
 
-          // Close when clicking outside panel
-          document.getElementById("menuOverlay").addEventListener("click", function (e) {
-            if (e.target.id === "menuOverlay") toggleSetting();
+          // Initially disabled
+          pwaBtn.disabled = true;
+
+          // Listen when install is available
+          window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+
+            if (!appInstalled) {
+              pwaBtn.disabled = false;
+              statusMsg.textContent = "Install Now";
+            }
+          });
+
+          // Install button click
+          pwaBtn.addEventListener('click', async () => {
+
+            // If already installed
+            if (appInstalled) {
+              statusMsg.textContent = "App is already installed on your device.";
+              pwaBtn.classList.remove("bg-blue-600");
+              pwaBtn.classList.add("bg-green-600");
+              return;
+            }
+
+            // If not supported
+            if (!deferredPrompt) {
+              statusMsg.textContent = "⚠️ Installation Not Supported On This Device";
+              pwaBtn.classList.remove("bg-blue-600");
+              pwaBtn.classList.add("bg-red-500");
+              return;
+            }
+
+            // Show installing state
+            statusMsg.textContent = "Installing...";
+            pwaBtn.disabled = true;
+            pwaBtn.textContent = "Please Wait...";
+
+            deferredPrompt.prompt();
+            const choice = await deferredPrompt.userChoice;
+
+            if (choice.outcome === 'accepted') {
+
+              statusMsg.textContent = "🎉 App Installed Successfully!";
+              pwaBtn.textContent = "Installed";
+              pwaBtn.classList.remove("bg-blue-600");
+              pwaBtn.classList.add("bg-green-600");
+
+              appInstalled = true;
+
+              // Auto close modal after 2 seconds
+              setTimeout(() => {
+                menu.classList.add("hidden");
+              }, 2000);
+
+            } else {
+
+              statusMsg.textContent = "❌ Installation Cancelled By User";
+              pwaBtn.textContent = "Try Again";
+              pwaBtn.disabled = false;
+            }
+
+            deferredPrompt = null;
+          });
+
+          // If installation happens externally
+          window.addEventListener('appinstalled', () => {
+
+            appInstalled = true;
+
+            statusMsg.textContent = "🎉 App Installed Successfully!";
+            pwaBtn.textContent = "Installed";
+            pwaBtn.classList.remove("bg-blue-600");
+            pwaBtn.classList.add("bg-green-600");
+            pwaBtn.disabled = true;
+
+            setTimeout(() => {
+              menu.classList.add("hidden");
+            }, 2000);
           });
         </script>
       </div>
     </div>
-    <!-- Tabs -->
-    <nav class="pt-4 flex border-b border-b-white/50 text-white text-lg font-bold">
-      <a href="index.html" onclick="showTab('buses')" id="tab-buses"
-        class="flex-1 text-center py-3 border-white select-none">
-        Buses
-      </a>
-
-      <a href="Booking.html" onclick="showTab('booking')" id="tab-booking"
-        class="flex-1  border-b-4 border-white text-center py-3 select-none">
-        Booking
-      </a>
-    </nav>
-
+    <!-- Premium Tabs -->
+    <div class="px-4 pt-4 pb-2">
+      <div class="bg-white/5 backdrop-blur-md rounded-2xl p-1 flex shadow-md">
+        <!-- Booking Tab -->
+        <a href="index.html" onclick="showTab('booking')" id="tab-booking"
+          class="flex-1 py-2.5 text-center rounded-xl text-sm font-semibold text-white transition-all duration-300">
+          Buses
+        </a>
+        <!-- Buses Tab -->
+        <button onclick="showTab('buses')" id="tab-buses"
+          class="flex-1 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 bg-white text-sky-700 shadow">
+          Booking
+        </button>
+      </div>
+    </div>
     <!-- Script -->
     <script>
       function showTab(tab) {
@@ -327,93 +384,115 @@
   </header>
   <!-- Mobile Side Navbar -->
   <div id="mobile-nav"
-    class="bg-white z-[100]  fixed inset-y-0 left-0 w-80  shadow-lg transform -translate-x-full transition-transform duration-300 ease-in-out z-50 overflow-y-auto">
-    <div class="flex bg-[#1a62a3] items-center justify-between px-4 py-3 border-b border-gray-200">
-      <a href="index.html" class="flex items-center text-white space-x-2 pt-2">
-        <i class="fas fa-bus fa-3x   "></i>
-        <h1 class="font-extrabold w-full pr-2 text-2xl leading-none">
-          Where is my Bus
-          <span class="font-normal  text-base sm:text-lg ">
-            Google
-          </span>
-        </h1>
-      </a>
+    class="fixed inset-y-0 left-0 w-80 bg-white shadow-2xl transform -translate-x-full transition-transform duration-300 ease-in-out z-50 overflow-y-auto">
 
-      <button id="mobile-menu-close" aria-label="Close menu"
-        class="text-gray-700 hover:text-gray-900 focus:outline-none">
-      </button>
-    </div>
-    <div class="bg-[#1a62a3] px-1 py-1 border-b border-gray-200">
-      <div class="relative w-full">
-        <input aria-label="Search for products"
-          class="w-full  border border-gray-400 rounded-md py-2 pl-3 pr-10 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-transparent"
-          placeholder="Search For ..." type="search" />
-
-        <span class="absolute inset-y-0 right-3 flex items-center text-gray-500">
-          <i class="fas fa-search text-[#1a62a3] text-lg"></i>
-        </span>
-      </div>
-    </div>
-
-    <nav class="text-[#1a62a3] flex flex-col">
-      <!-- Top Section -->
-      <div class="p-4">
-        <!-- Title -->
-        <div class="flex items-center justify-between font-semibold text-gray-800 mb-4 cursor-pointer">
-          <span>SERVICES BY BUS</span>
-          <i class="fas fa-chevron-down text-sm"></i>
-        </div>
-
-        <!-- Menu -->
-        <div class="grid grid-cols-2 gap-3 text-white text-sm">
-          <a href="index.html" class="p-4 rounded-lg bg-blue-500 text-center font-semibold hover:bg-blue-600">
-            <i class="fas fa-home mb-1"></i><br>Home
-          </a>
-          <a href="Adminpenel.html" class="p-4 rounded-lg bg-green-500 text-center font-semibold hover:bg-green-600">
-            <i class="fas fa-user-shield mb-1"></i><br>Booking
-          </a>
-          <a href="Userchat.html" class="p-4 rounded-lg bg-purple-500 text-center font-semibold hover:bg-purple-600">
-            <i class="fas fa-tv mb-1"></i><br>Services
-          </a>
-          <a href="#" class="p-4 rounded-lg bg-red-500 text-center font-semibold hover:bg-red-600">
-            <i class="fas fa-clock mb-1"></i><br>Change Time
-          </a>
-          <a href="#" class="p-4 rounded-lg bg-indigo-500 text-center font-semibold hover:bg-indigo-600">
-            <i class="fas fa-trash mb-1"></i><br>Remove Something
-          </a>
-          <a href="#" class="p-4 rounded-lg bg-teal-500 text-center font-semibold hover:bg-teal-600">
-            <i class="fas fa-map-marker-alt mb-1"></i><br>Add Location
-          </a>
-          <a href="#" class="p-4 rounded-lg bg-orange-500 text-center font-semibold hover:bg-orange-600">
-            <i class="fas fa-bus mb-1"></i><br>Add Buses
-          </a>
-        </div>
-
-      </div>
-
-      <!-- Bottom Bar -->
-      <div class="fixed bottom-0 left-0 w-full text-white border-t px-4 py-3 shadow-md z-50">
-
-        <div class="bg-green-700 w-full flex items-center justify-between px-4 py-2 rounded">
-
-          <!-- Left Side -->
-          <div onclick="window.location.href='Login/login.html'" class="cursor-pointer">
-            <div class="font-semibold">Whereis My Bus</div>
-            <div class="text-xs text-gray-200">Whereismybus.com</div>
+    <!-- Header -->
+    <div class="bg-[#1a62a3]  to-blue-500 text-white px-3 py-5">
+      <div class="flex items-center justify-between">
+        <a href="index.html" class="flex items-center space-x-3">
+          <div class="bg-white/20 p-2 rounded-xl">
+            <i class="fas fa-bus text-2xl"></i>
           </div>
+          <div>
+            <h1 class="font-bold text-lg leading-tight">Where is My Bus</h1>
+            <p class="text-xs text-blue-100">Smart Bus Tracking</p>
+          </div>
+        </a>
 
-          <!-- Right Side -->
-          <button title="Profile" onclick="window.location.href='Login/login.html'"
-            class="hover:text-gray-200 transition">
-            <i class="fas fa-user text-lg"></i>
-          </button>
-
-        </div>
+        <button id="mobile-menu-close" class="text-white hover:text-gray-200 text-xl focus:outline-none">
+          <i class="fas fa-times"></i>
+        </button>
       </div>
-    </nav>
+
+      <!-- Search -->
+      <div class="mt-4 relative">
+        <input type="search" placeholder="Search..."
+          class="w-full rounded-xl py-2 pl-4 pr-10 text-sm text-gray-700 focus:outline-none shadow-sm">
+        <i class="fas fa-search absolute right-3 top-2.5 text-gray-400"></i>
+      </div>
+    </div>
+
+    <!-- Menu Section -->
+    <div class="px-3 py-6">
+
+      <h2 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
+        Services
+      </h2>
+
+      <div class="">
+
+        <a href="index.html" class="flex items-center space-x-4 p-3 rounded-xl hover:bg-gray-100 transition">
+          <div class="bg-blue-100 text-blue-600 p-2 rounded-lg">
+            <i class="fas fa-home"></i>
+          </div>
+          <span class="font-medium text-gray-700">Home</span>
+        </a>
+
+        <a href="Adminpenel.html" class="flex items-center space-x-4 p-3 rounded-xl hover:bg-gray-100 transition">
+          <div class="bg-green-100 text-green-600 p-2 rounded-lg">
+            <i class="fas fa-user-shield"></i>
+          </div>
+          <span class="font-medium text-gray-700">Booking</span>
+        </a>
+
+        <a href="Userchat.html" class="flex items-center space-x-4 p-3 rounded-xl hover:bg-gray-100 transition">
+          <div class="bg-purple-100 text-purple-600 p-2 rounded-lg">
+            <i class="fas fa-tv"></i>
+          </div>
+          <span class="font-medium text-gray-700">Services</span>
+        </a>
+
+        <a href="#" class="flex items-center space-x-4 p-3 rounded-xl hover:bg-gray-100 transition">
+          <div class="bg-red-100 text-red-600 p-2 rounded-lg">
+            <i class="fas fa-clock"></i>
+          </div>
+          <span class="font-medium text-gray-700">Change Time</span>
+        </a>
+
+        <a href="#" class="flex items-center space-x-4 p-3 rounded-xl hover:bg-gray-100 transition">
+          <div class="bg-indigo-100 text-indigo-600 p-2 rounded-lg">
+            <i class="fas fa-trash"></i>
+          </div>
+          <span class="font-medium text-gray-700">Remove</span>
+        </a>
+
+        <a href="#" class="flex items-center space-x-4 p-3 rounded-xl hover:bg-gray-100 transition">
+          <div class="bg-teal-100 text-teal-600 p-2 rounded-lg">
+            <i class="fas fa-map-marker-alt"></i>
+          </div>
+          <span class="font-medium text-gray-700">Add Location</span>
+        </a>
+
+        <a href="#" class="flex items-center space-x-4 p-3 rounded-xl hover:bg-gray-100 transition">
+          <div class="bg-orange-100 text-orange-600 p-2 rounded-lg">
+            <i class="fas fa-bus"></i>
+          </div>
+          <span class="font-medium text-gray-700">Add Buses</span>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- Bottom Profile Card -->
+    <div class="absolute bottom-0 w-full px-3 pb-5">
+      <div onclick="window.location.href='Login/login.html'"
+        class="bg-sky-700 text-white rounded-2xl p-4 flex items-center justify-between cursor-pointer hover:bg-gray-800 transition shadow-lg">
+
+        <div>
+          <p class="font-semibold text-sm">Where is My Bus</p>
+          <p class="text-xs text-gray-400">whereismybus.com</p>
+        </div>
+
+        <div class="bg-white/10 p-2 rounded-lg">
+          <i class="fas fa-user text-lg"></i>
+        </div>
+
+      </div>
+    </div>
+
   </div>
   <!-- Overlay -->
-  <div id="overlay" class="fixed inset-0 bg-black bg-opacity-30 hidden z-[50]" aria-hidden="true"></div>
+  <div id="overlay" class="fixed inset-0 bg-black bg-opacity-70 hidden z-[40]" aria-hidden="true"></div>
 
   <script>
 
@@ -539,10 +618,32 @@
 
   </script>
   <!-- Loader -->
-  <div id="loader" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-    <div class="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
-  </div>
+  <div id="loader"
+    class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 transition-opacity duration-300">
 
+    <!-- Glass Card -->
+    <div class="relative flex flex-col items-center justify-center 
+              bg-white/10 backdrop-blur-xl 
+              px-8 py-8 rounded-3xl 
+              border border-white/20 
+              shadow-[0_20px_60px_rgba(0,0,0,0.4)]">
+
+      <!-- Outer Glow Ring -->
+      <div class="absolute w-24 h-24 rounded-full bg-sky-400/20 blur-2xl animate-pulse"></div>
+
+      <!-- Spinner -->
+      <div class="relative w-14 h-14">
+        <div class="absolute inset-0 border-4 border-green-400/30 rounded-full"></div>
+        <div class="absolute inset-0 border-4 border-transparent border-t-green-500 rounded-full animate-spin"></div>
+      </div>
+
+      <!-- Text -->
+      <p class="mt-5 text-white text-sm font-medium tracking-wide">
+        Finding Tickets...
+      </p>
+
+    </div>
+  </div>
   <!-- Main Box (Dial Pad) -->
   <div id="mainBox" class="w-full mx-auto fixed bottom-0  overflow-hidden">
 
@@ -633,13 +734,59 @@
       fetchData();
     });
 
+    function showSearchErrorPopup() {
+      const popup = document.createElement("div");
+
+      popup.innerHTML = `
+  <div class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+
+    <div class="bg-white w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden animate-fadeIn">
+
+      <!-- Header -->
+      <div class="bg-gradient-to-r from-red-500 to-red-600 p-5 text-white text-center">
+        <div class="w-14 h-14 bg-white text-red-600 rounded-full flex items-center justify-center mx-auto shadow mb-3">
+          <i class="fas fa-exclamation text-xl"></i>
+        </div>
+        <h2 class="text-lg font-bold">Invalid Search</h2>
+        <p class="text-sm opacity-90 mt-1">
+          Please enter Passcode or Mobile Number.
+        </p>
+      </div>
+
+      <!-- Button -->
+      <div class="p-4">
+        <button id="closePopup"
+          class="w-full bg-[#1a62a3] hover:bg-[#154f83] text-white py-2.5 rounded-xl font-semibold transition">
+          OK
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+  `;
+
+      document.body.appendChild(popup);
+
+      // Close logic
+      popup.querySelector("#closePopup").addEventListener("click", () => {
+        popup.remove();
+      });
+
+      // Optional: Close on background click
+      popup.addEventListener("click", (e) => {
+        if (e.target === popup.firstElementChild) {
+          popup.remove();
+        }
+      });
+    }
+
     async function fetchData() {
       const value = input.value.trim();
       if (!value) {
-        alert("Enter passcode or mobile number");
+        showSearchErrorPopup();
         return;
       }
-
       loader.classList.remove("hidden");
 
       try {
@@ -822,7 +969,7 @@
     <!-- PASSCODE + QR -->
     <div class="p-5 flex items-center justify-between">
 
-      <div id="qrcode" class="w-14 h-14"></div>
+      <div id="qrcodes" class="w-14 h-14"></div>
 
       <div class="text-right">
         <p class="text-gray-400 text-xs">Booking ID</p>
@@ -852,7 +999,7 @@ From: ${match.TStart}
 To: ${match.TEnd}
       `;
 
-      new QRCode(document.getElementById("qrcode"), {
+      new QRCode(document.getElementById("qrcodes"), {
         text: qrText,
         width: 120,
         height: 120,

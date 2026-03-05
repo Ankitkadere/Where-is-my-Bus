@@ -21,6 +21,7 @@
   <script type="module" src="firebase.js"></script>
   <script src="Blocked.js" defer></script>
   <script src="sw.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 </head>
 <script>
   // Register Service Worker
@@ -127,6 +128,86 @@
       </div>
 
       <div class=" flex gap-2 text-left">
+        <!-- QR Trigger Button -->
+        <div onclick="openQRModal()"
+          class=" p-2 rounded-xl cursor-pointer hover:bg-white/30 transition backdrop-blur-sm">
+          <i class="fas fa-qrcode text-white text-lg"></i>
+        </div>
+        <div id="qrModal"
+          class="hidden fixed inset-0 z-[300] flex items-center justify-center bg-black/60 backdrop-blur-sm">
+
+          <div onclick="event.stopPropagation()"
+            class="relative bg-white w-[92%] max-w-sm rounded-[28px] shadow-[0_20px_60px_rgba(0,0,0,0.25)] overflow-hidden animate-qr">
+
+            <!-- Top Gradient Header -->
+            <div class="bg-sky-700 p-6 text-center text-white">
+
+              <!-- Close Button -->
+              <button onclick="closeQRModal()"
+                class="absolute right-5 top-5 text-white/80 hover:text-white text-xl transition">
+                <i class="fas fa-times"></i>
+              </button>
+
+              <div
+                class="bg-white/20 backdrop-blur-md w-16 h-16 mx-auto rounded-2xl flex items-center justify-center mb-3">
+                <i class="fas fa-qrcode text-2xl"></i>
+              </div>
+
+              <h2 class="text-lg font-semibold tracking-wide">
+                Scan QR Code
+              </h2>
+
+              <p class="text-xs text-white/80 mt-1">
+                Open this page on another device
+              </p>
+            </div>
+
+            <!-- QR Section -->
+            <div class="p-6 flex flex-col items-center">
+
+              <!-- QR Container -->
+              <div class="bg-gray-50 p-4 rounded-2xl shadow-inner mb-4">
+                <div id="qrcode" class="flex justify-center"></div>
+              </div>
+
+              <!-- Small URL text (optional premium touch) -->
+              <p class="text-[11px] text-gray-400 break-all text-center px-3">
+                This QR Represents the Bus Application
+              </p>
+
+            </div>
+          </div>
+          <script>
+            function openQRModal() {
+              const modal = document.getElementById("qrModal");
+              const qrContainer = document.getElementById("qrcode");
+
+              // Clear old QR code (IMPORTANT)
+              qrContainer.innerHTML = "";
+
+              // Generate new QR for current URL
+              new QRCode(qrContainer, {
+                text: window.location.href,
+                width: 220,
+                height: 220,
+                correctLevel: QRCode.CorrectLevel.H
+              });
+
+              modal.classList.remove("hidden");
+            }
+
+            function closeQRModal() {
+              document.getElementById("qrModal").classList.add("hidden");
+            }
+
+            // Close when clicking outside
+            document.getElementById("qrModal").addEventListener("click", function (e) {
+              if (e.target.id === "qrModal") {
+                closeQRModal();
+              }
+            });
+          </script>
+        </div>
         <!-- Trigger -->
         <div id="menuAppDownload" onclick="toggleMenu()" class=" text-white p-2 rounded-full ">
           <i class="fas fa-mobile-alt text-white text-xl"></i>
@@ -142,7 +223,7 @@
 
             <!-- Icon -->
             <div class="flex justify-center mb-6">
-              <div class="bg-blue-100 text-blue-600 p-6 rounded-2xl">
+              <div class="bg-sky-100 text-sky-700 p-6 rounded-2xl">
                 <i class="fas fa-mobile-alt text-5xl"></i>
               </div>
             </div>
@@ -153,13 +234,13 @@
             </h2>
 
             <!-- Status Message -->
-            <p id="installStatusMsg" class="text-sm text-gray-500 mb-6">
+            <p id="installStatusMsg" class="text-sm text-sky-700 mb-6">
               Install Now
             </p>
 
             <!-- Install Button -->
             <button id="pwaInstallBtn"
-              class="w-full py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition duration-300 shadow-md">
+              class="w-full py-3 rounded-xl bg-sky-700 text-white font-semibold hover:bg-blue-700 transition duration-300 shadow-md">
               Install Application
             </button>
 
@@ -185,104 +266,104 @@
           </style>
 
         </div>
-      <script>
-  const pwaBtn = document.getElementById('pwaInstallBtn');
-  const statusMsg = document.getElementById('installStatusMsg');
-  const menu = document.getElementById('menu');
+        <script>
+          const pwaBtn = document.getElementById('pwaInstallBtn');
+          const statusMsg = document.getElementById('installStatusMsg');
+          const menu = document.getElementById('menu');
 
-  let deferredPrompt = null;
-  let appInstalled = false;
+          let deferredPrompt = null;
+          let appInstalled = false;
 
-  // Detect if app already installed (Standalone mode)
-  if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
-    appInstalled = true;
-    statusMsg.textContent = "App Already Installed";
-    pwaBtn.textContent = "Open App";
-    pwaBtn.classList.remove("bg-blue-600");
-    pwaBtn.classList.add("bg-green-600");
-  }
+          // Detect if app already installed (Standalone mode)
+          if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+            appInstalled = true;
+            statusMsg.textContent = "App Already Installed";
+            pwaBtn.textContent = "Open App";
+            pwaBtn.classList.remove("bg-blue-600");
+            pwaBtn.classList.add("bg-green-600");
+          }
 
-  // Initially disabled
-  pwaBtn.disabled = true;
+          // Initially disabled
+          pwaBtn.disabled = true;
 
-  // Listen when install is available
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
+          // Listen when install is available
+          window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
 
-    if (!appInstalled) {
-      pwaBtn.disabled = false;
-      statusMsg.textContent = "Install Now";
-    }
-  });
+            if (!appInstalled) {
+              pwaBtn.disabled = false;
+              statusMsg.textContent = "Install Now";
+            }
+          });
 
-  // Install button click
-  pwaBtn.addEventListener('click', async () => {
+          // Install button click
+          pwaBtn.addEventListener('click', async () => {
 
-    // If already installed
-    if (appInstalled) {
-      statusMsg.textContent = "App is already installed on your device.";
-      pwaBtn.classList.remove("bg-blue-600");
-      pwaBtn.classList.add("bg-green-600");
-      return;
-    }
+            // If already installed
+            if (appInstalled) {
+              statusMsg.textContent = "App is already installed on your device.";
+              pwaBtn.classList.remove("bg-blue-600");
+              pwaBtn.classList.add("bg-green-600");
+              return;
+            }
 
-    // If not supported
-    if (!deferredPrompt) {
-      statusMsg.textContent = "⚠️ Installation Not Supported On This Device";
-      pwaBtn.classList.remove("bg-blue-600");
-      pwaBtn.classList.add("bg-red-500");
-      return;
-    }
+            // If not supported
+            if (!deferredPrompt) {
+              statusMsg.textContent = "⚠️ Installation Not Supported On This Device";
+              pwaBtn.classList.remove("bg-blue-600");
+              pwaBtn.classList.add("bg-red-500");
+              return;
+            }
 
-    // Show installing state
-    statusMsg.textContent = "Installing...";
-    pwaBtn.disabled = true;
-    pwaBtn.textContent = "Please Wait...";
+            // Show installing state
+            statusMsg.textContent = "Installing...";
+            pwaBtn.disabled = true;
+            pwaBtn.textContent = "Please Wait...";
 
-    deferredPrompt.prompt();
-    const choice = await deferredPrompt.userChoice;
+            deferredPrompt.prompt();
+            const choice = await deferredPrompt.userChoice;
 
-    if (choice.outcome === 'accepted') {
+            if (choice.outcome === 'accepted') {
 
-      statusMsg.textContent = "🎉 App Installed Successfully!";
-      pwaBtn.textContent = "Installed";
-      pwaBtn.classList.remove("bg-blue-600");
-      pwaBtn.classList.add("bg-green-600");
+              statusMsg.textContent = "🎉 App Installed Successfully!";
+              pwaBtn.textContent = "Installed";
+              pwaBtn.classList.remove("bg-blue-600");
+              pwaBtn.classList.add("bg-green-600");
 
-      appInstalled = true;
+              appInstalled = true;
 
-      // Auto close modal after 2 seconds
-      setTimeout(() => {
-        menu.classList.add("hidden");
-      }, 2000);
+              // Auto close modal after 2 seconds
+              setTimeout(() => {
+                menu.classList.add("hidden");
+              }, 2000);
 
-    } else {
+            } else {
 
-      statusMsg.textContent = "❌ Installation Cancelled By User";
-      pwaBtn.textContent = "Try Again";
-      pwaBtn.disabled = false;
-    }
+              statusMsg.textContent = "❌ Installation Cancelled By User";
+              pwaBtn.textContent = "Try Again";
+              pwaBtn.disabled = false;
+            }
 
-    deferredPrompt = null;
-  });
+            deferredPrompt = null;
+          });
 
-  // If installation happens externally
-  window.addEventListener('appinstalled', () => {
+          // If installation happens externally
+          window.addEventListener('appinstalled', () => {
 
-    appInstalled = true;
+            appInstalled = true;
 
-    statusMsg.textContent = "🎉 App Installed Successfully!";
-    pwaBtn.textContent = "Installed";
-    pwaBtn.classList.remove("bg-blue-600");
-    pwaBtn.classList.add("bg-green-600");
-    pwaBtn.disabled = true;
+            statusMsg.textContent = "🎉 App Installed Successfully!";
+            pwaBtn.textContent = "Installed";
+            pwaBtn.classList.remove("bg-blue-600");
+            pwaBtn.classList.add("bg-green-600");
+            pwaBtn.disabled = true;
 
-    setTimeout(() => {
-      menu.classList.add("hidden");
-    }, 2000);
-  });
-</script>
+            setTimeout(() => {
+              menu.classList.add("hidden");
+            }, 2000);
+          });
+        </script>
       </div>
     </div>
     <!-- Premium Tabs -->
@@ -363,7 +444,7 @@
         Services
       </h2>
 
-      <div class="space-y-3">
+      <div class=" ">
 
         <a href="index.html" class="flex items-center space-x-4 p-3 rounded-xl hover:bg-gray-100 transition">
           <div class="bg-blue-100 text-blue-600 p-2 rounded-lg">
@@ -420,10 +501,10 @@
     <!-- Bottom Profile Card -->
     <div class="absolute bottom-0 w-full px-3 pb-5">
       <div onclick="window.location.href='Login/login.html'"
-        class="bg-gray-900 text-white rounded-2xl p-4 flex items-center justify-between cursor-pointer hover:bg-gray-800 transition shadow-lg">
+        class="bg-sky-700 text-white rounded-2xl p-4 flex items-center justify-between cursor-pointer hover:bg-gray-800 transition shadow-lg">
 
         <div>
-          <p class="font-semibold text-sm">Whereis My Bus</p>
+          <p class="font-semibold text-sm">Where is My Bus</p>
           <p class="text-xs text-gray-400">whereismybus.com</p>
         </div>
 
@@ -436,7 +517,7 @@
 
   </div>
   <!-- Overlay -->
-  <div id="overlay" class="fixed inset-0 bg-black bg-opacity-90 hidden z-[40]" aria-hidden="true"></div>
+  <div id="overlay" class="fixed inset-0 bg-black bg-opacity-70 hidden z-[40]" aria-hidden="true"></div>
 
   <script>
 
@@ -639,94 +720,79 @@
   <div id="buses" class="tab-content w-full justify-center  mx-auto space-y-4 mt-0 px-1 md:flex">
     <style>
       .circle-icon {
-        width: 45px;
-        height: 45px;
-        border: 2px solid #086117;
-        border-radius: 9999px;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #16a34a, #15803d);
         display: flex;
         align-items: center;
         justify-content: center;
         position: absolute;
-        right: 30px;
-        top: 95px;
-        transform: rotate(90deg);
+        right: 25px;
+        top: 60px;
         cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
-        background-color: #f3f3f3;
-        z-index: 10;
-
+        transition: all 0.3s ease;
+        z-index: 20;
+        rotate: 90deg;
       }
 
-      .circle-icon:hover {
-        border-color: #0b9206;
-        transform: scale(1.1);
-      }
 
       .circle-icon svg {
         width: 20px;
         height: 20px;
-        color: #20740f;
-        transition: color 0.3s ease;
+        color: white;
         pointer-events: none;
       }
 
-      /* Suggestion dropdown */
       .suggestions {
+        margin-left: -10px;
         position: absolute;
-        margin-top: 3%;
-        margin-left: -10%;
+        margin-top: 15px;
         background: white;
-        border: 1px solid #d1d5db;
-        border-radius: 0.5rem;
-        max-height: 200px;
+        border-radius: 14px;
+        max-height: 170px;
         overflow-y: auto;
-        width: 90vw;
-        z-index: 20;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 88%;
+        margin-right: 9%;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
       }
 
       .suggestion-item {
-        padding: 0.6rem 1rem;
+        padding: 0.7rem 1rem;
         cursor: pointer;
-        font-weight: 700;
-        color: #023a6b;
-        font-size: 1.2rem;
-        border-bottom: 0.1px solid black;
+        font-weight: 600;
+        color: #1f2937;
+        font-size: 0.95rem;
+        transition: background 0.2s ease;
       }
 
       .suggestion-item:hover,
       .suggestion-item.active {
-        background-color: #e9fff4;
-        color: #107407;
+        background-color: #eafff3;
+        color: #3c8f5b;
       }
 
       input[type="text"] {
-        font-weight: 700;
-        color: #111827;
-        padding: 1% 0px;
+        font-weight: 600;
         font-size: 1rem;
+        color: #111827;
       }
 
       button[type="submit"] {
-        font-weight: 700;
-        border-radius: 10px;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: all 0.25s ease;
       }
 
       button[type="submit"]:hover {
         transform: translateY(-2px);
-        box-shadow: 0 2px 4px #1a62a3;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
       }
     </style>
     <!-- Bus Route Search Form -->
     <form
-      class="bg-white border md:w-[48%] overflow-hidden border-gray-200 rounded-2xl px-3 pb-6 shadow-md  transition-shadow relative"
+      class="bg-white border md:w-[48%]  border-gray-200 rounded-2xl px-3 p-6 shadow-md  transition-shadow relative"
       aria-label="Bus search form" onsubmit="return false">
-
-      <h2 class="text-base font-bold text-emerald-700 py-4 tracking-tight flex items-center gap-2">
-        <i class="fas fa-map-marker-alt text-emerald-700"></i>
-        Route Search
-      </h2>
 
       <!-- From Input -->
       <div class="flex items-center gap-3 bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-400 mb-4">

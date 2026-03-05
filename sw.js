@@ -24,7 +24,7 @@ self.addEventListener("message", (event) => {
 });
 
 async function sendData() {
-  if (!currentLat && !currentLng  && !currentId) return;
+  if (!currentLat && !currentLng && !currentId) return;
 
   try {
     await fetch(API_URL, {
