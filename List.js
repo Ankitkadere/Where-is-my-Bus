@@ -166,7 +166,9 @@ function fetchData() {
             ? `<button class="cursor-not-allowed text-top bg-gray-200 px-2 text-black rounded font-bold">
             ${entry.Password} .Rs
           </button>`
-            : `<button href="/Booking/Form.html?number=${encodeURIComponent(
+            : `<span class="text-xs mr-1 font-semibold text-sky-700 px-1 py-1 rounded-md">
+  Book
+</span><button href="/Booking/Form.html?number=${encodeURIComponent(
                 entry.Number,
               )}&english=${encodeURIComponent(
                 entry.English,
@@ -199,65 +201,81 @@ function fetchData() {
 
         const div = document.createElement("div");
         div.className =
-          "px-3 py-3 bg-gray-50 border-b border-gray-600 transition ";
+          "px-3 py-2 bg-white border-b border-gray-600 transition ";
 
         div.innerHTML = `
-              <a href="location.html?number=${encodeURIComponent(
-                entry.Number,
-              )}&start=${encodeURIComponent(
-                entry.Start,
-              )}&end=${encodeURIComponent(entry.End)}&english=${encodeURIComponent(
-                entry.English,
-              )}&hindi=${encodeURIComponent(entry.Hindi)}" >
-      <div class="flex justify-between items-center text-base">
-        <span class="bg-sky-700 text-white font-bold px-3 rounded">${
-          entry.Number
-        }</span>
-        <div class="text-right flex gap-4 ">
-          <p class="text-gray-800 font-extrabold">${entry.Start}</p>
-          <p class="text-red-600 font-extrabold">${entry.End}</p>
-        </div>
-      </div class="pt-2">
-          <div class="flex pt-2 justify-between text-center">
-          <p class="text-black font-bold">
-          ${entry.English || "—"} /
-            <span class="font-bold">${entry.Hindi || "—"}</span>
-          </p>
+<a href="location.html?number=${encodeURIComponent(
+          entry.Number,
+        )}&start=${encodeURIComponent(
+          entry.Start,
+        )}&end=${encodeURIComponent(entry.End)}&english=${encodeURIComponent(
+          entry.English,
+        )}&hindi=${encodeURIComponent(entry.Hindi)}" >
 
-      <p class="text-black font-bold">
+<div class="bg-white  
+transition-all duration-300  ">
+
+  <div class="flex justify-between border-none items-center text-base">
+    
+    <span class="bg-gradient-to-r from-sky-600 to-sky-800 text-white font-bold px-3 py-1 rounded-lg shadow">
+      ${entry.Number}
+    </span>
+
+    <div class="text-right flex gap-4">
+      <p class="text-gray-800 font-extrabold tracking-wide">${entry.Start}</p>
+      <p class="text-red-600 font-extrabold tracking-wide">${entry.End}</p>
+    </div>
+
+  </div>
+
+  <div class="flex pt-3 justify-between text-center border-t mt-3">
+    
+    <p class="text-gray-800 font-semibold">
+      ${entry.English || "—"} /
+      <span class="font-bold text-gray-900">${entry.Hindi || "—"}</span>
+    </p>
+
+    <p class="text-emerald-600 font-bold text-sm bg-emerald-50 px-2 py-0.5 rounded-md">
       ${entry.Arrival || "- -"}
-        </p>
+    </p>
+
+  </div>
+
+  <div class="flex justify-between items-start mt-3">
+
+    <div class="flex items-start space-x-3">
+      
+      <div class="flex flex-col items-center mt-1">
+        <div class="w-2.5 h-2.5 bg-green-600 rounded-full shadow"></div>
+        <div class="h-6 border-l border-gray-300"></div>
+        <div class="w-2.5 h-2.5 bg-red-600 rounded-full shadow"></div>
       </div>
 
+      <div>
+        <p class="text-gray-800 font-semibold pb-[0.20rem]">${entry.From}</p>
+        <p class="text-gray-800 font-semibold">${entry.To}</p>
+      </div>
 
-      <div class="flex justify-between items-start mt-2 ">
-        <div class="flex items-start space-x-3">
-          <div class="flex flex-col items-center mt-2">
-            <div class="w-2 h-2 bg-green-600 rounded-full"></div>
-            <div class="h-5 border-l border-gray-400"></div>
-            <div class="w-2 h-2 bg-red-600 rounded-full"></div>
-          </div>
-          <div>
-            <p class="text-black  pb-[0.20rem]">${entry.From}</p>
-            <p class="text-black  ">${entry.To}</p>
-          </div>
-        </div>
+    </div>
 
-   <div class="flex flex-col items-center justify-end ">
-  <span class="text-sky-700 ">
-  Daily..
-  </span>
+    <div class="flex flex-col items-center justify-end">
 
-  <span class="pt-2 block">
-    ${bookButton || "- -"}
-  </span>
+      <span class="text-sky-700 text-sm font-semibold bg-sky-50 px-2 py-0.5 rounded-md">
+        Daily..
+      </span>
+
+      <span class="pt-2 block">
+        ${bookButton || "- -"}
+      </span>
+
+    </div>
+
+  </div>
+
 </div>
 
-
-      </div>
-  
-      </a>
-    `;
+</a>
+`;
 
         container.appendChild(div);
       });
