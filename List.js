@@ -6,39 +6,89 @@ const to = urlParams.get("to");
 const bus = urlParams.get("bus");
 
 const divhead = document.getElementById("dataListhead");
-divhead.className = "p-2 bg-gray-50 border border-gray-200 rounded shadow";
+divhead.className = " bg-gray-50 border border-gray-200 rounded shadow";
 divhead.innerHTML = `
-  <div class="w-full mx-auto fixed left-0 top-0 z-50">
-    <!-- Blue Header -->
-       <div style="background-color: rgba(26, 98, 163);"
-          class="flex items-center text-white w-full sm:w-auto justify-between px-4 pt-2">
-          <span class="text-lg font-bold flex items-left space-x-2  text-xl">
-            <a href="/Buslist/List.html"><i id="location-back-btn" class="fas fa-arrow-left"></i></a>
-            <span class="text-xl" >Where is My Bus</span>
-          </span>
-          <i class="fas fa-ellipsis-v text-xl cursor-pointer"></i>
-        </div>
-    <div style="background-color: rgba(26, 98, 163);" class="text-white px-3 py-4 flex flex-wrap w-full text-sm font-sans">
-      <div class="w-full flex justify-between items-center text-white text-lg font-bold mb-1">
-        <span class="min-w-[45%] bg-sky-800 rounded-md py-1 px-1">${from}</span>
-        <span class="flex items-center w-[10%]">
-          <i class="fas fa-arrow-right mx-2"></i>
-        </span>
-        <span class="min-w-[45%] text-right bg-sky-800 rounded-md py-1 px-1">${to}</span>
+<div class="fixed top-0 left-0 w-full z-50">
+
+  <!-- Main Premium Header -->
+  <div class="bg-gradient-to-r from-[#1a62a3] via-[#1f6fbf] to-[#144b7c] 
+              shadow-xl  overflow-hidden">
+
+    <!-- Top Bar -->
+    <div class="flex items-center justify-between px-2 pt-2 pb-2 text-white">
+
+      <div class="flex items-center  ">
+        <a href="/Buslist/List.html"
+           class="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full 
+                  flex items-center justify-center shadow-md hover:scale-105 transition">
+          <i class="fas fa-arrow-left text-white text-lg"></i>
+        </a>
+
+        <h1 class="text-xl font-bold tracking-wide">
+          Where is My Bus
+        </h1>
+      </div>
+
+      <div class="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full 
+                  flex items-center justify-center shadow-md cursor-pointer">
+        <i class="fas fa-ellipsis-v text-white"></i>
       </div>
     </div>
- 
-    <!-- Schedule Row -->
-    <div class="flex justify-between items-center bg-gray-800 text-white text-sm font-semibold px-4 py-2">
-      <div>
-        <span id="datetimeBox" class="text-left">Time</span>
-      </div>
-      <div class="flex gap-8">
-        <span>SCHEDULED</span>
-        <span>EXPECTED</span>
+
+    <!-- Route Card -->
+    <div class="px-2 pb-1">
+
+      <div class="bg-white/15 backdrop-blur-xl 
+                  rounded-2xl p-2  border border-white/20">
+
+        <div class="flex items-center justify-between text-white font-semibold text-base">
+
+          <!-- FROM -->
+          <div class="flex flex-col w-[42%]">
+            <span class="text-xs opacity-80 mb-1">FROM</span>
+            <span class="bg-sky-900/70 px-3 py-1.5 rounded-lg text-center">
+              ${from}
+            </span>
+          </div>
+
+          <!-- Arrow -->
+          <div class="flex items-center justify-center w-[16%]">
+            <div class="w-10 h-10 bg-white/20 rounded-full 
+                        flex items-center justify-center shadow">
+              <i class="fas fa-arrow-right text-white text-sm"></i>
+            </div>
+          </div>
+
+          <!-- TO -->
+          <div class="flex flex-col w-[42%] text-right">
+            <span class="text-xs opacity-80 mb-1">TO</span>
+            <span class="bg-sky-900/70 px-3 py-1.5 rounded-lg text-center">
+              ${to}
+            </span>
+          </div>
+
+        </div>
+
       </div>
     </div>
   </div>
+
+  <!-- Schedule Row -->
+  <div class="bg-gray-900 text-white text-sm font-semibold 
+              flex justify-between items-center px-4 py-2 shadow-md">
+
+    <span id="datetimeBox" class="opacity-90">
+      Time
+    </span>
+
+    <div class="flex gap-10 tracking-wide">
+      <span class="text-gray-300">SCHEDULED</span>
+      <span class="text-green-600">EXPECTED</span>
+    </div>
+
+  </div>
+
+</div>
 `;
 
 const datetimeBox = document.getElementById("datetimeBox");

@@ -232,134 +232,144 @@
                         const div = document.createElement('div');
                         div.className = 'p-2';
                         div.innerHTML = `
-        <div class="fixed top-0 left-0 w-full z-50">
+            <!-- ===== FIXED HEADER ===== -->
+<div class="fixed top-0 left-0 w-full z-50">
 
-  <!-- Premium Gradient Header -->
-  <header class="bg-gradient-to-br from-[#1a62a3] via-[#1f6fbf] to-[#0f3d63]
-                 text-white px-3 pt-3 pb-3
-              
-                 ">
+  <header class="bg-gradient-to-r from-[#1a62a3] via-[#1f6fbf] to-[#144b7c]
+                 text-white px-5 pt-4 pb-6 
+                 shadow-2xl rounded-b-3xl">
 
-    <!-- ===== TOP ROW ===== -->
+    <!-- Top Row -->
     <div class="flex items-center justify-between">
 
-      <!-- LEFT SIDE -->
-      <div class="flex items-center gap-2 w-full">
+      <div class="flex items-center gap-3 w-full">
 
         <!-- Back Button -->
         <a href="javascript:void(0)"
            onclick="history.back()"
            class="w-10 h-10 flex items-center justify-center 
-                  rounded-full bg-white/20 backdrop-blur-md
-                  shadow-md active:scale-95 transition duration-200">
-          <i class="fas fa-arrow-left text-white text-lg"></i>
+                  rounded-full bg-white/20 backdrop-blur-md 
+                  shadow-md active:scale-95 transition">
+          <i class="fas fa-arrow-left text-white"></i>
         </a>
 
-        <!-- Bus Info Glass Card -->
-        <div class="flex items-center px-4 py-2 w-full
-                    bg-white/15 backdrop-blur-lg
-                    border border-white/20
+        <!-- Bus Route Glass Card -->
+        <div class="flex items-center px-3 py-2 w-full 
+                    bg-white/15 backdrop-blur-lg 
+                    border border-white/20 
                     rounded-xl shadow-inner">
 
-          <span class="font-bold font-mono text-base mr-2">
+          <span class="font-bold font-mono mr-2">
             ${entry.Number}
           </span>
 
-          <span class="opacity-60 mr-2">:</span>
+          <span class="opacity-70 text-sm mx-1">•</span>
 
-          <span class="font-semibold text-sm tracking-wide">
+          <span class="font-semibold text-sm">
             ${english} / ${hindi}
           </span>
-
         </div>
 
       </div>
 
-      <!-- Menu Button -->
-      <button class="ml-3 w-10 h-10 flex items-center justify-center
-                     rounded-full bg-white/20 backdrop-blur-md
-                     shadow-md hover:scale-105 transition">
-        <i class="fas fa-ellipsis-v text-white"></i>
+      <button class="ml-3 w-10 h-10 flex items-center justify-center 
+                     rounded-full bg-white/20 backdrop-blur-md shadow-md">
+        <i class="fas fa-ellipsis-v"></i>
       </button>
 
     </div>
 
-    <!-- ===== ACTION ROW ===== -->
-    <div class="flex items-center justify-between mt-2">
+    <!-- Bottom Actions -->
+    <div class="flex items-center justify-between mt-5">
 
-      <!-- Today Pill -->
       <button
-        class="bg-white text-[#1a62a3] px-6 py-1.5
+        class="bg-white text-[#1a62a3] px-5 py-1.5 
                rounded-full font-semibold text-sm
-               shadow-lg hover:scale-105 transition duration-200">
+               shadow-md hover:scale-105 transition">
         Today
       </button>
 
-      <!-- Action Icons -->
-      <div class="flex items-center gap-6 text-lg">
-
-        <div class="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full
-                    flex items-center justify-center shadow-md
-                    hover:scale-110 transition cursor-pointer">
-          <i class="fas fa-bell"></i>
-        </div>
-
-        <div class="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full
-                    flex items-center justify-center shadow-md
-                    hover:scale-110 transition cursor-pointer">
-          <i class="fas fa-bus"></i>
-        </div>
-
-        <div class="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full
-                    flex items-center justify-center shadow-md
-                    hover:scale-110 transition cursor-pointer">
-          <i class="fas fa-share-alt"></i>
-        </div>
-
+      <div class="flex items-center gap-5 text-lg">
+        <i class="fas fa-bell cursor-pointer hover:scale-110 transition"></i>
+        <i class="fas fa-bus cursor-pointer hover:scale-110 transition"></i>
+        <i class="fas fa-share-alt cursor-pointer hover:scale-110 transition"></i>
       </div>
 
     </div>
 
   </header>
 
-  <!-- ===== ARRIVAL / DEPARTURE BAR ===== -->
-  <div class="bg-gray-900 text-white
-              flex justify-between items-center
-              px-3 py-2 text-sm font-semibold
-               tracking-wide">
-
+  <!-- Arrival / Departure Bar -->
+  <div class="bg-gray-900 text-white 
+              flex justify-between items-center 
+              px-6 py-3 text-sm font-semibold 
+              shadow-md tracking-wide"> 
     <span class="text-green-400">Arrival</span>
     <span class="text-red-400">Departure</span>
+  </div>
+</div>
+ </div>
+
+<!-- ===== MAIN CONTENT (add margin top & bottom) ===== -->
+<div class="">
+
+  <!-- Premium Stop Card -->
+  <div class="bg-white rounded-2xl p-2 mb-4">
+
+    <div class="flex items-center">
+
+      <!-- Arrival Time -->
+      <div class="w-1/4 text-left text-green-600 font-bold text-sm">
+        ${entry.Arrival}
+      </div>
+
+      <!-- Timeline Dot -->
+      <div class="relative flex flex-col items-center mx-3">
+
+        <!-- Vertical Line -->
+        <div class="absolute top-3 w-[2px] h-[70px] bg-gray-300"></div>
+
+        <!-- Animated Dot -->
+        <div class="w-4 h-4 bg-blue-600 rounded-full 
+                    ring-4 ring-blue-200 animate-pulse z-10"></div>
+
+      </div>
+
+      <!-- Stop Info -->
+      <div class="w-1/2">
+        <div class="font-bold text-base text-gray-800">
+          ${entry.Place}
+        </div>
+        <div class="text-sm text-gray-500">
+          ${entry.Bus}
+        </div>
+      </div>
+
+      <!-- Departure Time -->
+      <div class="w-1/4 text-right text-red-600 font-bold text-sm">
+        ${entry.Departure}
+      </div>
+
+    </div>
 
   </div>
 
 </div>
-   
-    <div class="flex items-center ">
-        <div class="w-1/4 text-left text-green-700 font-bold text-sm">
-            <span>${entry.Arrival}</span>
-        </div>
-         <div class="items-center ml-[-3%] justify-center z-50">
-             <div class="w-2 h-2 bg-black rounded-full"></div>
-        </div>
-        <div class="flex items-center w-1/2">
-            <div class="w-1 bg-transparent h-[80px] mr-3"></div>
-            <div class="flex flex-col ml-2">
-                <span class="font-bold text-base">${entry.Place}</span>
-                <span class=" text-sm">${entry.Bus}</span>
-            </div>
-        </div>
-        <div class="w-1/4 text-right text-red-600 font-bold text-sm mr-1">
-            <span>${entry.Departure}</span>
-        </div>
-    </div> 
 
-        <footer
-        class="z-50 fixed bottom-0 left-0 w-full bg-blue-200 text-blue-700 text-center py-3 text-sm font-semibold tracking-wide">
-       
-        <span class="text-gray-600 font-normal">Updated Based On Time </span><span id="time"
-            class="font-semibold text-lg"></span>
-    </footer>
+
+<!-- ===== PREMIUM FLOATING FOOTER ===== -->
+<footer class="fixed bottom-4 left-1/2 transform -translate-x-1/2 
+               w-[92%] bg-white/80 backdrop-blur-xl 
+               shadow-2xl rounded-2xl 
+               text-center py-3 px-4 z-50">
+
+  <span class="text-gray-500 text-sm">
+    Updated Based On Time
+  </span>
+
+  <span id="time" class="font-bold text-blue-600 ml-2 text-lg"></span>
+
+</footer>
           `;
                         container.appendChild(div);
                         setTimeout(() => {
@@ -399,7 +409,7 @@
                 .then(res => res.json())
                 .then(data => {
 
-                    let box =  document.createElement("div");
+                    let box = document.createElement("div");
                     if (!box) return;
                     box.innerHTML = "";
                     data.forEach(row => {
@@ -407,7 +417,7 @@
        <div style="padding:8px;border-bottom:1px solid #ddd">
          ID : ${row.Id}<br>
          LAT : ${row.Latitudes}<br>
-         LNG : ${row.Longitude }<br> 
+         LNG : ${row.Longitude}<br> 
          TIME : ${row.Time}<br>
           TIME : ${row.Speedofbus}<br>
          STATUS : ${row.Status}
@@ -422,7 +432,7 @@
         loadData();
         window.onload = fetchData;
         /////////////////////////////////////////
-  
+
         document.getElementById("location-back-btn").addEventListener("click", function () {
             history.back(); // or history.go(-1);
         });
