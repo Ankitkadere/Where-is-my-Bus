@@ -91,7 +91,7 @@
     <div class="flex bottom-4 text-white items-center justify-between w-full px-4  space-x-2 ">
       <div id="mobile-menu-button" class="flex items-center justify-between gap-3 cursor-pointer group">
         <!-- Menu Icon -->
-        <div class="bg-white/20 backdrop-blur-md p-2.5 rounded-xl transition duration-300 group-hover:bg-white/30">
+        <div class="bg-white/20 backdrop-blur-md p-2.5 px-4 rounded-xl transition duration-300 group-hover:bg-white/30">
           <i class="fas fa-bars text-lg text-white"></i>
         </div>
         <!-- App Title -->
@@ -108,7 +108,9 @@
       <div class=" flex gap-2 text-left">
         <!-- QR Trigger Button -->
         <div onclick="openQRModal()"
-          class=" p-2 rounded-xl cursor-pointer hover:bg-white/30 transition backdrop-blur-sm">
+          class="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full
+                    flex items-center justify-center shadow-md
+                    hover:scale-110 transition cursor-pointer">
           <i class="fas fa-qrcode text-white text-lg"></i>
         </div>
         <div id="qrModal"
@@ -187,7 +189,9 @@
           </script>
         </div>
         <!-- Trigger -->
-        <div id="menuAppDownload" onclick="toggleMenu()" class=" text-white p-2 rounded-full ">
+        <div id="menuAppDownload" onclick="toggleMenu()" class="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full
+                    flex items-center justify-center shadow-md
+                    hover:scale-110 transition cursor-pointer">
           <i class="fas fa-mobile-alt text-white text-xl"></i>
         </div>
 

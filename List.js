@@ -18,13 +18,14 @@ divhead.innerHTML = `
     <div class="flex items-center justify-between px-2 pt-2 pb-2 text-white">
 
       <div class="flex items-center  ">
-        <a href="/Buslist/List.html"
-           class="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full 
-                  flex items-center justify-center shadow-md hover:scale-105 transition">
-          <i class="fas fa-arrow-left text-white text-lg"></i>
-        </a>
-
-        <h1 class="text-xl font-bold tracking-wide">
+     <a href="javascript:void(0)"
+   onclick="history.back()"
+   class="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full 
+          flex items-center justify-center shadow-md 
+          hover:scale-105 active:scale-95 transition">
+  <i class="fas fa-arrow-left text-white text-lg"></i>
+</a>
+        <h1 class="text-xl ml-2 font-bold tracking-wide">
           Where is My Bus
         </h1>
       </div>

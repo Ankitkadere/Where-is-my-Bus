@@ -232,108 +232,47 @@
                         const div = document.createElement('div');
                         div.className = 'p-2';
                         div.innerHTML = `
-        <div class="fixed top-0 left-0 w-full z-50">
-
-  <!-- Premium Gradient Header -->
-  <header class="bg-gradient-to-br from-[#1a62a3] via-[#1f6fbf] to-[#0f3d63]
-                 text-white px-3 pt-3 pb-3
-              
-                 ">
-
-    <!-- ===== TOP ROW ===== -->
-    <div class="flex items-center justify-between">
-
-      <!-- LEFT SIDE -->
-      <div class="flex items-center gap-2 w-full">
-
-        <!-- Back Button -->
-        <a href="javascript:void(0)"
-           onclick="history.back()"
-           class="w-10 h-10 flex items-center justify-center 
-                  rounded-full bg-white/20 backdrop-blur-md
-                  shadow-md active:scale-95 transition duration-200">
-          <i class="fas fa-arrow-left text-white text-lg"></i>
-        </a>
-
-        <!-- Bus Info Glass Card -->
-        <div class="flex items-center px-4 py-2 w-full
-                    bg-white/15 backdrop-blur-lg
-                    border border-white/20
-                    rounded-xl shadow-inner">
-
-          <span class="font-bold font-mono text-base mr-2">
-            ${entry.Number}
-          </span>
-
-          <span class="opacity-60 mr-2">:</span>
-
-          <span class="font-semibold text-sm tracking-wide">
-            ${english} / ${hindi}
-          </span>
-
-        </div>
-
-      </div>
-
-      <!-- Menu Button -->
-      <button class="ml-3 w-10 h-10 flex items-center justify-center
-                     rounded-full bg-white/20 backdrop-blur-md
-                     shadow-md hover:scale-105 transition">
-        <i class="fas fa-ellipsis-v text-white"></i>
-      </button>
-
+               <div class="fixed top-0 left-0 w-full z-50">
+        <header style="background-color: rgba(26, 98, 163);" class="text-white px-4 py-3 flex flex-col sm:flex-row items-center justify-between">
+           <div class="flex items-center justify-between w-full text-lg">
+  <!-- Left side -->
+  <div class="flex items-center space-x-2 w-full mr-2 ">
+   <a href="javascript:void(0)"
+   onclick="history.back()"
+   class="w-10 h-10 flex items-center justify-center rounded-full active:scale-95 transition">
+   <i class="fas fa-arrow-left text-white"></i>
+</a>
+    <div class="bg-sky-800 flex items-center px-2 py-2 w-full border rounded-md">
+      <span class="font-bold font-mono text-white px-4rounded-md">
+        ${entry.Number} :
+      </span>
+      <span class="text-white font-bold ml-1">
+        ${english} / ${hindi}
+      </span>
     </div>
-
-    <!-- ===== ACTION ROW ===== -->
-    <div class="flex items-center justify-between mt-2">
-
-      <!-- Today Pill -->
-      <button
-        class="bg-white text-[#1a62a3] px-6 py-1.5
-               rounded-full font-semibold text-sm
-               shadow-lg hover:scale-105 transition duration-200">
-        Today
-      </button>
-
-      <!-- Action Icons -->
-      <div class="flex items-center gap-6 text-lg">
-
-        <div class="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full
-                    flex items-center justify-center shadow-md
-                    hover:scale-110 transition cursor-pointer">
-          <i class="fas fa-bell"></i>
-        </div>
-
-        <div class="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full
-                    flex items-center justify-center shadow-md
-                    hover:scale-110 transition cursor-pointer">
-          <i class="fas fa-bus"></i>
-        </div>
-
-        <div class="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full
-                    flex items-center justify-center shadow-md
-                    hover:scale-110 transition cursor-pointer">
-          <i class="fas fa-share-alt"></i>
-        </div>
-
-      </div>
-
-    </div>
-
-  </header>
-
-  <!-- ===== ARRIVAL / DEPARTURE BAR ===== -->
-  <div class="bg-gray-900 text-white
-              flex justify-between items-center
-              px-3 py-2 text-sm font-semibold
-               tracking-wide">
-
-    <span class="text-green-400">Arrival</span>
-    <span class="text-red-400">Departure</span>
-
   </div>
 
+  <!-- Right menu -->
+  <button
+  >  <i class="fas fa-ellipsis-v text-white px-1"></i>
+  </button>
+
 </div>
+
+            <div class="flex items-center space-x-5 mt-4 sm:mt-0 w-full sm:w-auto justify-between">
+                <button
+                    class="bg-white text-blue-600 px-4 py-1 rounded-lg font-semibold hover:bg-blue-100 transition">Today</button>
+                <i class="fas fa-bell text-xl cursor-pointer hover:text-blue-300 transition"></i>
+                 <i class="fas fa-bus text-xl cursor-pointer hover:text-blue-300 transition"></i>
+                <i class="fas fa-share-alt text-xl cursor-pointer hover:text-blue-300 transition"></i>
+            </div>
+        </header>
+        
+        <div class="bg-gray-800 text-white flex justify-between px-6 py-2 text-sm font-bold tracking-wide">
+            <span>Arrival</span>
+            <span>Departure</span>
+        </div>
+    </div> 
    
     <div class="flex items-center ">
         <div class="w-1/4 text-left text-green-700 font-bold text-sm">

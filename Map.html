@@ -24,7 +24,6 @@
   <script src="sw.js"></script>
 
   <style>
-
     #map {
       z-index: -10px;
       height: 68vh;
@@ -46,7 +45,7 @@
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("sw.js").then(() => {
       console.log("SW Registered");
-     
+
     });
   }
 
@@ -75,6 +74,7 @@
 
   startLocation();
 </script>
+
 <body class="bg-gray-100 font-[Inter]">
   <!-- Header -->
   <div id="location" class="fixed top-0 left-0 w-full z-50">
@@ -174,41 +174,41 @@
   </script>
 
 
-    <script>
-      const scriptURL = 'https://script.google.com/macros/s/AKfycbyhf7gsy7_zxqucs-PYBbCvnQDy-66RF10OrSLNhxTBMtrLQoAhdQstYZtNiGaI-iDr/exec';
-      const params = new URLSearchParams(window.location.search);
-      const from = params.get("from");
-      const name = params.get("name");
-      const to = params.get("to");
-      const number = params.get("number");
-      const start = params.get("start");
-      const end = params.get("end");
-      const english = params.get("english");
-      const hindi = params.get("hindi");
+  <script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbyhf7gsy7_zxqucs-PYBbCvnQDy-66RF10OrSLNhxTBMtrLQoAhdQstYZtNiGaI-iDr/exec';
+    const params = new URLSearchParams(window.location.search);
+    const from = params.get("from");
+    const name = params.get("name");
+    const to = params.get("to");
+    const number = params.get("number");
+    const start = params.get("start");
+    const end = params.get("end");
+    const english = params.get("english");
+    const hindi = params.get("hindi");
 
-      function fetchData() {
-        fetch(scriptURL)
-          .then(res => res.json())
-          .then(data => {
-            const container = document.getElementById('location');
-            container.innerHTML = '';
+    function fetchData() {
+      fetch(scriptURL)
+        .then(res => res.json())
+        .then(data => {
+          const container = document.getElementById('location');
+          container.innerHTML = '';
 
-            if (!Array.isArray(data) || data.length === 0) {
-              container.innerHTML = '<p class="text-center text-gray-500">No entries found.</p>';
-              return;
-            }
+          if (!Array.isArray(data) || data.length === 0) {
+            container.innerHTML = '<p class="text-center text-gray-500">No entries found.</p>';
+            return;
+          }
 
-            const filtered = data.filter(entry => entry.Number.trim() == number.trim());
+          const filtered = data.filter(entry => entry.Number.trim() == number.trim());
 
-            if (filtered.length === 0) {
-              container.innerHTML = '<p class="text-center text-gray-500">No matching results found.</p>';
-              return;
-            }
+          if (filtered.length === 0) {
+            container.innerHTML = '<p class="text-center text-gray-500">No matching results found.</p>';
+            return;
+          }
 
-            filtered.forEach(entry => {
-              const div = document.createElement('div');
-              div.className = 'p-2';
-              div.innerHTML = `
+          filtered.forEach(entry => {
+            const div = document.createElement('div');
+            div.className = 'p-2';
+            div.innerHTML = `
                 <div class="fixed top-0 left-0 w-full z-50">
                   <header style="background-color: rgba(26, 98, 163);" class="text-white px-4 py-3 flex flex-col sm:flex-row items-center justify-between">
                     <div class="flex items-center w-full sm:w-auto justify-between space-x-3">
@@ -247,131 +247,161 @@
                     </span>
                   </div>
                 </div>`;
-              container.appendChild(div);
-              // ✅ Add stop dot from sheet data
-    // ✅ Add stop dot from sheet data
-  if (
-    entry.Latitude &&
-    entry.Longitude &&
-    !isNaN(entry.Latitude) &&
-    !isNaN(entry.Longitude)
-  ) {
+            container.appendChild(div);
+            // ✅ Add stop dot from sheet data
+            // ✅ Add stop dot from sheet data
+            if (
+              entry.Latitude &&
+              entry.Longitude &&
+              !isNaN(entry.Latitude) &&
+              !isNaN(entry.Longitude)
+            ) {
 
-    const lat = parseFloat(entry.Latitude);
-    const lng = parseFloat(entry.Longitude);
+              const lat = parseFloat(entry.Latitude);
+              const lng = parseFloat(entry.Longitude);
 
-    L.circleMarker([lat, lng], {
-      radius: 6,
-      color: "#ffffff",
-      weight: 2,
-      fillColor: "#2563eb",
-      fillOpacity: 1
-    })
-    .addTo(map)
-    .bindPopup(`<b>${entry.Place || "Stop"}</b>`);
+              L.circleMarker([lat, lng], {
+                radius: 6,
+                color: "#ffffff",
+                weight: 2,
+                fillColor: "#2563eb",
+                fillOpacity: 1
+              })
+                .addTo(map)
+                .bindPopup(`<b>${entry.Place || "Stop"}</b>`);
 
-  }
+            }
 
 
-            });
-          })
-          .catch(err => {
-            console.error('Fetch error:', err);
-            document.getElementById('location').innerHTML = '<p class="text-red-500 text-center">Failed to load data.</p>';
           });
-      }
-
-      // Map Setup
-      const startCoords = [23.1815, 79.9864]; // Jabalpur
-      const endCoords = [23.2599, 77.4126];   // Bhopal
-      const map = L.map("map").setView(startCoords, 15);
-
-      const icon = (url, size = [40, 40]) => L.icon({ iconUrl: url, iconSize: size, iconAnchor: [20, 40] });
-      L.marker(startCoords, { icon: icon("https://www.iconpacks.net/icons/2/free-location-icon-2955-thumb.png") })
-        .addTo(map)
-        .bindPopup("🟢 Start:  Jabalpur");
-
-      L.marker(endCoords, { icon: icon("https://cdn-icons-png.flaticon.com/512/1483/1483336.png") })
-        .addTo(map)
-        .bindPopup("🔴 Destination: Bhopal");
-
-      // 🚌 Create bus marker safely
-      let busLat = 23.1815, busLon = 79.9864;
-      const busMarker = L.marker([busLat, busLon], {
-        icon: L.icon({
-          iconUrl: "https://png.pngtree.com/png-clipart/20220918/original/pngtree-blue-bus-icon-cartoon-vector-png-image_8622915.png",
-          iconSize: [70, 70],
-          iconAnchor: [35, 35] // center the icon properly
         })
-      }).addTo(map).bindPopup("🚌 Bus");
-
-      // Draw route
-      // ✅ Enable full map interactivity
-      map.dragging.enable();          // Allow dragging the map by hand
-      map.scrollWheelZoom.enable();   // Allow zooming in/out with mouse wheel
-      map.doubleClickZoom.enable();   // Allow zooming by double-click
-      map.touchZoom.enable();         // Allow pinch zoom on touch devices
-      map.boxZoom.enable();           // Enable box zoom selection
-      map.keyboard.enable();          // Enable arrow-key map navigation
-
-      // ✅ Routing control with all advanced options
-      L.Routing.control({
-        waypoints: [L.latLng(startCoords), L.latLng(endCoords)],
-        routeWhileDragging: false,     // Don't reroute while dragging marker
-        addWaypoints: true,            // Allow adding new waypoints
-        draggableWaypoints: true,      // Drag existing waypoints
-        fitSelectedRoute: true,        // Zoom to fit route
-        showAlternatives: true,        // Display alternate routes
-        autoRoute: true,               // Auto recompute on waypoint change
-        useZoomParameter: true,        // Pass zoom level to router
-        collapsible: true,             // Collapse route panel
-        show: true,                    // Show route control by default
-        zIndexOffset: 1000,            // Bring route above other layers
-        lineOptions: {
-          styles: [{ color: "blue", opacity: 1, weight: 7 }]
-        },
-        createMarker: () => null,      // Hide routing markers
-      }).addTo(map);
-
-
-      // Smooth movement
-      function smoothMove(marker, newLat, newLng, steps = 10, delay = 50) {
-        const start = marker.getLatLng();
-        const dLat = (newLat - start.lat) / steps;
-        const dLng = (newLng - start.lng) / steps;
-        let i = 0;
-        const timer = setInterval(() => {
-          if (i++ >= steps) return clearInterval(timer);
-          marker.setLatLng([start.lat + dLat * i, start.lng + dLng * i]);
-        }, delay);
-      }
-
-      // Simulate live movement
-      setInterval(() => {
-        const newLat = busLat + (Math.random() - 0.5) * 0.01;
-        const newLon = busLon + (Math.random() - 0.5) * 0.01;
-        smoothMove(busMarker, newLat, newLon);
-        busLat = newLat;
-        busLon = newLon;
-      }, 5000);
-
-      // Show user location
-      if (navigator.geolocation) {
-        navigator.geolocation.watchPosition(pos => {
-          L.marker([pos.coords.latitude, pos.coords.longitude],
-            { icon: icon("https://static.vecteezy.com/system/resources/previews/032/176/191/non_2x/business-avatar-profile-black-icon-man-of-user-symbol-in-trendy-flat-style-isolated-on-male-profile-people-diverse-face-for-social-network-or-web-vector.jpg", [30, 30]) })
-            .addTo(map)
-            .bindPopup("📍 You are here");
+        .catch(err => {
+          console.error('Fetch error:', err);
+          document.getElementById('location').innerHTML = '<p class="text-red-500 text-center">Failed to load data.</p>';
         });
-      }
-// Clear old stop markers (optional improvement)
-if (window.stopLayer) {
-  map.removeLayer(window.stopLayer);
-}
-window.stopLayer = L.layerGroup().addTo(map);
-      window.onload = fetchData;
+    }
 
-    </script>
+    // Map Setup
+    const startCoords = [23.1815, 79.9864]; // Jabalpur
+    const endCoords = [23.2599, 77.4126];   // Bhopal
+    const map = L.map("map").setView(startCoords, 15);
+
+    const icon = (url, size = [40, 40]) => L.icon({ iconUrl: url, iconSize: size, iconAnchor: [20, 40] });
+    L.marker(startCoords, { icon: icon("https://www.iconpacks.net/icons/2/free-location-icon-2955-thumb.png") })
+      .addTo(map)
+      .bindPopup("🟢 Start:  Jabalpur");
+
+    L.marker(endCoords, { icon: icon("https://cdn-icons-png.flaticon.com/512/1483/1483336.png") })
+      .addTo(map)
+      .bindPopup("🔴 Destination: Bhopal");
+
+    // 🚌 Create bus marker safely
+    let busLat = 23.1815, busLon = 79.9864;
+    const busMarker = L.marker([busLat, busLon], {
+      icon: L.icon({
+        iconUrl: "https://png.pngtree.com/png-clipart/20220918/original/pngtree-blue-bus-icon-cartoon-vector-png-image_8622915.png",
+        iconSize: [70, 70],
+        iconAnchor: [35, 35] // center the icon properly
+      })
+    }).addTo(map).bindPopup("🚌 Bus");
+
+    // Draw route
+    // ✅ Enable full map interactivity
+    map.dragging.enable();          // Allow dragging the map by hand
+    map.scrollWheelZoom.enable();   // Allow zooming in/out with mouse wheel
+    map.doubleClickZoom.enable();   // Allow zooming by double-click
+    map.touchZoom.enable();         // Allow pinch zoom on touch devices
+    map.boxZoom.enable();           // Enable box zoom selection
+    map.keyboard.enable();          // Enable arrow-key map navigation
+
+    // ✅ Routing control with all advanced options
+    L.Routing.control({
+      waypoints: [L.latLng(startCoords), L.latLng(endCoords)],
+      routeWhileDragging: false,     // Don't reroute while dragging marker
+      addWaypoints: true,            // Allow adding new waypoints
+      draggableWaypoints: true,      // Drag existing waypoints
+      fitSelectedRoute: true,        // Zoom to fit route
+      showAlternatives: true,        // Display alternate routes
+      autoRoute: true,               // Auto recompute on waypoint change
+      useZoomParameter: true,        // Pass zoom level to router
+      collapsible: true,             // Collapse route panel
+      show: true,                    // Show route control by default
+      zIndexOffset: 1000,            // Bring route above other layers
+      lineOptions: {
+        styles: [{ color: "blue", opacity: 1, weight: 7 }]
+      },
+      createMarker: () => null,      // Hide routing markers
+    }).addTo(map);
+
+
+    // Smooth movement
+    function smoothMove(marker, newLat, newLng, steps = 10, delay = 50) {
+      const start = marker.getLatLng();
+      const dLat = (newLat - start.lat) / steps;
+      const dLng = (newLng - start.lng) / steps;
+      let i = 0;
+      const timer = setInterval(() => {
+        if (i++ >= steps) return clearInterval(timer);
+        marker.setLatLng([start.lat + dLat * i, start.lng + dLng * i]);
+      }, delay);
+    }
+
+    // Simulate live movement
+ function loadData() {
+
+  fetch("https://script.google.com/macros/s/AKfycbzE-2BVHzWH6uMO7ONvPsKeFHnU8ttY9yFuT1MJl6F0D2xhhZza1EKdqZvdrXr_faoZ/exec?action=read")
+    .then(res => res.json())
+    .then(data => {
+
+      let box = document.getElementById("box");
+      if (!box) return;
+
+      box.innerHTML = "";
+
+      // filter only Id = 1234
+      const filtered = data.filter(row => row.Id == "1234");
+
+      filtered.forEach(row => {
+
+        box.innerHTML += `
+        <div style="padding:8px;border-bottom:1px solid #ddd">
+          ID : ${row.Id}<br>
+          LAT : ${row.Latitudes}<br>
+          LNG : ${row.Longitude}<br> 
+          TIME : ${row.Time}<br>
+          SPEED : ${row.Speedofbus}<br>
+          STATUS : ${row.Status}
+        </div>
+        `;
+
+        // move bus marker
+        smoothMove(busMarker, Number(row.Latitudes), Number(row.Longitude));
+        busLat = row.Latitudes;
+        busLon = row.Longitude;
+
+      });
+
+    });
+}
+
+setInterval(loadData, 2000);
+    // Show user location
+    if (navigator.geolocation) {
+      navigator.geolocation.watchPosition(pos => {
+        L.marker([pos.coords.latitude, pos.coords.longitude],
+          { icon: icon("https://static.vecteezy.com/system/resources/previews/032/176/191/non_2x/business-avatar-profile-black-icon-man-of-user-symbol-in-trendy-flat-style-isolated-on-male-profile-people-diverse-face-for-social-network-or-web-vector.jpg", [30, 30]) })
+          .addTo(map)
+          .bindPopup("📍 You are here");
+      });
+    }
+    // Clear old stop markers (optional improvement)
+    if (window.stopLayer) {
+      map.removeLayer(window.stopLayer);
+    }
+    window.stopLayer = L.layerGroup().addTo(map);
+    window.onload = fetchData;
+
+  </script>
 </body>
 <script>
   /* =========================
