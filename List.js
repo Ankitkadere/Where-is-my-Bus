@@ -166,9 +166,7 @@ function fetchData() {
             ? `<button class="cursor-not-allowed text-top bg-gray-200 px-2 text-black rounded font-bold">
             ${entry.Password} .Rs
           </button>`
-            : `<span class="text-xs mr-1 font-semibold text-sky-700 px-1 py-1 rounded-md">
-  Book
-</span><button href="/Booking/Form.html?number=${encodeURIComponent(
+            : ` <button href="/Booking/Form.html?number=${encodeURIComponent(
                 entry.Number,
               )}&english=${encodeURIComponent(
                 entry.English,
@@ -212,23 +210,20 @@ function fetchData() {
           entry.English,
         )}&hindi=${encodeURIComponent(entry.Hindi)}" >
 
-<div class="bg-white  
-transition-all duration-300  ">
+<div class=" 
+transition-all duration-300 ">
 
   <div class="flex justify-between border-none items-center text-base">
-    
-    <span class="bg-gradient-to-r from-sky-600 to-sky-800 text-white font-bold px-3 py-1 rounded-lg shadow">
+    <span class="bg-gradient-to-r from-sky-600 to-sky-800 text-white font-bold px-3 rounded-lg shadow">
       ${entry.Number}
     </span>
-
     <div class="text-right flex gap-4">
       <p class="text-gray-800 font-extrabold tracking-wide">${entry.Start}</p>
       <p class="text-red-600 font-extrabold tracking-wide">${entry.End}</p>
     </div>
-
   </div>
 
-  <div class="flex pt-3 justify-between text-center border-t mt-3">
+  <div class="flex pt-1 justify-between text-center border-t mt-1">
     
     <p class="text-gray-800 font-semibold">
       ${entry.English || "—"} /
@@ -252,22 +247,19 @@ transition-all duration-300  ">
       </div>
 
       <div>
-        <p class="text-gray-800 font-semibold pb-[0.20rem]">${entry.From}</p>
-        <p class="text-gray-800 font-semibold">${entry.To}</p>
+        <p class="text-gray-800  pb-[0.20rem]">${entry.From}</p>
+        <p class="text-gray-800  ">${entry.To}</p>
       </div>
 
     </div>
 
-    <div class="flex flex-col items-center justify-end">
-
-      <span class="text-sky-700 text-sm font-semibold bg-sky-50 px-2 py-0.5 rounded-md">
+    <div class="items-center justify-end">
+      <span class=" text-sky-700 justify-end text-right text-sm font-semibold bg-sky-50 px-2 py-0.5 rounded-md">
         Daily..
       </span>
-
       <span class="pt-2 block">
         ${bookButton || "- -"}
       </span>
-
     </div>
 
   </div>

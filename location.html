@@ -4,32 +4,44 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Where is My Bus</title>
+
     <meta name="description" content="Best app to find buses, live locations, and routes." />
+
     <link rel="icon" href="logo.jpg" type="image/jpeg" />
     <link rel="apple-touch-icon" href="logo.jpg" />
+
     <link rel="manifest" href="manifest.json" />
+
     <meta name="theme-color" content="#1a62a3" />
     <meta name="apple-mobile-web-app-status-bar-style" content="#062540" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="msapplication-navbutton-color" content="#062540" />
+
     <script src="https://cdn.tailwindcss.com"></script>
+
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+
     <script type="module" src="firebase.js"></script>
+
     <script src="Blocked.js" defer></script>
+
     <script src="sw.js"></script>
 
 </head>
+
 <script>
-    // Register Service Worker
+
     if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("sw.js");
     }
 
-    // Start tracking
     function startTracking() {
 
         const savedId = localStorage.getItem("busId");
@@ -43,31 +55,35 @@
             const lng = position.coords.longitude;
 
             if (navigator.serviceWorker.controller) {
+
                 navigator.serviceWorker.controller.postMessage({
+
                     type: "LOCATION_UPDATE",
                     lat: lat,
                     lng: lng,
                     id: savedId
+
                 });
+
             }
 
         }, (error) => {
+
             console.log("Location Error:", error);
-        }, {
-            enableHighAccuracy: true
-        });
+
+        }, { enableHighAccuracy: true });
+
     }
 
     setTimeout(startTracking, 2000);
+
 </script>
 
 <style>
     .loader {
         position: absolute;
         border: 16px solid #f3f3f3;
-        /* Light grey */
         border-top: 16px solid #3498db;
-        /* Blue */
         border-radius: 50%;
         width: 620px;
         height: 620px;
@@ -86,15 +102,120 @@
 </style>
 
 <body class="bg-white-900 font-sans">
+    <div
+        class="fixed top-0 left-0 w-full z-50 backdrop-blur-2xl bg-gradient-to-r from-[#1a62a3]/95 via-[#1e6bb8]/95 to-[#0f4c81]/95   border-b border-white/10">
 
-    <div id="location" class="space-y-2 mb-20   mt-[16vh]">
-        <div id="loader" class="fixed z-index-50 inset-0 flex flex-col items-center justify-center space-y-4">
-            <div class="w-14 h-14 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
-            <span class="text-gray-600 text-base font-medium tracking-wide">
-                Loading...
+        <header class="px-4 py-2 text-white flex flex-col gap-3">
+
+            <div class="flex items-center justify-between">
+
+                <div class="flex items-center gap-3 w-full">
+
+                    <a href="javascript:void(0)" onclick="history.back()"
+                        class="w-11 h-11 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 active:scale-90 transition shadow-lg backdrop-blur">
+
+                        <i class="fas fa-arrow-left text-white text-lg"></i>
+
+                    </a>
+
+                    <div
+                        class="flex flex-col bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl px-4 py-2 shadow-inner w-full">
+
+                        <div class="flex items-center gap-2 mb-1">
+
+                            <span
+                                class="bg-white/20 px-2 py-[1px] rounded-md text-xs text-white font-bold tracking-wider">
+                                Where is my Bus
+                            </span>
+
+                            <span class="flex items-center gap-1 text-xs text-green-300 font-semibold">
+
+                                <span class="relative flex h-2 w-2">
+                                    <span
+                                        class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                                </span>
+
+                                LIVE
+
+                            </span>
+
+                        </div>
+
+                        <span class="font-semibold text-sm leading-tight truncate">
+
+                        </span>
+
+                        <span class="text-xs text-blue-200 truncate">
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <button
+                    class="w-11 h-11 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition">
+
+                    <i class="fas fa-ellipsis-v text-white"></i>
+
+                </button>
+
+            </div>
+
+
+            <div class="flex items-center justify-between gap-2">
+
+                <button
+                    class="flex items-center gap-2 bg-white text-[#1a62a3] px-5 py-1 rounded-full font-semibold shadow-lg hover:scale-20 hover:bg-gray-100 transition">
+
+                    <i class="fas fa-calendar-day"></i>
+                    Today
+
+                </button>
+
+                <div class="flex items-center gap-3">
+                    <button
+                        class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition shadow-md">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    <button
+                        class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition shadow-md">
+                        <i class="fas fa-bus"></i>
+                    </button>
+                    <button
+                        class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition shadow-md">
+                        <i class="fas fa-share-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+        <div
+            class="bg-black/70 backdrop-blur-xl text-white flex justify-between px-4 py-2 text-sm font-semibold tracking-wider border-t border-white/10">
+            <span class="flex items-center gap-2">
+                <i class="fas fa-arrow-down text-green-400"></i>
+                Arrival
+            </span>
+            <span class="flex items-center gap-2">
+                <i class="fas fa-arrow-up text-red-400"></i>
+                Departure
             </span>
         </div>
     </div>
+    <div id="location" class="space-y-2 mb-20 mt-[16vh]">
+
+        <div id="loader" class="fixed z-index-50 inset-0 flex flex-col items-center justify-center space-y-4">
+
+            <div class="w-14 h-14 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+
+            <span class="text-gray-600 text-base font-medium tracking-wide">
+                Loading...
+            </span>
+
+        </div>
+
+    </div>
+
     <style>
         .container {
             margin-top: -10px;
@@ -102,7 +223,7 @@
             width: 8px;
             height: 1440px;
             position: relative;
-            background: tranperent;
+            background: transparent;
             border-radius: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
@@ -135,6 +256,7 @@
             background: transparent;
         }
     </style>
+
     <style>
         #trackRange {
             -webkit-appearance: none;
@@ -145,7 +267,6 @@
             width: 300vw;
         }
 
-
         #trackRange::-webkit-slider-thumb {
             -webkit-appearance: none;
             width: 26px;
@@ -155,8 +276,8 @@
             border-radius: 50%;
             background: url("logo.jpg") center no-repeat;
             background-size: 120%;
-            /* 🔥 increase icon size */
             padding: 1%;
+            z-index: 1000px;
             transform: rotate(-90deg);
         }
 
@@ -169,108 +290,174 @@
             border: none;
             background: url("logo.jpg") center no-repeat;
             background-size: 120%;
-            /* 🔥 increase icon size */
             padding: 1%;
             transform: rotate(-90deg);
         }
     </style>
 
-    <script>
-        ////////////////////////////////////////////////////////
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbyhf7gsy7_zxqucs-PYBbCvnQDy-66RF10OrSLNhxTBMtrLQoAhdQstYZtNiGaI-iDr/exec';
-        const params = new URLSearchParams(window.location.search);
-        const from = params.get("from");
-        const to = params.get("to");
-        const number = params.get("number");
-        const start = params.get("start");
-        const end = params.get("end");
-        const english = params.get("english");
-        const hindi = params.get("hindi");
+    <div id="busNear" class="text-center text-sm font-semibold text-blue-700 py-2"></div>
 
-        function fetchData() {
-            fetch(scriptURL)
-                .then(res => res.json())
-                .then(data => {
-                    const container = document.getElementById('location');
-                    container.innerHTML = '';
-
-                    if (!Array.isArray(data) || data.length === 0) {
-                        container.innerHTML = '<p class="text-center text-gray-500">No Location found.</p>';
-                        return;
-                    }
-                    const filtered = data.filter(entry =>
-                        entry.Number == number && entry.Arrival && entry.Departure
-                    );
-
-
-                    if (filtered.length === 0) {
-                        container.innerHTML = '<p class="text-center text-gray-500">No matching results found.</p>';
-                        return;
-                    }
-                    if (filtered.length == "null") {
-                        container.innerHTML = '';
-                        return;
-                    }
-                    // ===== Div 2 (Outside Loop) =====
-                    const div2 = document.createElement("div");
-                    div2.innerHTML = `
-   <div id="rangebox"
-     class=" w-20  absolute left-[30%] justify-center z-40  rotate-90 items-center">
-    <div class="w-full h-32 text-tranperent">. </div>
-     <input type="range"
-        id="trackRange"
-        min="0"
-        max="100"
-        value="50" disabled
-        class="w-full pointer-events-none bg-[#1a62a3] ">
+    <div id="rangebox" class="absolute top-[25%] w-20 left-[16%] rotate-90 z-40">
+        <input type="range" id="trackRange" min="0" max="100" value="0" disabled class="w-full">
     </div>
-`;
+    <footer id="footerPanel"
+        class="fixed bottom-0 z-50 left-0 w-full bg-gradient-to-r from-[#1a62a3]/95 via-[#1e6bb8]/95 to-[#0f4c81]/95    py-2 rounded-t-3xl px-3 flex flex-col items-center gap-3 border-t border-blue-200 shadow-xl backdrop-blur-md">
 
-                    container.appendChild(div2);
-                    filtered.forEach(entry => {
-                        // Conditionally hide "Book Now" button if Book = "No"
-                        const div = document.createElement('div');
-                        div.className = 'p-2';
-                        div.innerHTML = `
-<div class="fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-gradient-to-r from-[#1a62a3] to-[#0f4c81] ">
+        <div class="w-14 h-1.5 bg-white/70 rounded-full mb-1"></div>
 
-<header class="text-white px-4 py-2 flex flex-col sm:flex-row items-center justify-between">
+        <div class="flex justify-around w-full max-w-md text-base font-semibold text-white">
+            <span class="flex items-center gap-2">
 
-<div class="flex items-center justify-between w-full text-lg">
+                <i class="fas fa-clock"></i> Next:
+                <span id="departureTime" class="text-yellow-200">--</span>
+            </span>
 
-<!-- Left side -->
-<div class="flex items-center space-x-2 w-full mr-2">
+            <span class="flex items-center gap-2">
+                <i class="fas fa-bus"></i> Destination:
+                <span id="DestinationTime" class="text-yellow-200">--</span>
+            </span>
+        </div>
 
-<a href="javascript:void(0)"
-onclick="history.back()"
-class="w-10 h-10 flex items-center justify-center rounded-full 
-bg-white/20 hover:bg-white/30 active:scale-90 transition shadow-md">
+        <div
+            class="relative flex items-center justify-between bg-white/90 backdrop-blur-md w-full max-w-md text-gray-800 py-3 px-2 rounded-2xl shadow-xl border border-gray-200">
 
-<i class="fas fa-arrow-left text-white"></i>
+            <div class="flex items-center gap-2">
+
+                <div class="flex items-center justify-center w-10 h-10 rounded-full bg-blue-100 text-blue-700">
+                    <i class="fas fa-bus text-sm"></i>
+                </div>
+
+                <div class="flex flex-col leading-tight">
+
+                    <span class="text-xs text-gray-500 font-semibold tracking-wide">
+                        Current Stop
+                    </span>
+
+                    <span id="arrivalTime" class="text-base font-bold text-gray-900">
+                        --
+                    </span>
+
+                </div>
+
+
+
+            </div>
+            <style>
+                .fast-spin {
+                    animation: fastSpin 0.9s linear infinite;
+                }
+
+                @keyframes fastSpin {
+                    from {
+                        transform: rotate(0deg);
+                    }
+
+                    to {
+                        transform: rotate(360deg);
+                    }
+                }
+            </style>
+            <button id="refreshBtn" class="flex items-center justify-center w-12 h-12 rounded-full
+bg-gradient-to-r from-blue-600 via-blue-500 to-blue-700
+text-white shadow-xl  active:scale-95 transition duration-300">
+                <i id="refreshIcon" class="fas fa-sync-alt text-lg"></i>
+            </button>
+        </div>
+    </footer>
+    <script>
+
+        const stopsAPI = "https://script.google.com/macros/s/AKfycbzJd3_oaTXnpYteiJA8rKuA_70et_L_Bk2QSB5iNtOPcsebr2crkzy7EFzxTkJ1dsao/exec";
+
+        const liveAPI = "https://script.google.com/macros/s/AKfycbzE-2BVHzWH6uMO7ONvPsKeFHnU8ttY9yFuT1MJl6F0D2xhhZza1EKdqZvdrXr_faoZ/exec?action=read";
+
+        const params = new URLSearchParams(window.location.search);
+        const number = params.get("number");
+
+        let stopsData = [];
+        let busLocation = null;
+
+        async function fetchStops() {
+
+            const res = await fetch(stopsAPI);
+            const data = await res.json();
+
+            stopsData = data.filter(row =>
+                row.Number == number &&
+                row.Arrival &&
+                row.Departure
+            );
+
+            renderStops();
+
+            const loader = document.getElementById("loader");
+            if (loader) loader.style.display = "none";
+
+        }
+
+        function renderStops() {
+
+            const container = document.getElementById("location");
+            container.innerHTML = "";
+
+            stopsData.forEach((stop, index) => {
+
+                const div = document.createElement("div");
+
+                div.className = "relative flex items-center bg-white px-3 py-5 stop-row";
+
+                div.dataset.lat = Number(stop.Latitude);
+                div.dataset.lng = Number(stop.Longitude);
+
+                div.innerHTML = ` 
+                <div class="fixed top-0 left-0 w-full z-50 backdrop-blur-2xl bg-gradient-to-r from-[#1a62a3]/95 via-[#1e6bb8]/95 to-[#0f4c81]/95   border-b border-white/10">
+
+<header class="px-4 py-2 text-white flex flex-col gap-3">
+
+<div class="flex items-center justify-between">
+
+<div class="flex items-center gap-3 w-full">
+
+<a href="javascript:void(0)" onclick="history.back()"
+class="w-11 h-11 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 active:scale-90 transition shadow-lg backdrop-blur">
+
+<i class="fas fa-arrow-left text-white text-lg"></i>
 
 </a>
 
-<div class="bg-white/10 backdrop-blur-md flex items-center px-3 py-1 w-full border border-white/20 rounded-xl shadow-inner">
+<div class="flex flex-col bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl px-4 py-2 shadow-inner w-full">
 
-<span class="font-bold font-mono text-white px-2 tracking-wider">
+<div class="flex items-center gap-2 mb-1">
 
-${entry.Number} :
+<span class="bg-white/20 px-2 py-[1px] rounded-md text-xs text-white font-bold tracking-wider">
+${stop.Number}
+</span>
+
+<span class="flex items-center gap-1 text-xs text-green-300 font-semibold">
+
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+</span>
+
+LIVE
 
 </span>
 
-<span class="text-white font-semibold ml-1 truncate">
+</div>
 
-${english} / ${hindi}
+<span class="font-semibold text-sm leading-tight truncate">
+ 
+</span>
 
+<span class="text-xs text-blue-200 truncate">
+ 
 </span>
 
 </div>
 
 </div>
 
-
-<!-- Right menu -->
-<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/20 transition">
+<button class="w-11 h-11 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition">
 
 <i class="fas fa-ellipsis-v text-white"></i>
 
@@ -279,175 +466,262 @@ ${english} / ${hindi}
 </div>
 
 
-<div class="flex items-center space-x-4 mt-4 sm:mt-0 w-full sm:w-auto justify-between">
+<div class="flex items-center justify-between gap-2">
 
-<button class="bg-white text-[#1a62a3] px-4 py-1.5 rounded-full font-semibold shadow hover:scale-105 hover:bg-gray-100 transition">
+<button class="flex items-center gap-2 bg-white text-[#1a62a3] px-5 py-1 rounded-full font-semibold shadow-lg hover:scale-20 hover:bg-gray-100 transition">
 
+<i class="fas fa-calendar-day"></i>
 Today
 
 </button>
 
-<i class="fas fa-bell text-xl cursor-pointer hover:scale-110 hover:text-blue-200 transition"></i>
+<div class="flex items-center gap-3">
 
-<i class="fas fa-bus text-xl cursor-pointer hover:scale-110 hover:text-blue-200 transition"></i>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition shadow-md">
 
-<i class="fas fa-share-alt text-xl cursor-pointer hover:scale-110 hover:text-blue-200 transition"></i>
+<i class="fas fa-bell"></i>
+
+</button>
+
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition shadow-md">
+
+<i class="fas fa-bus"></i>
+
+</button>
+
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition shadow-md">
+
+<i class="fas fa-share-alt"></i>
+
+</button>
+
+</div>
 
 </div>
 
 </header>
 
 
-<div class="bg-gray-900 text-white flex justify-between px-6 py-2 text-sm font-semibold tracking-wide shadow-inner">
+<div class="bg-black/70 backdrop-blur-xl text-white flex justify-between px-4 py-2 text-sm font-semibold tracking-wider border-t border-white/10">
 
-<span>Arrival</span>
+<span class="flex items-center gap-2">
+<i class="fas fa-arrow-down text-green-400"></i>
+Arrival
+</span>
 
-<span>Departure</span>
-
-</div>
-
-</div>
-  <div class="flex items-center bg-white shadow-sm rounded-xl px-2 py-5  hover:shadow-md transition">
-
-  <!-- Arrival -->
-  <div class="w-1/4 text-left">
-    <span class="text-green-600 font-bold text-sm tracking-wide">
-      ${entry.Arrival}
-    </span>
-  </div>
-
-  <!-- Route Dot -->
-  <div class="flex hidden flex-col items-center justify-center mx-2">
-    <div class="w-3 h-3 bg-blue-600 rounded-full shadow"></div>
-    <div class="h-1 border-l border-gray-300"></div>
-  </div>
-
-  <!-- Stop Info -->
-  <div class="flex items-center w-1/2 ml-4">
-    <div class="flex flex-col">
-      <span class="font-semibold text-gray-800 text-base">
-        ${entry.Place}
-      </span>
-      <span class="text-xs text-gray-500">
-        ${entry.Bus}
-      </span>
-    </div>
-  </div>
-
-  <!-- Departure -->
-  <div class="w-1/4 text-right">
-    <span class="text-red-600 font-bold text-sm tracking-wide">
-      ${entry.Departure}
-    </span>
-  </div>
+<span class="flex items-center gap-2">
+<i class="fas fa-arrow-up text-red-400"></i>
+Departure
+</span>
 
 </div>
 
-        <footer
-        class="z-50 fixed bottom-0 left-0 w-full bg-blue-200 text-blue-700 text-center py-3 text-sm font-semibold tracking-wide">
-       
-        <span class="text-gray-600 font-normal">Updated Based On Time </span><span id="time"
-            class="font-semibold text-lg"></span>
-    </footer>
-          `;
-                        container.appendChild(div);
-                        setTimeout(() => {
-                            document
-                                .getElementById("trackRange")
-                                .dispatchEvent(new Event("input"));
-                        }, 2000);
-                        const range = document.getElementById("trackRange");
-                        const rangeBox = document.getElementById("rangebox");
-                        function setRangeBoxHeight(value) {
-                            range.style.width = (value * 97.5) + "px";
-                        }
-                        range.addEventListener("input", function () {
-                            const value = this.value;
-                            // Slider fill gradient
-                            this.style.background =
-                                `linear-gradient(to right,
+</div>
+<div class="w-1/4 text-left">
+<span class="text-green-600 font-bold text-sm">${stop.Arrival}</span>
+</div>
+
+<div class="flex flex-col items-center w-[25px] relative">
+<div class="w-2 h-2 bg-black absolute ml-[-25px] rounded-full z-50"></div>
+</div>
+
+<div class="flex flex-col w-1/2 pl-2 py-[15px]">
+<span class="font-semibold text-gray-800">${stop.Place}</span>
+<span class="text-xs text-gray-500">${stop.Bus}</span>
+</div>
+
+<div class="w-1/4 text-right">
+<span class="text-red-600 font-bold text-sm">${stop.Departure}</span>
+</div>
+
+`;
+
+                container.appendChild(div);
+                setTimeout(() => {
+                    document
+                        .getElementById("trackRange")
+                        .dispatchEvent(new Event("input"));
+                }, 2000);
+                const range = document.getElementById("trackRange");
+                const rangeBox = document.getElementById("rangebox");
+                function setRangeBoxHeight(value) {
+                    range.style.width = (value * 110) + "px";
+                }
+                range.addEventListener("input", function () {
+                    const value = this.value;
+                    // Slider fill gradient
+                    this.style.background =
+                        `linear-gradient(to right,
                        #1d7ed8 0%,
                        #1d7ed8 ${value}%,
                        #a0c8fa ${value}%,
                         #bfdbfe 100%)`;
-                            // Change rangebox height (value × 70 px)
-                            setRangeBoxHeight(filtered.length);
-                        });
-                    });
-                })
-                .catch(err => {
-                    console.error('Fetch error:', err);
-                    document.getElementById('dataList').innerHTML = '<p class="text-red-500 text-center">Failed to load data.</p>';
+                    // Change rangebox height (value × 70 px)
+                    setRangeBoxHeight(stopsData.length);
                 });
+            });
         }
 
-        function loadData() {
+        function updateFooter(nearestIndex, nearestDistance) {
 
-            fetch("https://script.google.com/macros/s/AKfycbzE-2BVHzWH6uMO7ONvPsKeFHnU8ttY9yFuT1MJl6F0D2xhhZza1EKdqZvdrXr_faoZ/exec?action=read")
+            const current = document.getElementById("arrivalTime");
+            const next = document.getElementById("departureTime");
+            const destination = document.getElementById("DestinationTime");
 
-                .then(res => res.json())
-                .then(data => {
+            if (!stopsData.length) return;
 
-                    let box = document.createElement("div");
-                    if (!box) return;
-                    box.innerHTML = "";
-                    data.forEach(row => {
-                        box.innerHTML += `
-       <div style="padding:8px;border-bottom:1px solid #ddd">
-         ID : ${row.Id}<br>
-         LAT : ${row.Latitudes}<br>
-         LNG : ${row.Longitude}<br> 
-         TIME : ${row.Time}<br>
-          TIME : ${row.Speedofbus}<br>
-         STATUS : ${row.Status}
-       </div>
-     `;
-                    });
+            const currentPlace = stopsData[nearestIndex]?.Place || "-";
+            const nextPlace = stopsData[nearestIndex + 1]?.Place || "Last Stop";
+            const lastPlace = stopsData[stopsData.length - 1]?.Place || "-";
 
-                });
-        }
-
-        setInterval(loadData, 1000);
-        loadData();
-        window.onload = fetchData;
-        /////////////////////////////////////////
-
-        document.getElementById("location-back-btn").addEventListener("click", function () {
-            history.back(); // or history.go(-1);
-        });
-        // ✅ Single line radio for tracking location
-        const trackLine = document.createElement("div");
-        trackLine.className = "flex items-center gap-2 px-4 py-2 text-sm";
-
-        trackLine.innerHTML = `
-  <label class="flex items-center gap-2 cursor-pointer">
-    <input type="radio" name="trackLocation"
-      value="${entry.Latitude},${entry.Longitude}"
-      data-place="${entry.Place}"
-      class="accent-blue-600">
-    <span>Track ${entry.Place}</span>
-  </label>
-`;
-
-        div.appendChild(trackLine);
-
-        // ✅ Radio click event
-        trackLine.querySelector("input").addEventListener("change", function () {
-
-            const lat = parseFloat(entry.Latitude);
-            const lng = parseFloat(entry.Longitude);
-
-            if (!isNaN(lat) && !isNaN(lng)) {
-
-                map.setView([lat, lng], 16);
-
-                L.marker([lat, lng])
-                    .addTo(map)
-                    .bindPopup(`<b>${entry.Place}</b>`)
-                    .openPopup();
+            if (current) {
+                current.innerHTML = `${currentPlace} (${nearestDistance.toFixed(2)} km)`;
             }
 
-        });
+            if (next) {
+                next.innerHTML = nextPlace;
+            }
+
+            if (destination) {
+                destination.innerHTML = lastPlace;
+            }
+
+        }
+        async function fetchBusLocation() {
+
+            const res = await fetch(liveAPI);
+            const data = await res.json();
+            const filtered = data.filter(row => row.Id == 1234);
+            if (!filtered.length) return;
+            busLocation = filtered[filtered.length - 1];
+            updateTracker();
+
+        }
+        document.getElementById("refreshBtn").onclick = () => {
+            fetchBusLocation();
+        };
+        function getDistance(lat1, lon1, lat2, lon2) {
+
+            const R = 6371;
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a =
+                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1 * Math.PI / 180) *
+                Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon / 2) *
+                Math.sin(dLon / 2);
+
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+            return R * c;
+
+        }
+
+        function updateTracker() {
+
+            if (!busLocation || stopsData.length === 0) return;
+
+            const busLat = Number(busLocation.Latitude);
+            const busLng = Number(busLocation.Longitude);
+            const speed = Number(busLocation.Speed) || 0;
+
+            const rows = document.querySelectorAll(".stop-row");
+
+            let nearestIndex = 0;
+            let nearestDistance = Infinity;
+
+            rows.forEach((row, index) => {
+
+                const lat = Number(row.dataset.lat);
+                const lng = Number(row.dataset.lng);
+
+                if (!lat || !lng) return;
+
+                const dist = getDistance(busLat, busLng, lat, lng);
+
+                if (dist < nearestDistance) {
+
+                    nearestDistance = dist;
+                    nearestIndex = index;
+
+                }
+
+            });
+
+            const nearBox = document.getElementById("busNear");
+
+            if (nearBox) {
+
+                const place = stopsData[nearestIndex].Place;
+
+                let status = "On the way";
+
+                if (nearestDistance < 0.1) status = "Arriving";
+                else if (nearestDistance < 1) status = "Near";
+
+                nearBox.innerHTML = `🚌 Bus ${status} <b>${place}</b> (${nearestDistance.toFixed(2)} km)`;
+
+            }
+
+            document.querySelectorAll(".bus-badge").forEach(b => b.remove());
+
+            const badge = document.createElement("div");
+
+            badge.className = "bus-badge hidden absolute right-2 top-1/2 -translate-y-1/2 bg-blue-600 text-white text-xs px-2 py-1 rounded-full animate-pulse";
+
+            badge.innerHTML = `🚌 BUS HERE<br><span class="text-[10px]">${speed} km/h</span>`;
+
+            rows[nearestIndex].appendChild(badge);
+
+            if (nearestIndex < rows.length - 1) {
+
+                const next = document.createElement("div");
+
+                next.className = "";
+
+                next.innerHTML = " ";
+
+                rows[nearestIndex + 1].appendChild(next);
+
+            }
+
+            updateProgressLine(nearestIndex);
+            updateFooter(nearestIndex, nearestDistance);
+        }
+
+        function updateProgressLine(index) {
+
+            const progress = document.getElementById("trackRange");
+
+            if (!progress) return;
+
+            const percent = ((index) / stopsData.length) * 100;
+
+            progress.value = percent;
+
+        }
+
+        setInterval(fetchBusLocation, 2000);
+
+        window.onload = async () => {
+
+            await fetchStops();
+            fetchBusLocation();
+
+        };
+
+        const refreshBtn = document.getElementById("refreshBtn");
+        const refreshIcon = document.getElementById("refreshIcon");
+
+        refreshBtn.onclick = () => {
+            refreshIcon.classList.add("fast-spin");
+            fetchBusLocation();
+            setTimeout(() => {
+                refreshIcon.classList.remove("fast-spin");
+            }, 2000);
+            fetchBusLocation(); // your refresh function
+        };  
     </script>
 </body>
 

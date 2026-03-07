@@ -60,6 +60,25 @@
 
   setTimeout(startTracking, 2000);
 </script>
+<style>
+  #loadingLine {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: none;
+    z-index: 9999;
+  }
+</style>
+
+<div id="loadingLine"></div>
+
+<script>
+  window.addEventListener("load", function () {
+    document.getElementById("loadingLine").style.display = "none";
+  });
+</script>
 
 <body class="font-inter bg-gray-100 text-gray-900 flex flex-col text-sm overflow-x-hidden">
 
@@ -371,7 +390,7 @@
       </div>
     </div>
     <!-- Premium Tabs -->
-    <div class="px-4 pt-4 pb-2">
+    <div class="px-3 pt-4 pb-2">
       <div class="bg-white/5 backdrop-blur-md rounded-2xl p-1 flex shadow-md">
 
         <!-- Buses Tab -->
@@ -765,7 +784,7 @@
       .suggestion-item {
         padding: 0.7rem 1rem;
         cursor: pointer;
-        border-bottom : solid 1px;
+        border-bottom: solid 1px;
         font-weight: 600;
         color: #073679;
         font-size: 1rem;
@@ -916,7 +935,7 @@
    class="group flex items-center justify-between 
    bg-gradient-to-r from-white to-gray-50
    border border-gray-200
-   rounded-xl px-4 py-3
+   rounded-xl px-1 py-3
    shadow-sm hover:shadow-md
    transition duration-300">
 
