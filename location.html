@@ -319,7 +319,7 @@
         </div>
 
         <div
-            class="relative flex items-center justify-between bg-white/90 backdrop-blur-md w-full max-w-md text-gray-800 py-3 px-2 rounded-2xl shadow-xl border border-gray-200">
+            class="relative flex items-center justify-between bg-white/20 backdrop-blur-md w-full max-w-md text-gray-800 py-3 px-2 rounded-2xl shadow-xl border border-gray-200">
 
             <div class="flex items-center gap-2">
 
@@ -329,11 +329,11 @@
 
                 <div class="flex flex-col leading-tight">
 
-                    <span class="text-xs text-gray-500 font-semibold tracking-wide">
+                    <span class="text-xs text-gray-50 font-semibold tracking-wide">
                         Current Stop
                     </span>
 
-                    <span id="arrivalTime" class="text-base font-bold text-gray-900">
+                    <span id="arrivalTime" class="text-base font-bold text-white">
                         --
                     </span>
 
@@ -357,10 +357,9 @@
                     }
                 }
             </style>
-            <button id="refreshBtn" class="flex items-center justify-center w-12 h-12 rounded-full
-bg-gradient-to-r from-blue-600 via-blue-500 to-blue-700
-text-white shadow-xl  active:scale-95 transition duration-300">
-                <i id="refreshIcon" class="fas fa-sync-alt text-lg"></i>
+            <button id="refreshBtn" title="refresh" class="flex items-center justify-center w-12 h-12 rounded-full
+text-white shadow-xl bg-gray-100 active:scale-95 transition duration-300">
+                <i id="refreshIcon" class="fas fa-sync-alt text-lg text-sky-700"></i>
             </button>
         </div>
     </footer>
@@ -685,8 +684,7 @@ Departure
                 rows[nearestIndex + 1].appendChild(next);
 
             }
-
-            updateProgressLine(nearestIndex);
+ 
             updateFooter(nearestIndex, nearestDistance);
         }
 
