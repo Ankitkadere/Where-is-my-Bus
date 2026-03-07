@@ -119,7 +119,7 @@
     <div
         class="fixed top-0 left-0 w-full z-50 backdrop-blur-2xl bg-gradient-to-r from-[#1a62a3]/95 via-[#1e6bb8]/95 to-[#0f4c81]/95   border-b border-white/10">
 
-        <header class="px-4 py-2 text-white flex flex-col gap-3">
+        <header class="px-4 py-2 text-white flex flex-col gap-3 ">
 
             <div class="flex items-center justify-between">
 
@@ -134,34 +134,20 @@
 
                     <div
                         class="flex flex-col bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl px-4 py-2 shadow-inner w-full">
-
                         <div class="flex items-center gap-2 mb-1">
-
-                            <span
+                            <span is="busnumber"
                                 class="bg-white/20 px-2 py-[1px] rounded-md text-xs text-white font-bold tracking-wider">
                                 Where is my Bus
                             </span>
-
                             <span class="flex items-center gap-1 text-xs text-green-300 font-semibold">
-
-
-
                             </span>
-
                         </div>
-
                         <span class="font-semibold text-sm leading-tight truncate">
-
                         </span>
-
                         <span class="text-xs text-blue-200 truncate">
-
                         </span>
-
                     </div>
-
                 </div>
-
                 <button
                     class="w-11 h-11 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition">
 
@@ -322,7 +308,7 @@
             </span>
 
             <span class="flex items-center gap-2">
-                <i class="fas fa-bus"></i> Destination:
+                <i class="fas fa-bus"></i> End:
                 <span id="DestinationTime" class="text-yellow-200">--</span>
             </span>
         </div>
@@ -373,6 +359,9 @@ text-white shadow-xl bg-gray-100 active:scale-95 transition duration-300">
         </div>
     </footer>
     <script>
+        ////////////////////////////////////////////////////////////
+        // GLOBAL STATE
+        ////////////////////////////////////////////////////////////
 
         const stopsAPI = "https://script.google.com/macros/s/AKfycbzJd3_oaTXnpYteiJA8rKuA_70et_L_Bk2QSB5iNtOPcsebr2crkzy7EFzxTkJ1dsao/exec";
 
@@ -384,216 +373,110 @@ text-white shadow-xl bg-gray-100 active:scale-95 transition duration-300">
         let stopsData = [];
         let busLocation = null;
 
+        let fetchLock = false;
+
+        ////////////////////////////////////////////////////////////
+        // SAFE FETCH ENGINE
+        ////////////////////////////////////////////////////////////
+
         async function fetchStops() {
 
-            const res = await fetch(stopsAPI);
-            const data = await res.json();
+            try {
 
-            stopsData = data.filter(row =>
-                row.Number == number &&
-                row.Arrival &&
-                row.Departure
-            );
+                const res = await fetch(stopsAPI, { cache: "no-store" });
+                const data = await res.json();
 
-            renderStops();
+                stopsData = data.filter(row =>
+                    row.Number == number &&
+                    row.Arrival &&
+                    row.Departure
+                );
+
+                renderStops();
+
+            } catch (e) {
+                console.log(e);
+            }
 
             const loader = document.getElementById("loader");
             if (loader) loader.style.display = "none";
-
         }
+
+        ////////////////////////////////////////////////////////////
+        // RENDER STOPS (FAST DOM BUILD)
+        ////////////////////////////////////////////////////////////
 
         function renderStops() {
 
             const container = document.getElementById("location");
-            container.innerHTML = "";
 
-            stopsData.forEach((stop, index) => {
+            if (!container) return;
 
-                const div = document.createElement("div");
+            let html = "";
 
-                div.className = "relative flex items-center bg-white px-3 py-5 stop-row";
+            stopsData.forEach(stop => {
+           
+                html += `
+        <div class="relative flex items-center bg-white px-3 py-5 stop-row"
+             data-lat="${Number(stop.Latitude)}"
+             data-lng="${Number(stop.Longitude)}">
 
-                div.dataset.lat = Number(stop.Latitude);
-                div.dataset.lng = Number(stop.Longitude);
+            <div class="w-1/4 text-left">
+                <span class="text-green-600 font-bold text-sm">${stop.Arrival}</span>
+            </div>
 
-                div.innerHTML = ` 
-                <div class="fixed top-0 left-0 w-full z-50 backdrop-blur-2xl bg-gradient-to-r from-[#1a62a3]/95 via-[#1e6bb8]/95 to-[#0f4c81]/95   border-b border-white/10">
+            <div class="flex flex-col items-center w-[25px] relative">
+                <div class="w-2 h-2 bg-black absolute ml-[-50%] rounded-full z-50"></div>
+            </div>
 
-<header class="px-4 py-2 text-white flex flex-col gap-3">
+            <div class="flex flex-col w-1/2 pl-2 py-[15px]">
+                <span class="font-semibold text-gray-800">${stop.Place}</span>
+                <span class="text-xs text-gray-500">${stop.Bus}</span>
+            </div>
 
-<div class="flex items-center justify-between">
+            <div class="w-1/4 text-right">
+                <span class="text-red-600 font-bold text-sm">${stop.Departure}</span>
+            </div>
 
-<div class="flex items-center gap-3 w-full">
+        </div>`;
+            });
 
-<a href="javascript:void(0)" onclick="history.back()"
-class="w-11 h-11 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 active:scale-90 transition shadow-lg backdrop-blur">
-
-<i class="fas fa-arrow-left text-white text-lg"></i>
-
-</a>
-
-<div class="flex flex-col bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl px-4 py-2 shadow-inner w-full">
-
-<div class="flex items-center gap-2 mb-1">
-
-<span class=" px-2 py-[1px] rounded-md text-sm text-white font-bold tracking-wider">
-${stop.Number}
-</span>
- 
-</div>
- 
-</div>
-
-</div>
-
-<button class="w-11 h-11 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition">
-
-<i class="fas fa-ellipsis-v text-white"></i>
-
-</button>
-
-</div>
-
-
-<div class="flex items-center justify-between gap-2">
-
-<button class="flex items-center gap-2 bg-white text-[#1a62a3] px-5 py-1 rounded-full font-semibold shadow-lg hover:scale-20 hover:bg-gray-100 transition">
-
-<i class="fas fa-calendar-day"></i>
-Today
-
-</button>
-
-<div class="flex items-center gap-3">
-
-<button class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition shadow-md">
-
-<i class="fas fa-bell"></i>
-
-</button>
-
-<button class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition shadow-md">
-
-<i class="fas fa-bus"></i>
-
-</button>
-
-<button class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition shadow-md">
-
-<i class="fas fa-share-alt"></i>
-
-</button>
-
-</div>
-
-</div>
-
-</header>
-
-
-<div class="bg-black/70 backdrop-blur-xl text-white flex justify-between px-4 py-2 text-sm font-semibold tracking-wider border-t border-white/10">
-
-<span class="flex items-center gap-2">
-<i class="fas fa-arrow-down text-green-400"></i>
-Arrival
-</span>
-
-<span class="flex items-center gap-2">
-<i class="fas fa-arrow-up text-red-400"></i>
-Departure
-</span>
-
-</div>
-
-</div>
-<div class="w-1/4 text-left">
-<span class="text-green-600 font-bold text-sm">${stop.Arrival}</span>
-</div>
-
-<div class="flex flex-col items-center w-[25px] relative">
-<div class="w-2 h-2 bg-black absolute ml-[-50%] rounded-full z-50"></div>
-</div>
-
-<div class="flex flex-col w-1/2 pl-2 py-[15px]">
-<span class="font-semibold text-gray-800">${stop.Place}</span>
-<span class="text-xs text-gray-500">${stop.Bus}</span>
-</div>
-
-<div class="w-1/4 text-right">
-<span class="text-red-600 font-bold text-sm">${stop.Departure}</span>
-</div>
-
-`;
-
-                container.appendChild(div);
-                setTimeout(() => {
-                    document
-                        .getElementById("trackRange")
-                        .dispatchEvent(new Event("input"));
-                }, 2000);
-                const range = document.getElementById("trackRange");
-                const rangeBox = document.getElementById("rangebox");
-                function setRangeBoxHeight(value) {
-                    range.style.width = (value * 110) + "px";
-                }
-                range.addEventListener("input", function () {
-                    const value = this.value;
-                    // Slider fill gradient
-                    this.style.background =
-                        `linear-gradient(to right,
+            container.innerHTML = html;
+            setTimeout(() => {
+                document
+                    .getElementById("trackRange")
+                    .dispatchEvent(new Event("input"));
+            }, 2000);
+            const range = document.getElementById("trackRange");
+            const rangeBox = document.getElementById("rangebox");
+            function setRangeBoxHeight(value) {
+                range.style.width = (value * 110) + "px";
+            }
+            range.addEventListener("input", function () {
+                const value = this.value;
+                // Slider fill gradient
+                this.style.background =
+                    `linear-gradient(to right,
                        #1d7ed8 0%,
-                       #1d7ed8 ${value}%,
+                      #1a62a3 ${value}%,
                        #a0c8fa ${value}%,
                         #bfdbfe 100%)`;
-                    // Change rangebox height (value × 70 px)
-                    setRangeBoxHeight(stopsData.length);
-                });
+                // Change rangebox height (value × 70 px)
+                setRangeBoxHeight(stopsData.length);
             });
         }
 
-        function updateFooter(nearestIndex, nearestDistance) {
+        ////////////////////////////////////////////////////////////
+        // DISTANCE CALCULATOR
+        ////////////////////////////////////////////////////////////
 
-            const current = document.getElementById("arrivalTime");
-            const next = document.getElementById("departureTime");
-            const destination = document.getElementById("DestinationTime");
-
-            if (!stopsData.length) return;
-
-            const currentPlace = stopsData[nearestIndex]?.Place || "-";
-            const nextPlace = stopsData[nearestIndex + 1]?.Place || "Last Stop";
-            const lastPlace = stopsData[stopsData.length - 1]?.Place || "-";
-
-            if (current) {
-                current.innerHTML = `${currentPlace} (${nearestDistance.toFixed(2)} km)`;
-            }
-
-            if (next) {
-                next.innerHTML = nextPlace;
-            }
-
-            if (destination) {
-                destination.innerHTML = lastPlace;
-            }
-
-        }
-        async function fetchBusLocation() {
-
-            const res = await fetch(liveAPI);
-            const data = await res.json();
-            const filtered = data.filter(row => row.Id == 1234);
-            if (!filtered.length) return;
-            busLocation = filtered[filtered.length - 1];
-            updateTracker();
-
-        }
-        document.getElementById("refreshBtn").onclick = () => {
-            fetchBusLocation();
-        };
         function getDistance(lat1, lon1, lat2, lon2) {
 
             const R = 6371;
+
             const dLat = (lat2 - lat1) * Math.PI / 180;
             const dLon = (lon2 - lon1) * Math.PI / 180;
+
             const a =
                 Math.sin(dLat / 2) * Math.sin(dLat / 2) +
                 Math.cos(lat1 * Math.PI / 180) *
@@ -601,15 +484,16 @@ Departure
                 Math.sin(dLon / 2) *
                 Math.sin(dLon / 2);
 
-            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-            return R * c;
-
+            return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
         }
+
+        ////////////////////////////////////////////////////////////
+        // TRACKER ENGINE (FAST)
+        ////////////////////////////////////////////////////////////
 
         function updateTracker() {
 
-            if (!busLocation || stopsData.length === 0) return;
+            if (!busLocation || !stopsData.length) return;
 
             const busLat = Number(busLocation.Latitude);
             const busLng = Number(busLocation.Longitude);
@@ -630,87 +514,144 @@ Departure
                 const dist = getDistance(busLat, busLng, lat, lng);
 
                 if (dist < nearestDistance) {
-
                     nearestDistance = dist;
                     nearestIndex = index;
-
                 }
-
             });
 
-            const nearBox = document.getElementById("busNear");
+            updateFooter(nearestIndex, nearestDistance);
 
-            if (nearBox) {
+            document.querySelectorAll(".bus-badge").forEach(el => el.remove());
 
-                const place = stopsData[nearestIndex].Place;
+            const rowsArray = Array.from(rows);
 
-                let status = "On the way";
+            if (rowsArray[nearestIndex]) {
 
-                if (nearestDistance < 0.1) status = "Arriving";
-                else if (nearestDistance < 1) status = "Near";
+                const badge = document.createElement("div");
 
-                nearBox.innerHTML = `🚌 Bus ${status} <b>${place}</b> (${nearestDistance.toFixed(2)} km)`;
+                badge.className =
+                    "bus-badge hidden absolute right-2 top-1/2 -translate-y-1/2 bg-blue-600 text-white text-xs px-2 py-1 rounded-full animate-pulse";
 
-            }
+                badge.innerHTML =
+                    `🚌 BUS HERE<br><span class="text-[10px]">${speed} km/h</span>`;
 
-            document.querySelectorAll(".bus-badge").forEach(b => b.remove());
-
-            const badge = document.createElement("div");
-
-            badge.className = "bus-badge hidden absolute right-2 top-1/2 -translate-y-1/2 bg-blue-600 text-white text-xs px-2 py-1 rounded-full animate-pulse";
-
-            badge.innerHTML = `🚌 BUS HERE<br><span class="text-[10px]">${speed} km/h</span>`;
-
-            rows[nearestIndex].appendChild(badge);
-
-            if (nearestIndex < rows.length - 1) {
-
-                const next = document.createElement("div");
-
-                next.className = "";
-
-                next.innerHTML = " ";
-
-                rows[nearestIndex + 1].appendChild(next);
-
+                rowsArray[nearestIndex].appendChild(badge);
             }
 
             updateProgressLine(nearestIndex);
-            updateFooter(nearestIndex, nearestDistance);
         }
+
+        ////////////////////////////////////////////////////////////
+        // FOOTER UPDATE
+        ////////////////////////////////////////////////////////////
+
+        function updateFooter(nearestIndex, nearestDistance) {
+
+            const arrival = document.getElementById("arrivalTime");
+            const next = document.getElementById("departureTime");
+            const destination = document.getElementById("DestinationTime");
+
+            if (!stopsData.length) return;
+
+            const currentPlace = stopsData[nearestIndex]?.Place || "-";
+            const nextPlace = stopsData[nearestIndex + 1]?.Place || "Last Stop";
+            const lastPlace = stopsData[stopsData.length - 1]?.Place || "-";
+
+            if (arrival)
+                arrival.innerText =
+                    `${currentPlace} (${nearestDistance.toFixed(2)} km)`;
+
+            if (next)
+                next.innerText = nextPlace;
+
+            if (destination)
+                destination.innerText = lastPlace;
+        }
+
+        ////////////////////////////////////////////////////////////
+        // PROGRESS LINE
+        ////////////////////////////////////////////////////////////
 
         function updateProgressLine(index) {
 
             const progress = document.getElementById("trackRange");
 
-            if (!progress) return;
+            if (!progress || !stopsData.length) return;
 
-            const percent = ((index) / stopsData.length) * 100;
-
-            progress.value = percent;
-
+            progress.value = ((index) / stopsData.length) * 100;
         }
 
-        setInterval(fetchBusLocation, 2000);
+        ////////////////////////////////////////////////////////////
+        // LIVE BUS FETCH
+        ////////////////////////////////////////////////////////////
 
-        window.onload = async () => {
+        async function fetchBusLocation() {
+
+            if (fetchLock) return;
+
+            fetchLock = true;
+
+            try {
+
+                const res = await fetch(liveAPI, { cache: "no-store" });
+                const data = await res.json();
+
+                const filtered = data.filter(row => row.Id == 1234);
+
+                if (filtered.length) {
+                    busLocation = filtered[filtered.length - 1];
+                    updateTracker();
+                }
+
+            } catch (e) {
+                console.log(e);
+            }
+
+            fetchLock = false;
+        }
+
+        ////////////////////////////////////////////////////////////
+        // REFRESH BUTTON
+        ////////////////////////////////////////////////////////////
+
+        function bindRefreshOnce() {
+
+            const refreshBtn = document.getElementById("refreshBtn");
+            const refreshIcon = document.getElementById("refreshIcon");
+
+            if (!refreshBtn) return;
+
+            refreshBtn.onclick = () => {
+
+                if (refreshIcon)
+                    refreshIcon.classList.add("fast-spin");
+
+                fetchBusLocation();
+
+                setTimeout(() => {
+                    if (refreshIcon)
+                        refreshIcon.classList.remove("fast-spin");
+                }, 1500);
+            };
+        }
+
+        ////////////////////////////////////////////////////////////
+        // INTERVAL ENGINE
+        ////////////////////////////////////////////////////////////
+
+        setInterval(fetchBusLocation, 3000);
+
+        ////////////////////////////////////////////////////////////
+        // PAGE LOAD
+        ////////////////////////////////////////////////////////////
+
+        window.addEventListener("load", async () => {
 
             await fetchStops();
+            bindRefreshOnce();
             fetchBusLocation();
 
-        };
-
-        const refreshBtn = document.getElementById("refreshBtn");
-        const refreshIcon = document.getElementById("refreshIcon");
-
-        refreshBtn.onclick = () => {
-            refreshIcon.classList.add("fast-spin");
-            fetchBusLocation();
-            setTimeout(() => {
-                refreshIcon.classList.remove("fast-spin");
-            }, 2000);
-            fetchBusLocation(); // your refresh function
-        };  
+        });
     </script>
 </body>
 
